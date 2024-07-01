@@ -1,25 +1,34 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LaunchPage from "./Components/LaunchPage";
 import MyAccount from "./Components/MyAccount";
+import AppNavigation from "./navigation/AppNavigation";
+import { useState } from "react";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
+  const [userLogged, setUserLogged] = useState("");
+
+  if (userLogged !== "") {
+    return (
+      <NavigationContainer>
+        <AppNavigation />
+        {/* <Stack.Navigator>
         <Stack.Screen
           name="Launch Page"
           component={LaunchPage}
-          options={{title: 'Welcome'}}
+          options={{ title: "Welcome" }}
         />
         <Stack.Screen name="My Account" component={MyAccount} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+      </Stack.Navigator> */}
+      </NavigationContainer>
+    );
+  } else {
+    return <LaunchPage />;
+  }
 }
 
 const styles = StyleSheet.create({
