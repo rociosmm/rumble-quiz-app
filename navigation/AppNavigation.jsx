@@ -14,12 +14,12 @@ import Friends from "../Components/Friends";
 
 const Tabs = AnimatedTabBarNavigator();
 
-const Screen = styled.View`
+/* const Screen = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #f2f2f2;
-`;
+  background-color: #333333;
+`; */
 
 const TabBarIcon = ({ name, size = 24, tintColor }) => {
   return <Icon name={name} size={size} color={tintColor} />;
@@ -46,8 +46,8 @@ export default () => (
           <TabBarIcon focused={focused} tintColor={color} name={iconName} />
         );
       },
-      tabBarActiveTintColor: "#ffffff",
-      tabBarInactiveTintColor: "#223322",
+      tabBarActiveTintColor: "#ff0000",
+      tabBarInactiveTintColor: "#ff0000",
       tabBarActiveBackgroundColor: "red",
     })}
     appearance={{

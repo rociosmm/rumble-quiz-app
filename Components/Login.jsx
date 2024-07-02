@@ -7,26 +7,10 @@ export default function Login() {
 
   const [currentPassword, setCurrentPassword] = useState([]);
   const [showPassword, setShowPassword] = useState(true);
-  const [pass, setPass] = useState("");
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
-  const handlePassword = (e) => {
-    setCurrentPassword((current) => [...current, e.slice(-1)]);
-    setPass(e);
-  };
-
-  useEffect(() => {
-    if (!showPassword) {
-      setPass((currentPassword) => {
-        return "*".repeat(currentPassword.length);
-      });
-    } else {
-      setPass(currentPassword.join(""));
-    }
-  }, [showPassword, currentPassword]);
 
   const login = () => {
     alert("config login");
@@ -50,9 +34,10 @@ export default function Login() {
       <View style={styles.password}>
         <TextInput
           style={styles.input}
-          onChangeText={handlePassword}
-          value={pass}
+          onChangeText={setCurrentPassword}
+          value={currentPassword}
           placeholder="Type your password"
+          secureTextEntry={!showPassword}
         />
         <Icon
           name={!showPassword ? "eye-off" : "eye"}
