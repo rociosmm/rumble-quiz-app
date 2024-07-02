@@ -6,17 +6,20 @@ import LaunchPage from "./Components/LaunchPage";
 import MyAccount from "./Components/MyAccount";
 import AppNavigation from "./navigation/AppNavigation";
 import { useState } from "react";
+import Header from "./Components/Header";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [userLogged, setUserLogged] = useState("");
+  const [userLogged, setUserLogged] = useState({});
 
-  if (userLogged !== "") {
+  if (Object.keys(userLogged).length > 0) {
     return (
-      <NavigationContainer>
-        <AppNavigation />
-        {/* <Stack.Navigator>
+
+        <NavigationContainer>
+          <AppNavigation />
+
+          {/* <Stack.Navigator>
         <Stack.Screen
           name="Launch Page"
           component={LaunchPage}
@@ -24,10 +27,10 @@ export default function App() {
         />
         <Stack.Screen name="My Account" component={MyAccount} />
       </Stack.Navigator> */}
-      </NavigationContainer>
+        </NavigationContainer>
     );
   } else {
-    return <LaunchPage />;
+    return <LaunchPage setUserLogged={setUserLogged} />;
   }
 }
 

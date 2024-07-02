@@ -6,7 +6,7 @@ export default function Login() {
   const [currentUsername, setCurrentUsername] = useState("");
 
   const [currentPassword, setCurrentPassword] = useState([]);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -47,7 +47,7 @@ export default function Login() {
           onPress={toggleShowPassword}
         />
       </View>
-      <Button title="Button" onPress={login} />
+      <Button title="Login" onPress={login} />
     </View>
   );
 }
@@ -57,5 +57,11 @@ const styles = StyleSheet.create({
     border: "1px solid grey",
     padding: "4px",
   },
-  password: {},
+  password: {
+  },
+  icon: {
+    position: "absolute",
+    top: 2,
+    right: 2,
+  },
 });

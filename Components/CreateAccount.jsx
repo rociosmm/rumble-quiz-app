@@ -2,6 +2,7 @@ import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/Feather";
 import CheckBox from "expo-checkbox";
+import { SelectCountry } from "react-native-element-dropdown";
 
 export default function CreateAccount() {
   const [currentUsername, setCurrentUsername] = useState("");
@@ -10,7 +11,29 @@ export default function CreateAccount() {
 
   const [currentEmail, setCurrentEmail] = useState("");
   const [selected, setSelected] = useState(false);
+  const [avatar, setAvatar] = useState(1);
   const [errorData, setErrorData] = useState("");
+
+  const mockAvatars = [
+    {
+      id: 1,
+      avatar_name: "Avatar 1",
+      avatar_url:
+        "https://www.vigcenter.com/public/all/images/default-image.jpg",
+    },
+    {
+      id: 2,
+      avatar_name: "Avatar 2",
+      avatar_url:
+        "https://www.vigcenter.com/public/all/images/default-image.jpg",
+    },
+    {
+      id: 3,
+      avatar_name: "Avatar 3",
+      avatar_url:
+        "https://www.vigcenter.com/public/all/images/default-image.jpg",
+    },
+  ];
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -86,7 +109,27 @@ export default function CreateAccount() {
           &nbsp; Are you over 18?
         </Text>
       </View>
-      <Button title="Button" onPress={register} />
+
+      <SelectCountry
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedTextStyle}
+        placeholderStyle={styles.placeholderStyle}
+        imageStyle={styles.imageStyle}
+        iconStyle={styles.iconStyle}
+        maxHeight={200}
+        value={avatar}
+        data={mockAvatars}
+        valueField="id"
+        labelField="avatar_name"
+        imageField="avatar_url"
+        placeholder="Select avatar"
+        searchPlaceholder="Search..."
+        onChange={(e) => {
+          setAvatar(e.value);
+        }}
+      />
+
+      <Button title="Register" onPress={register} />
     </View>
   );
 }
@@ -98,4 +141,33 @@ const styles = StyleSheet.create({
   },
   password: {},
   checkbox: { display: "inline-flex", flexDirection: "row" },
+  dropdown: {
+    marginVertical: 20,
+    height: 50,
+    width: "100%",
+    backgroundColor: "#EEEEEE",
+    borderRadius: 22,
+    paddingHorizontal: 8,
+  },
+  imageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 12,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  icon: {
+    position: "absolute",
+    top: 2,
+    right: 2,
+  },
 });
