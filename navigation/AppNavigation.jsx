@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { Image, Text, TouchableOpacity } from "react-native";
 import {
   AnimatedTabBarNavigator,
@@ -21,7 +21,7 @@ const Tabs = AnimatedTabBarNavigator();
   background-color: #333333;
 `; */
 
-const TabBarIcon = ({ name, size = 24, tintColor }) => {
+/*const TabBarIcon = ({ name, size = 24, tintColor }) => {
   return <Icon name={name} size={size} color={tintColor} />;
 };
 
@@ -63,3 +63,4 @@ export default () => (
     <Tabs.Screen name="Notifications" component={NotificationsList} />
   </Tabs.Navigator>
 );
+ */
