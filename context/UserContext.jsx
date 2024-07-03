@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-
+/* import React, { createContext, useContext, useEffect, useState } from "react";
+import { AsyncStorage } from "react-native";
 
 export const UserContext = createContext();
 
@@ -14,24 +14,42 @@ export const UserContext = createContext();
   return context;
 }; */
 
-export const UserProvider = ({ children }) => {
-  const [userLogged, setUserLogged] = useState("");
-  //const tokenStored = await SecureStore.getItemAsync(SecureStoreEnum.TOKEN);
+/*export const UserProvider = ({ children }) => {
+  const [userLogged, setUserLogged] = useState("non");
 
+  const retrieving = async () => {
+    try {
+      const userLoggedStorage = await AsyncStorage.getItem("userLogged");
+      if (userLoggedStorage !== null) {
+        // We have data!!
+        console.log(userLoggedStorage);
+        return userLoggedStorage;
+        //setUserLogged(userLoggedStorage);
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log("error retrieving data :>> ", error);
+    }
+  };
+
+  /* move to login  
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem("userLogged", userLogged);
+    } catch (error) {
+      // Error saving data
+      console.log("error saving data :>> ", error);
+    }
+  }; */
+/*const savedStored = retrieving();
+
+  if (userLogged === "" && savedStored) {
+    setUserLogged(savedStored);
+  }
 
   useEffect(() => {
-    const initializeUser = async () => {
-      const tokenStored = await SecureStore.getItemAsync(SecureStoreEnum.TOKEN);
-      if (!userLogged.username && tokenStored) {
-        const username = await SecureStore.getItemAsync(
-          SecureStoreEnum.username
-        );
-        setUserLogged({ username });
-      }
-    };
-
-    initializeUser();
-  }, []);
+    console.log("retrieving", retrieving());
+  }, [userLogged]);
 
   return (
     <UserContext.Provider value={{ userLogged, setUserLogged }}>
@@ -39,3 +57,4 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+ */

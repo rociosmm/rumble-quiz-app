@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
-import Topic from "./Topic";
 
 export default function Topics() {
   const [topics, setTopics] = useState([]);
@@ -28,38 +27,18 @@ export default function Topics() {
     alert(topic_id);
   };
 
+  //const renderItem = ({ item }) => <Topic key={item.id} topic={item} />;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={{ flex: 1, padding: 20 }}>
-          <Text>Topics</Text>
-          {/* <FlatList
-              data={topics}
-              keyExtractor={(topic) => topic["id"]}
-              content
-              ContainerStyle={{ padding: 20 }}
-            />
-
-            <FlatList
-              data={topics}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => {
-                return (
-                  <Topic
-                    item={item}
-                  />
-                );
-              }}
-            /> */}
-
-          <View style={{ flex: 1, padding: 20, backgroundColor: "pink" }}>
-            {topics.map((topic) => (
-              <Text key={topic.id}>{topic.name}</Text>
-            ))}
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View>
+      {topics.map((topic) => {
+        return (
+          <Text>
+            {topic.id} {topic.name}
+          </Text>
+        );
+      })}
+    </View>
   );
 }
 

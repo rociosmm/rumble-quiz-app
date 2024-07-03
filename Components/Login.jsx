@@ -1,19 +1,57 @@
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Feather";
+import { UserContext } from "../context/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
-  const [currentUsername, setCurrentUsername] = useState("");
+  const [currentUsername, setCurrentUsername] = useState("eve.holt@reqres.in");
 
   const [currentPassword, setCurrentPassword] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
+  /*   const { userLogged, setUserLogged } = useContext(UserContext); */
+  const navigation = useNavigation();
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem("userLogged", currentUsername);
+    } catch (error) {
+      // Error saving data
+      throw error;
+    }
+  };
+
   const login = () => {
-    alert("config login");
+    console.log(
+      "currentUsername, currentPassword => ",
+      currentUsername,
+      currentPassword
+    );
+    const userData = {
+      username: currentUsername,
+      password: currentPassword,
+    };
+
+    // do the real axios request here
+    axios.post("https://reqres.in/api/login", userData).then((res) => {
+      console.log("res.data :>> ", res.data); // token from reqres api
+      if (res.data.status === "200") {
+        AsyncStorage.setItem("token", res.data);
+        AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
+        AsyncStorage.setItem("userLogged", currentUsername);
+        //navigation.navigate("QuizContainer");
+      }
+    });
+
+    //alert("config login");
+    navigation.navigate("Play");
+    storeData();
   };
 
   return (
