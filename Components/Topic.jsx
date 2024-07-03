@@ -12,12 +12,22 @@ export default function Topic({ topic }) {
 
 const styles = StyleSheet.create({
   topicCard: {
-    padding: 20,
-    marginVertical: 8,
-    backgroundColor: "#f9c2ff",
-    borderRadius: 8,
+    borderRadius: 6,
+    elevation: 3,
+    backgroundColor: "#ff8c00",
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: "#333",
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    marginHorizontal: 4,
+    marginVertical: 6,
+    width: "90%",
+    alignSelf: "center",
   },
   topicText: {
-    fontSize: 16,
+    fontSize: 20,
+    marginHorizontal: 10,
+    marginVertical: 25,
+    alignSelf: "center",
   },
 });

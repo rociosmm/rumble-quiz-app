@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
+import Topic from "./Topic";
 
 export default function Topics() {
   const [topics, setTopics] = useState([]);
@@ -33,22 +34,11 @@ export default function Topics() {
     <View>
       {topics.map((topic) => {
         return (
-          <Text key={topic.id}>
-            {topic.id} {topic.name}
-          </Text>
+          <Pressable key={topic.id} onPress={() => onPressFunction(topic_id)}>
+            <Topic topic={topic} />
+          </Pressable>
         );
       })}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  topic_card: {
-    padding: 30,
-    marginVertical: 5,
-    backgroundColor: "yellow",
-  },
-});
