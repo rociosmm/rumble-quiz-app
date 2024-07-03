@@ -52,12 +52,13 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getDataFromStorage = async () => {
-    const data = await AsyncStorage.getItem("isLoggedIn");
+    const logged = await AsyncStorage.getItem("isLoggedIn");
+    const user = await AsyncStorage.getItem("userLogged");
 
-    if (data) {
+    if (logged) {
       setIsLoggedIn(true);
-      setUserLogged(data.userLogged);
-      console.log("userLogged inside getDataFromStorage :>> ", userLogged);
+      setUserLogged(user);
+      console.log("userLogged inside getDataFromStorage :>> ", user);
     }
   };
 

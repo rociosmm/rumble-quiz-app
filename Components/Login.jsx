@@ -39,13 +39,17 @@ export default function Login() {
     };
 
     // do the real axios request here
-    axios.post("https://reqres.in/api/login", userData).then((res) => {
+    axios.post("https://reqres.in/api/login", userData).then(async (res) => {
       console.log("res.data :>> ", res.data); // token from reqres api
       if (res.data.status === "200") {
-        AsyncStorage.setItem("token", res.data);
-        AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
-        AsyncStorage.setItem("userLogged", currentUsername);
-        //navigation.navigate("QuizContainer");
+        try {
+          await AsyncStorage.setItem("token", res.data);
+          await AsyncStorage.setItem("userLogged", userData.username);
+          await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
+          //navigation.navigate("QuizContainer");
+        } catch (error) {
+          console.log("error in post request for login ", error);
+        }
       }
     });
 
