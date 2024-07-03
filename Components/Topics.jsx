@@ -33,7 +33,7 @@ export default function Topics() {
     <View>
       {topics.map((topic) => {
         return (
-          <Text>
+          <Text key={topic.id}>
             {topic.id} {topic.name}
           </Text>
         );
