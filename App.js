@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LaunchPage from "./Components/LaunchPage";
@@ -11,15 +11,14 @@ import Header from "./Components/Header";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [userLogged, setUserLogged] = useState({});
+  const [userLogged, setUserLogged] = useState({ username: "Hi" });
 
   if (Object.keys(userLogged).length > 0) {
     return (
+      <NavigationContainer>
+        <AppNavigation />
 
-        <NavigationContainer>
-          <AppNavigation />
-
-          {/* <Stack.Navigator>
+        {/* <Stack.Navigator>
         <Stack.Screen
           name="Launch Page"
           component={LaunchPage}
@@ -27,7 +26,8 @@ export default function App() {
         />
         <Stack.Screen name="My Account" component={MyAccount} />
       </Stack.Navigator> */}
-        </NavigationContainer>
+      </NavigationContainer>
+      
     );
   } else {
     return <LaunchPage setUserLogged={setUserLogged} />;

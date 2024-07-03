@@ -57,8 +57,7 @@ const styles = StyleSheet.create({
     border: "1px solid grey",
     padding: "4px",
   },
-  password: {
-  },
+  password: {},
   icon: {
     position: "absolute",
     top: 2,
