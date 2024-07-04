@@ -13,6 +13,8 @@ import QuizContainer from '../Components/QuizContainer';
 import NotificationsList from '../Components/NotificationsList';
 import Friends from '../Components/Friends';
 import {useNavigation} from '@react-navigation/native'
+import LeaderBoard from '../Components/LeaderBoard';
+import MyAccount from '../Components/MyAccount';
 
 const Screen1 = () => {
   return <View style={styles.screen1} />;
@@ -87,6 +89,16 @@ export default function AppNavigation() {
         )}
         tabBar={renderTabBar}
       >
+        <CurvedBottomBarExpo.Screen
+          name="Leaderboard"
+          position="LEFT"
+          component={() => <LeaderBoard />}
+        />
+        <CurvedBottomBarExpo.Screen
+          name="My Account"
+          position="LEFT"
+          component={() => <MyAccount />}
+        />
         <CurvedBottomBarExpo.Screen
           name="Play"
           position="CIRCLE"
