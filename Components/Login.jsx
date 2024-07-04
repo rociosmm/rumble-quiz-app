@@ -40,17 +40,17 @@ export default function Login() {
 
     // do the real axios request here
     axios.post("https://reqres.in/api/login", userData).then(async (res) => {
-      console.log("res.data :>> ", res.data); // token from reqres api
-      console.log("res :>> ", res);
-      console.log("Object.keys(res) :>> ", Object.keys(res));
+      // console.log("res.data :>> ", res.data); // token from reqres api
+      // console.log("res :>> ", res);
+      // console.log("Object.keys(res) :>> ", Object.keys(res));
       if (res.status === 200) {
-        console.log("if hello");
+        // console.log("if hello");
         try {
           await AsyncStorage.setItem("token", JSON.stringify(res.data));
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
           //navigation.navigate("QuizContainer");
-          console.log("all saved");
+          //console.log("all saved");
         } catch (error) {
           console.log("error in post request for login ", error);
         }
@@ -59,7 +59,7 @@ export default function Login() {
 
     const logged = await AsyncStorage.getItem("isLoggedIn");
     const tok = await AsyncStorage.getItem("token");
-    console.log("tok :>> ", tok);
+    //console.log("tok :>> ", tok);
     if (logged) {
       //alert("config login");
       navigation.navigate("Play");

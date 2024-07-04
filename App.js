@@ -38,13 +38,17 @@ const LoginNav = () => {
           let iconName;
 
           if (route.name === "Play") {
-            iconName = focused ? "extension-puzzle" : "extension-puzzle-outline";
+            iconName = focused
+              ? "extension-puzzle"
+              : "extension-puzzle-outline";
           } else if (route.name === "My Account") {
             iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Friends") {
             iconName = focused ? "people-sharp" : "people-outline";
           } else if (route.name === "Notifications") {
-            iconName = focused ? "notifications-sharp" : "notifications-outline";
+            iconName = focused
+              ? "notifications-sharp"
+              : "notifications-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -56,7 +60,6 @@ const LoginNav = () => {
         inactiveTintColor: "gray",
       }}
     >
-      
       <Tab.Screen name="Play" component={QuizContainer} />
       <Tab.Screen name="My Account" component={MyAccount} />
       <Tab.Screen name="Friends" component={Friends} />
