@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   },
   password: {},
   checkbox: { display: "inline-flex", flexDirection: "row" },
+  
   dropdown: {
     marginVertical: 20,
     height: 50,
