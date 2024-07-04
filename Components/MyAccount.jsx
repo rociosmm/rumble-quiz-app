@@ -1,7 +1,8 @@
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import { View, Text, Button, Image, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
 import EditDetails from "./EditDetails";
+import Stats from "./Stats";
 
 export default function MyAccount() {
   const [colourTheme, setColourTheme] = useState(1)
@@ -46,16 +47,19 @@ setEditingMode(true)
         onChange={(e) => {
           setColourTheme(e.value);
         }}
-      />
+        />
       <Button title="Edit details" onPress={displayForm} />
       </View>
       <View>
         <Image source={{uri: avatar_url}} style={styles.avatar}/>
         </View>
     </View>
+        <ScrollView>
     <View>
       {editingMode ? <EditDetails setEditingMode={setEditingMode} user={user}/> : null}
+      <Stats username={user.username}/>
     </View>
+    </ScrollView>
     </>
   );
 }
