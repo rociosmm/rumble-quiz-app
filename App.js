@@ -32,7 +32,31 @@ const LoginNav = () => {
 
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === "Play") {
+            iconName = focused ? "extension-puzzle" : "extension-puzzle-outline";
+          } else if (route.name === "My Account") {
+            iconName = focused ? "person" : "person-outline";
+          } else if (route.name === "Friends") {
+            iconName = focused ? "people-sharp" : "people-outline";
+          } else if (route.name === "Notifications") {
+            iconName = focused ? "notifications-sharp" : "notifications-outline";
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: "green",
+
+        inactiveTintColor: "gray",
+      }}
+    >
+      
       <Tab.Screen name="Play" component={QuizContainer} />
       <Tab.Screen name="My Account" component={MyAccount} />
       <Tab.Screen name="Friends" component={Friends} />
