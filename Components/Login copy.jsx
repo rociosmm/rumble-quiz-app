@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
-  const [currentUsername, setCurrentUsername] = useState("");
+  const [currentUsername, setCurrentUsername] = useState("eve.holt@reqres.in");
 
   const [currentPassword, setCurrentPassword] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,9 +21,10 @@ export default function Login() {
   const storeData = async () => {
     try {
       await AsyncStorage.setItem("userLogged", currentUsername);
+      console.log("User logged data stored");
     } catch (error) {
       // Error saving data
-      throw error;
+      console.error("Error saving user logged data:", error);
     }
   };
 
@@ -39,31 +40,37 @@ export default function Login() {
     };
 
     // do the real axios request here
-    axios.post("https://reqres.in/api/login", userData).then(async (res) => {
+    try {
+      const res = await axios.post("https://reqres.in/api/login", userData);
       console.log("res.data :>> ", res.data); // token from reqres api
-      console.log("res :>> ", res);
-      console.log("Object.keys(res) :>> ", Object.keys(res));
+      console.log("res.status :>> ", res.status);
       if (res.status === 200) {
-        console.log("if hello");
+        console.log("hello");
         try {
-          await AsyncStorage.setItem("token", JSON.stringify(res.data));
+          await AsyncStorage.setItem("token", res.data.token);
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
+          console.log("Token, userLogged and isLoggedIn data stored");
           //navigation.navigate("QuizContainer");
-          console.log("all saved");
         } catch (error) {
-          console.log("error in post request for login ", error);
+          console.error("Error in post request for login:", error);
         }
       }
-    });
+    } catch (error) {
+      console.error("Login request error:", error);
+    }
 
-    const logged = await AsyncStorage.getItem("isLoggedIn");
-    const tok = await AsyncStorage.getItem("token");
-    console.log("tok :>> ", tok);
-    if (logged) {
-      //alert("config login");
-      navigation.navigate("Play");
-      storeData();
+    try {
+      const logged = JSON.parse(await AsyncStorage.getItem("isLoggedIn"));
+      const tok = await AsyncStorage.getItem("token");
+      console.log("logged :>> ", logged);
+      console.log("tok :>> ", tok);
+      if (logged) {
+        navigation.navigate("Play");
+        storeData();
+      }
+    } catch (error) {
+      console.error("Error retrieving data:", error);
     }
   };
 
