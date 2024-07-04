@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
 export default function Topic({ topic }) {
-  console.log("topic :>> ", topic);
+  // console.log("topic :>> ", topic);
   return (
     <View style={styles.topicCard}>
       <Text style={styles.topicText}>{topic.name}</Text>
