@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Alert, Animated, TouchableOpacity } from "react-native";
+import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 
 // components
 import Header from "./Components/Header";
@@ -108,7 +109,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <LoginNav /> : <BeforeLoginNav />}
+      {isLoggedIn ? <AppNavigation /> : <BeforeLoginNav />}
     </NavigationContainer>
   );
 }
