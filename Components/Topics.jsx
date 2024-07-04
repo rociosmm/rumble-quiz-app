@@ -32,13 +32,15 @@ export default function Topics() {
 
   return (
     <View>
-      {topics.map((topic) => {
-        return (
-          <Pressable key={topic.id} onPress={() => onPressFunction(topic_id)}>
-            <Topic topic={topic} />
-          </Pressable>
-        );
-      })}
+      <ScrollView>
+        {topics.map((topic) => {
+          return (
+            <Pressable key={topic.id} onPress={() => onPressFunction(topic.id)}>
+              <Topic topic={topic} />
+            </Pressable>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
