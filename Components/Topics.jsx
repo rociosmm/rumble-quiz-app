@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
 import Topic from "./Topic";
+import TopicFlipCard from "./TopicFlipCard"
 
 export default function Topics() {
   const [topics, setTopics] = useState([]);
@@ -31,16 +32,18 @@ export default function Topics() {
   //const renderItem = ({ item }) => <Topic key={item.id} topic={item} />;
 
   return (
-    <View>
-      <ScrollView>
+        <ScrollView style={styles.scrollView}>
         {topics.map((topic) => {
           return (
-            <Pressable key={topic.id} onPress={() => onPressFunction(topic.id)}>
-              <Topic topic={topic} />
-            </Pressable>
+            <TopicFlipCard topic={topic} key={topic.id}/>
           );
         })}
       </ScrollView>
-    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollView: {
+  // 
+  },
+})
