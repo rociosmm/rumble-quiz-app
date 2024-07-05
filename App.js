@@ -1,7 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView, Alert, Animated, TouchableOpacity } from "react-native";
-import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Alert,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
+import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 
 // components
 import Header from "./Components/Header";
@@ -20,7 +28,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import LeaderBoard from "./Components/LeaderBoard";
-import QuestionPage from "./Components/QuestionPage";
 
 const LoginNav = () => {
   /* const Stack = createNativeStackNavigator();
@@ -32,43 +39,39 @@ const LoginNav = () => {
       <Stack.Screen name="Notifications" component={NotificationsList} />
     </Stack.Navigator>
   ); */
-
-//   const Tab = createBottomTabNavigator();
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({ route }) => ({
-//         tabBarIcon: ({ focused, color, size }) => {
-//           let iconName;
-
-//           if (route.name === "Play") {
-//             iconName = focused
-//               ? "extension-puzzle"
-//               : "extension-puzzle-outline";
-//           } else if (route.name === "My Account") {
-//             iconName = focused ? "person" : "person-outline";
-//           } else if (route.name === "Friends") {
-//             iconName = focused ? "people-sharp" : "people-outline";
-//           } else if (route.name === "Notifications") {
-//             iconName = focused
-//               ? "notifications-sharp"
-//               : "notifications-outline";
-//           }
-
-//           return <Ionicons name={iconName} size={size} color={color} />;
-//         },
-//       })}
-//       tabBarOptions={{
-//         activeTintColor: "green",
-
-//         inactiveTintColor: "gray",
-//       }}
-//     >
-//       <Tab.Screen name="Play" component={QuizContainer} />
-//       <Tab.Screen name="My Account" component={MyAccount} />
-//       <Tab.Screen name="Friends" component={Friends} />
-//       <Tab.Screen name="Notifications" component={NotificationsList} />
-//     </Tab.Navigator>
-//   );
+  //   const Tab = createBottomTabNavigator();
+  //   return (
+  //     <Tab.Navigator
+  //       screenOptions={({ route }) => ({
+  //         tabBarIcon: ({ focused, color, size }) => {
+  //           let iconName;
+  //           if (route.name === "Play") {
+  //             iconName = focused
+  //               ? "extension-puzzle"
+  //               : "extension-puzzle-outline";
+  //           } else if (route.name === "My Account") {
+  //             iconName = focused ? "person" : "person-outline";
+  //           } else if (route.name === "Friends") {
+  //             iconName = focused ? "people-sharp" : "people-outline";
+  //           } else if (route.name === "Notifications") {
+  //             iconName = focused
+  //               ? "notifications-sharp"
+  //               : "notifications-outline";
+  //           }
+  //           return <Ionicons name={iconName} size={size} color={color} />;
+  //         },
+  //       })}
+  //       tabBarOptions={{
+  //         activeTintColor: "green",
+  //         inactiveTintColor: "gray",
+  //       }}
+  //     >
+  //       <Tab.Screen name="Play" component={QuizContainer} />
+  //       <Tab.Screen name="My Account" component={MyAccount} />
+  //       <Tab.Screen name="Friends" component={Friends} />
+  //       <Tab.Screen name="Notifications" component={NotificationsList} />
+  //     </Tab.Navigator>
+  //   );
 };
 
 const BeforeLoginNav = () => {

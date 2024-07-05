@@ -11,10 +11,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
 import Topic from "./Topic";
-import TopicFlipCard from "./TopicFlipCard"
+import TopicFlipCard from "./TopicFlipCard";
+import QuizPage from "./QuizPage";
 
 export default function Topics() {
   const [topics, setTopics] = useState([]);
+  const [selectedTopic, setSelectedTopic] = useState();
 
   useEffect(() => {
     getCategories().then((data) => {
@@ -23,27 +25,32 @@ export default function Topics() {
     });
   }, []);
 
-  //console.log("topics :>> ", topics);
+  useEffect(() => {
+    console.log("selectedTopic :>> ", selectedTopic);
+  }, [selectedTopic]);
 
-  const onPressFunction = (topic_id) => {
-    alert(topic_id);
-  };
-
-  //const renderItem = ({ item }) => <Topic key={item.id} topic={item} />;
-
-  return (
-        <ScrollView style={styles.scrollView}>
+  if (selectedTopic === undefined) {
+    return (
+      <ScrollView style={styles.scrollView}>
         {topics.map((topic) => {
           return (
-            <TopicFlipCard topic={topic} key={topic.id}/>
+            <Topic
+              topic={topic}
+              key={topic.id}
+              selectedTopic={selectedTopic}
+              setSelectedTopic={setSelectedTopic}
+            />
           );
         })}
       </ScrollView>
-  );
+    );
+  } else {
+    return <QuizPage topic_id={selectedTopic} />;
+  }
 }
 
 const styles = StyleSheet.create({
   scrollView: {
-  // 
+    //
   },
-})
+});

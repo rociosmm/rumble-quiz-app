@@ -6,7 +6,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import QuestionPage from './QuestionPage';
 import {useNavigation} from '@react-navigation/native'
 
 const handlePlayButtonPressed = () => {
@@ -38,7 +37,7 @@ const FlippedContent = ({navigation}) => {
   return (
     <View style={flippedContentStyles.card}>
         <Pressable>
-      <Text style={flippedContentStyles.text} onPress={() => navigation.navigate("Questions", <QuestionPage/>)}>Let's Play!</Text>
+      <Text style={flippedContentStyles.text} onPress={() => navigation.navigate("QuizPage", <QuizPage/>)}>Let's Play!</Text>
         </Pressable>
     </View>
   );
