@@ -13,9 +13,9 @@ export default function QuestionCard({ question, onChoicePress }) {
         {answers.map((choice, index) => (
           <Pressable
             key={index}
-            style={styles.answers}
+            style={styles.answerButton}
             onPress={() => onChoicePress(choice)}>
-            <Text>{choice}</Text>
+            <Text style={styles.answerText}>{choice}</Text>
           </Pressable>
         ))}
       </View>
@@ -24,27 +24,29 @@ export default function QuestionCard({ question, onChoicePress }) {
 }
 const styles = StyleSheet.create({
   questionCard: {
-    borderRadius: 6,
-    elevation: 3,
+    borderRadius: 10,
+    elevation: 5,
     backgroundColor: "white",
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: "#333",
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    marginHorizontal: 4,
-    marginVertical: 6,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: "#000",
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    padding: 20,
     width: "90%",
     alignSelf: "center",
   },
   questionText: {
-    fontSize: 20,
-    marginHorizontal: 10,
-    marginVertical: 25,
-    alignSelf: "center",
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 20,
+    textAlign: "center",
   },
 
-  answers: {
-    borderRadius: 6,
+  answerButton: {
+    borderRadius: 8,
     elevation: 3,
     backgroundColor: "#ff8c00",
     shadowOffset: { width: 1, height: 1 },
@@ -53,7 +55,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     marginHorizontal: 4,
     marginVertical: 6,
-    width: "90%",
-    alignSelf: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "center",
+  },
+  answerText: {
+    fontSize: 18,
+    fontWeight: "500",
   },
 });
