@@ -7,7 +7,7 @@ export default function UrgeWithPleasureComponent() {
       <CountdownCircleTimer
         isPlaying={true}
         duration={10}
-        size={100}
+        size={80}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[7, 5, 2, 0]}>
         {/* onComplete=
