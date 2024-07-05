@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-export default function QuestionCard({ question, onChoicePress }) {
+export default function QuestionCard({ onChoicePress }) {
+  const question = "What is your favourite topic?";
   const answers = ["history", "science", "film", "art"];
   // const Row = ({ children }) => {
   //   <View>{children}</View>;
