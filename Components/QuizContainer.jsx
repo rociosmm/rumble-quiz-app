@@ -26,8 +26,6 @@ export default function QuizContainer() {
           onPress={() => navigation.navigate("My Account")}
         />
         <Topics />
-        <Text>Hola desde QuizContainer</Text>
-        <MyAccount />
       </View>
     </SafeAreaView>
   );
