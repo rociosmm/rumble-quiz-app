@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingTop: 50,
-    paddingBottom: 60,
+    paddingBottom: 40,
     alignItems: "center",
   },
   countDownText: {
