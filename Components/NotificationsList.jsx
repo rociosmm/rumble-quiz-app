@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { useCountdown } from "react-native-countdown-circle-timer";
 import UrgeWithPleasureComponent from "./Countdown";
 import QuestionCard from "./QuestionCard";
 import PlayerAvatars from "./PlayerAvatars";
+import ProgressBar from "./ProgressBar";
 
 export default function NotificationsList() {
   const players = [
@@ -29,6 +29,7 @@ export default function NotificationsList() {
       <PlayerAvatars />
       <UrgeWithPleasureComponent />
       <QuestionCard />
+      <ProgressBar />
     </View>
   );
 }
