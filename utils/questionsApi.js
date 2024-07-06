@@ -22,8 +22,8 @@ export const getQuestions = (topic_id) => {
     .get(
       `/api.php?amount=10&category=${topic_id}&difficulty=medium&type=multiple`
     )
-    .then((results ) => {
-      console.log("data :>> ", results);
+    .then((results) => {
+      // console.log("data :>> ", results);
       return results;
     })
     .catch((err) => {

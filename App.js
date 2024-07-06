@@ -106,7 +106,7 @@ export default function App() {
     if (logged) {
       setIsLoggedIn(true);
       setUserLogged(user);
-      console.log("isLoggedIn :>> ", isLoggedIn);
+      console.log("isLoggedIn if inside:>> ", isLoggedIn);
       console.log("userLogged inside getDataFromStorage :>> ", user);
     }
   };
