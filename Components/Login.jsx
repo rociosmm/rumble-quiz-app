@@ -5,6 +5,7 @@ import { UserContext } from "../context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { postUserLogin } from "../utils/api";
 
 export default function Login() {
   const [currentUsername, setCurrentUsername] = useState("");
@@ -39,18 +40,14 @@ export default function Login() {
     };
 
     // do the real axios request here
-    axios.post("https://reqres.in/api/login", userData).then(async (res) => {
-      // console.log("res.data :>> ", res.data); // token from reqres api
-      // console.log("res :>> ", res);
-      // console.log("Object.keys(res) :>> ", Object.keys(res));
+
+    postUserLogin(userData).then(async (res) => {
+      console.log(Object.keys(res));
       if (res.status === 200) {
-        // console.log("if hello");
         try {
           await AsyncStorage.setItem("token", JSON.stringify(res.data));
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
-          //navigation.navigate("QuizContainer");
-          //console.log("all saved");
         } catch (error) {
           console.log("error in post request for login ", error);
         }

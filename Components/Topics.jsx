@@ -25,9 +25,9 @@ export default function Topics() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("selectedTopic :>> ", selectedTopic);
-  }, [selectedTopic]);
+  // useEffect(() => {
+  //   console.log("selectedTopic :>> ", selectedTopic);
+  // }, [selectedTopic]);
 
   if (selectedTopic === undefined) {
     return (

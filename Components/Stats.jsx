@@ -1,17 +1,26 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'; 
 import { DataTable } from 'react-native-paper'; 
+import { getUserStats } from '../utils/api';
 
-export default function Stats({username}) {
+export default function Stats({username, userLogged}) {
+  console.log(userLogged, "<<<USerLogged in Stats")
+  const [userStats, setUserStats] = useState(null)
 
-  const userStats = {
-    games_played: 2,
-    games_won: 1,
-    total_points: 170,
-    top_topic: "General Knowledge"
+  useEffect(() => {
+    if(userLogged){
+      getUserStats(userLogged).then(({userStats}) => {
+        setUserStats(userStats)
+        console.log(userStats, "<<UserStats")
+      })
+    }
+  }, [userLogged])
+  console.log(userStats, 'Userstats again')
+
+  if(!userStats) {
+    return <Text>Loading...</Text>
   }
-
 
   return (
     <View>

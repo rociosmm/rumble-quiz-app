@@ -1,41 +1,25 @@
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
-import React, { useState } from "react";
-// import { TextInput } from 'react-native-web'
+import React, { useEffect, useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
+import { getAvatars } from "../utils/api";
 
 export default function EditDetails({ setEditingMode, user }) {
   const [newUsername, setNewUsername] = useState(user.username);
   const [newEmail, setNewEmail] = useState(user.email);
+  const [avatars, setAvatars] = useState([]);
   const [avatar, setAvatar] = useState(user.avatar_id);
+
+  useEffect(() => {
+    getAvatars().then(({ avatars }) => {
+      setAvatars(avatars);
+      console.log(avatars);
+    });
+  }, []);
 
   const saveUserDetails = () => {
     const newUserData = { ...user, newUsername, newEmail };
     setEditingMode(false);
   };
-
-  const mockAvatars = [
-    {
-      id: 1,
-      avatar_name: "Dog",
-      avatar_url: {
-        uri: "https://t3.ftcdn.net/jpg/05/68/02/36/360_F_568023692_15idt2j4V5fvXr2YDTbijyl292IRyyMJ.jpg"
-      },
-    },
-    {
-      id: 2,
-      avatar_name: "Rabbit",
-      avatar_url: {
-        uri: "https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/44f51c73-28ff-4bfc-b43b-66684b142ad7/d17edb86-1339-4792-a9a9-65c562ecdea6.png"
-      },
-    },
-    {
-      id: 3,
-      avatar_name: "Mouse",
-      avatar_url: {
-        uri: "https://t4.ftcdn.net/jpg/06/01/00/69/360_F_601006904_wViEKbajtiuedx0ycffTkpTeVi1TrFpn.jpg"
-      },
-    },
-  ];
 
   return (
     <View>
@@ -58,7 +42,7 @@ export default function EditDetails({ setEditingMode, user }) {
         iconStyle={styles.iconStyle}
         maxHeight={200}
         value={avatar}
-        data={mockAvatars}
+        data={avatars}
         valueField="id"
         labelField="avatar_name"
         imageField="avatar_url"

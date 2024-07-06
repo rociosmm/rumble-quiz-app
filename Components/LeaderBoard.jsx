@@ -12,9 +12,8 @@ export default function LeaderBoard() {
   };
 
   useEffect(() => {
-    //getUserLogged();
+    // getUserLogged();
   }, []);
-
 
   const playersPointData = [
     { player_username: "Joe", total_points: 52 },
