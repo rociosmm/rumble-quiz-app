@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { getQuestions } from "../utils/questionsApi";
 import React from "react";
@@ -31,11 +31,11 @@ import ProgressBar from "./ProgressBar";
 // }
 export default function QuizPage() {
   return (
-    <View>
+    <ScrollView>
       <PlayerAvatars />
       <UrgeWithPleasureComponent />
       <QuestionCard />
       <ProgressBar />
-    </View>
+    </ScrollView>
   );
 }
