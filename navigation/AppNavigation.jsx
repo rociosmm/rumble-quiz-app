@@ -16,13 +16,14 @@ import {useNavigation} from '@react-navigation/native'
 import LeaderBoard from '../Components/LeaderBoard';
 import MyAccount from '../Components/MyAccount';
 
-const Screen1 = () => {
-  return <View style={styles.screen1} />;
-};
 
-const Screen2 = () => {
-  return <View style={styles.screen2} />;
-};
+// const Screen1 = () => {
+//   return <View style={styles.screen1} />;
+// };
+
+// const Screen2 = () => {
+//   return <View style={styles.screen2} />;
+// };
 
 export default function AppNavigation() {
   const navigation = useNavigation()
@@ -93,26 +94,31 @@ export default function AppNavigation() {
           name="Leaderboard"
           position="LEFT"
           component={() => <LeaderBoard />}
+          options={{headerShown: false}}
         />
         <CurvedBottomBarExpo.Screen
           name="My Account"
           position="LEFT"
           component={() => <MyAccount />}
+          options={{headerShown: false}}
         />
         <CurvedBottomBarExpo.Screen
           name="Play"
           position="CIRCLE"
           component={() => <QuizContainer />}
+          options={{headerShown: false}}
         />
         <CurvedBottomBarExpo.Screen
           name="Friends"
           component={() => <Friends />}
           position="RIGHT"
+          options={{headerShown: false}}
         />
         <CurvedBottomBarExpo.Screen
           name="Notifications"
           component={() => <NotificationsList />}
           position="RIGHT"
+          options={{headerShown: false}}
         />
       </CurvedBottomBarExpo.Navigator>
     

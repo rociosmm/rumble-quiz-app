@@ -14,6 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 // components
 import Header from "./Components/Header";
 import LaunchPage from "./Components/LaunchPage";
+import LoginPage from "./Components/LoginPage";
+import CreateAccountPage from "./Components/CreateAccountPage";
 import MyAccount from "./Components/MyAccount";
 import Friends from "./Components/Friends";
 import NotificationsList from "./Components/NotificationsList";
@@ -72,12 +74,11 @@ export default function App() {
   );
 
   const BeforeLogin = () => (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Launch Page"
-        component={LaunchPage}
-        options={{ title: "Welcome" }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
+      <Stack.Screen name="LogIn">
+        {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
+      <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
       <Stack.Screen name="Play" component={QuizContainer} />
     </Stack.Navigator>
   );
@@ -85,13 +86,21 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
+
+        <SafeAreaView style={styles.root}>
         {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
+        </SafeAreaView>
+
       </NavigationContainer>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    // backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -99,3 +108,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+
+
+
+
+
+

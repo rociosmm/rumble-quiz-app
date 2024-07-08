@@ -12,12 +12,16 @@ import EditDetails from "./EditDetails";
 import Stats from "./Stats";
 import { getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomButton from "./CustomButton";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MyAccount() {
   const [colourTheme, setColourTheme] = useState(1);
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [userLogged, setUserLogged] = useState("");
+
+  const navigation = useNavigation();
 
   const getUserLogged = async () => {
     try {
@@ -50,8 +54,16 @@ export default function MyAccount() {
     setEditingMode(true);
   };
 
+  const onLogOutPressed = async () => {
+    await AsyncStorage.setItem("isLoggedIn", "");
+    await AsyncStorage.setItem("token", "");
+    await AsyncStorage.setItem("userLogged", "");
+    navigation.navigate("Auth");
+  };
+
   return (
     <>
+      <CustomButton type="TERTIARY" text="Log Out" onPress={onLogOutPressed} />
       <View style={styles.userCard}>
         <View style={styles.userDetails}>
           <Text style={styles.h2}>{userLogged}</Text>
