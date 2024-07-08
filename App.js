@@ -86,9 +86,11 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
+
         <SafeAreaView style={styles.root}>
         {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
         </SafeAreaView>
+
       </NavigationContainer>
     </>
   );

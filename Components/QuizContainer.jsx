@@ -34,6 +34,10 @@ export default function QuizContainer() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 100,
+  },
+  h2: {
+    textAlign: "center",
+    fontSize: 30,
+    marginVertical: 20,
   },
 });
