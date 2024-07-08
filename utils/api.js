@@ -41,11 +41,17 @@ export const getAvatars = () => {
     });
 };
 
+export const getAvatar = (id) => {
+  return rumbleQuizApi.get(`/avatars/${id}`).then(({data}) => {
+    console.log("data avatar :>> ", data);
+    return data
+  });
+};
+
 export const getUserStats = (userLogged) => {
   return rumbleQuizApi
     .get(`/users/${userLogged}/logs`)
     .then(({ data }) => {
-      console.log('data stats:>> ', data);
       return data;
     })
     .catch((error) => {

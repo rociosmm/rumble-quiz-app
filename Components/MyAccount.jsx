@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
 import EditDetails from "./EditDetails";
 import Stats from "./Stats";
-import { getUserByUsername } from "../utils/api";
+import { getAvatar, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,7 @@ export default function MyAccount() {
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [userLogged, setUserLogged] = useState("");
+  const [userLoggedAvatar, setUserLoggedAvatar] = useState({});
 
   const navigation = useNavigation();
 
@@ -44,6 +45,15 @@ export default function MyAccount() {
     }
   }, [userLogged]);
 
+  useEffect(() => {
+    getAvatar(userDetails.avatar_id).then(async (data) => {
+      console.log("data avatar acc :>> ", data.avatar);
+      await setUserLoggedAvatar(data.avatar);
+      await AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
+    });
+  }, [userDetails]);
+  console.log("userLoggedAvatar :>> ", userLoggedAvatar);
+
   const colour_themes = [
     { colour_theme_id: 1, theme_name: "Light" },
     { colour_theme_id: 2, theme_name: "Dark" },
@@ -55,10 +65,10 @@ export default function MyAccount() {
   };
 
   const onLogOutPressed = async () => {
-    await AsyncStorage.setItem("isLoggedIn", "");
+    await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
     await AsyncStorage.setItem("token", "");
     await AsyncStorage.setItem("userLogged", "");
-    navigation.navigate("Auth");
+    navigation.navigate("LogIn");
   };
 
   return (
@@ -89,7 +99,7 @@ export default function MyAccount() {
           <Button title="Edit details" onPress={displayForm} />
         </View>
         <View>
-          <Image source={userDetails.avatar_id} style={styles.avatar} />
+          <Image source={userLoggedAvatar.avatar_url} style={styles.avatar} />
         </View>
       </View>
       <ScrollView>
