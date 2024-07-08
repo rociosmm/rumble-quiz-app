@@ -9,90 +9,31 @@ import {
   Animated,
   TouchableOpacity,
 } from "react-native";
-import { CurvedBottomBar } from "react-native-curved-bottom-bar";
+import { Ionicons } from "@expo/vector-icons";
 
 // components
 import Header from "./Components/Header";
 import LaunchPage from "./Components/LaunchPage";
+import LoginPage from "./Components/LoginPage";
+import CreateAccountPage from "./Components/CreateAccountPage";
 import MyAccount from "./Components/MyAccount";
 import Friends from "./Components/Friends";
 import NotificationsList from "./Components/NotificationsList";
 import QuizContainer from "./Components/QuizContainer";
+import LeaderBoard from "./Components/LeaderBoard";
+import QuizPage from "./Components/QuizPage";
 
+// Navigation
 import AppNavigation from "./navigation/AppNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// Context and storage
 import { UserContext } from "./context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
-import LeaderBoard from "./Components/LeaderBoard";
+const Stack = createNativeStackNavigator();
 
-const LoginNav = () => {
-  /* const Stack = createNativeStackNavigator();
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="QuizContainer" component={QuizContainer} />
-      <Stack.Screen name="My Account" component={MyAccount} />
-      <Stack.Screen name="Friends" component={Friends} />
-      <Stack.Screen name="Notifications" component={NotificationsList} />
-    </Stack.Navigator>
-  ); */
-  //   const Tab = createBottomTabNavigator();
-  //   return (
-  //     <Tab.Navigator
-  //       screenOptions={({ route }) => ({
-  //         tabBarIcon: ({ focused, color, size }) => {
-  //           let iconName;
-  //           if (route.name === "Play") {
-  //             iconName = focused
-  //               ? "extension-puzzle"
-  //               : "extension-puzzle-outline";
-  //           } else if (route.name === "My Account") {
-  //             iconName = focused ? "person" : "person-outline";
-  //           } else if (route.name === "Friends") {
-  //             iconName = focused ? "people-sharp" : "people-outline";
-  //           } else if (route.name === "Notifications") {
-  //             iconName = focused
-  //               ? "notifications-sharp"
-  //               : "notifications-outline";
-  //           }
-  //           return <Ionicons name={iconName} size={size} color={color} />;
-  //         },
-  //       })}
-  //       tabBarOptions={{
-  //         activeTintColor: "green",
-  //         inactiveTintColor: "gray",
-  //       }}
-  //     >
-  //       <Tab.Screen name="Play" component={QuizContainer} />
-  //       <Tab.Screen name="My Account" component={MyAccount} />
-  //       <Tab.Screen name="Friends" component={Friends} />
-  //       <Tab.Screen name="Notifications" component={NotificationsList} />
-  //     </Tab.Navigator>
-  //   );
-};
-
-const BeforeLoginNav = () => {
-  const Stack = createNativeStackNavigator();
-  return (
-    <Stack.Navigator>
-      {/* Before login */}
-      <Stack.Screen
-        name="Launch Page"
-        component={LaunchPage}
-        options={{ title: "Welcome" }}
-      />
-      <Stack.Screen name="LaunchPage" component={LaunchPage} />
-      <Stack.Screen name="Play" component={QuizContainer} />
-      <Stack.Screen name="My Account" component={MyAccount} />
-      <Stack.Screen name="Leaderboard" component={LeaderBoard} />
-      <Stack.Screen name="Notifications" component={NotificationsList} />
-      {/* <Stack.Screen name="Questions" component={QuestionPage} /> */}
-    </Stack.Navigator>
-  );
-};
 export default function App() {
   const [userLogged, setUserLogged] = useState("");
   //const { userLogged, setUserLogged } = useContext(UserContext);is
@@ -115,14 +56,49 @@ export default function App() {
     getDataFromStorage();
   }, []);
 
+  console.log("isLoggedIn :>> ", isLoggedIn);
+
+  const AfterLogin = () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AppNavigation"
+        component={AppNavigation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="QuizPage" component={QuizPage} />
+      <Stack.Screen name="MyAccount" component={MyAccount} />
+      <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
+      <Stack.Screen name="Notifications" component={NotificationsList} />
+      <Stack.Screen name="Friends" component={Friends} />
+    </Stack.Navigator>
+  );
+
+  const BeforeLogin = () => (
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
+      <Stack.Screen name="LogIn">
+        {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
+      <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
+      <Stack.Screen name="Play" component={QuizContainer} />
+    </Stack.Navigator>
+  );
+
   return (
-    <NavigationContainer>
-      {isLoggedIn ? <AppNavigation /> : <BeforeLoginNav />}
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <SafeAreaView style={styles.root}>
+        {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
+        </SafeAreaView>
+      </NavigationContainer>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    // backgroundColor: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -130,3 +106,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+
+
+
+
+
+
