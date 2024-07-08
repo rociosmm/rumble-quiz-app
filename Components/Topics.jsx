@@ -16,18 +16,18 @@ import TopicFlipCard from "./TopicFlipCard";
 import QuizPage from "./QuizPage";
 import { socket } from "../socket";
 
-export default function Topics({userLogged, setUserLogged}) {
+export default function Topics({ userLogged, setUserLogged }) {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState();
-  const [avatar, setAvatar] = useState()
+  const [avatar, setAvatar] = useState();
 
   const getUserLogged = async () => {
     try {
       const user = await AsyncStorage.getItem("userLogged");
-      const avatar = await AsyncStorage.getItem("avatar_url")
-      console.log(avatar, 'AVATAR')
+      const avatar = await AsyncStorage.getItem("avatar_url");
+      console.log(avatar, "AVATAR");
       setUserLogged(user);
-      setAvatar(avatar)
+      setAvatar(avatar);
     } catch (error) {
       console.error("Error retrieving user from AsyncStorage", error);
     }
@@ -37,20 +37,24 @@ export default function Topics({userLogged, setUserLogged}) {
       const { trivia_categories } = data;
       setTopics(trivia_categories);
     });
-    getUserLogged()
+    getUserLogged();
   }, []);
 
-  const handleSelection = (e) => {
-    console.log(e, '<<<< EVENT')
-    setSelectedTopic(e)
-    console.log(userLogged, avatar, "<<<<Both")
-    if(userLogged && avatar) {
-      console.log("Hello from the inside")
-      socket.emit("topic-selected", selectedTopic, {username: userLogged, avatar_url: avatar}, () => {
-        console.log('Hellooo from the client')
-      })
+  const handleSelection = async (id) => {
+    console.log(id, "<< id");
+    await setSelectedTopic(id);
+    console.log(selectedTopic, "<<<<SELECTEDTOPIC");
+    if (userLogged && avatar) {
+      socket.emit(
+        "topic-selected",
+        id,
+        { username: userLogged, avatar_url: avatar },
+        () => {
+          console.log("Hellooo from the client");
+        }
+      );
     }
-  }
+  };
   // useEffect(() => {
   //   console.log("selectedTopic :>> ", selectedTopic);
   // }, [selectedTopic]);
@@ -60,12 +64,9 @@ export default function Topics({userLogged, setUserLogged}) {
       <ScrollView style={styles.scrollView}>
         {topics.map((topic) => {
           return (
-            <Topic
-              topic={topic}
-              key={topic.id}
-              selectedTopic={selectedTopic}
-              setSelectedTopic={handleSelection}
-            />
+            <Pressable onPress={() => handleSelection(topic.id)}>
+              <Topic topic={topic} key={topic.id} />
+            </Pressable>
           );
         })}
       </ScrollView>
