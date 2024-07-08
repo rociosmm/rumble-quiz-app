@@ -82,7 +82,7 @@ export default function App() {
         {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
       <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
-      <Stack.Screen name="Play" component={QuizContainer} />
+      <Stack.Screen name="MyAccount" component={MyAccount} />
     </Stack.Navigator>
   );
 

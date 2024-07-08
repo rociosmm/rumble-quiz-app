@@ -99,7 +99,7 @@ export default function MyAccount() {
           <Button title="Edit details" onPress={displayForm} />
         </View>
         <View>
-          <Image source={userLoggedAvatar.avatar_url} style={styles.avatar} />
+          <Image source={{uri: userLoggedAvatar.avatar_url}} style={styles.avatar} />
         </View>
       </View>
       <ScrollView>

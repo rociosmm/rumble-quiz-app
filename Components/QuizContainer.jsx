@@ -5,6 +5,7 @@ import MyAccount from "./MyAccount";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 export default function QuizContainer() {
   const [userLogged, setUserLogged] = useState("");
   const navigation = useNavigation();
@@ -17,6 +18,8 @@ export default function QuizContainer() {
     setUserLogged(getLogged());
   }, []);
 
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -25,7 +28,7 @@ export default function QuizContainer() {
           title="Go to Account"
           onPress={() => navigation.navigate("My Account")}
         />
-        <Topics />
+        <Topics userLogged={userLogged} setUserLogged={setUserLogged}/>
       </View>
     </SafeAreaView>
   );

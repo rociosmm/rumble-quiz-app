@@ -39,7 +39,7 @@ export default function LoginPage({ setIsLoggedIn }) {
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
           await setIsLoggedIn(true);
-          navigation.navigate("Play");
+          navigation.navigate("MyAccount");
         } catch (error) {
           console.log("error in post request for login ", error);
         }

@@ -1,14 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 
-export default function Topic({ topic, selectedTopic, setSelectedTopic }) {
-  const selectTopic = (id) => {
-    setSelectedTopic(id);
-  };
+export default function Topic({ topic }) {
   return (
-    <Pressable style={styles.topicCard} onPress={() => selectTopic(topic.id)}>
+    <View style={styles.topicCard}>
       <Text style={styles.topicText}>{topic.name}</Text>
-    </Pressable>
+    </View>
   );
 }
 
