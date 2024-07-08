@@ -45,6 +45,7 @@ export const getUserStats = (userLogged) => {
   return rumbleQuizApi
     .get(`/users/${userLogged}/logs`)
     .then(({ data }) => {
+      console.log('data stats:>> ', data);
       return data;
     })
     .catch((error) => {

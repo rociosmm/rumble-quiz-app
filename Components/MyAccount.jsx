@@ -97,7 +97,9 @@ export default function MyAccount() {
           {editingMode ? (
             <EditDetails setEditingMode={setEditingMode} user={userDetails} />
           ) : null}
-          <Stats username={userDetails.username} userLogged={userLogged} />
+          {userLogged ? (
+            <Stats username={userDetails.username} userLogged={userLogged} />
+          ) : null}
         </View>
       </ScrollView>
     </>
