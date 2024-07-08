@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 // components
 import Header from "./Components/Header";
-import LaunchPage from "./Components/LaunchPage";
 import LoginPage from "./Components/LoginPage";
 import CreateAccountPage from "./Components/CreateAccountPage";
 import MyAccount from "./Components/MyAccount";
@@ -42,6 +41,7 @@ export default function App() {
   const getDataFromStorage = async () => {
     const logged = await AsyncStorage.getItem("isLoggedIn");
     const user = await AsyncStorage.getItem("userLogged");
+    const user_avatar = await AsyncStorage.getItem("avatar_url");
 
     console.log("logged :>> ", logged);
     if (logged) {
@@ -59,7 +59,7 @@ export default function App() {
   console.log("isLoggedIn :>> ", isLoggedIn);
 
   const AfterLogin = () => (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen
         name="AppNavigation"
         component={AppNavigation}
@@ -70,6 +70,9 @@ export default function App() {
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
       <Stack.Screen name="Notifications" component={NotificationsList} />
       <Stack.Screen name="Friends" component={Friends} />
+      <Stack.Screen name="LogIn">
+        {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 
@@ -86,11 +89,9 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-
         <SafeAreaView style={styles.root}>
-        {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
+          {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
         </SafeAreaView>
-
       </NavigationContainer>
     </>
   );
@@ -108,10 +109,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ import { DataTable } from 'react-native-paper';
 import { getUserStats } from '../utils/api';
 
 export default function Stats({username, userLogged}) {
-  console.log(userLogged, "<<<USerLogged in Stats")
+/*   console.log(userLogged, "<<<USerLogged in Stats") */
   const [userStats, setUserStats] = useState(null)
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function Stats({username, userLogged}) {
       })
     }
   }, [userLogged])
-  console.log(userStats, 'Userstats again')
+/*   console.log(userStats, 'Userstats again') */
 
   if(!userStats) {
     return <Text>Loading...</Text>
