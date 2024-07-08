@@ -10,9 +10,8 @@ export default function Stats({username, userLogged}) {
 
   useEffect(() => {
     if(userLogged){
-      getUserStats(userLogged).then(({userStats}) => {
-        setUserStats(userStats)
-        console.log(userStats, "<<UserStats")
+      getUserStats(userLogged).then(({log}) => {
+        setUserStats(log)
       })
     }
   }, [userLogged])
