@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    paddingTop: 50,
-    paddingBottom: 40,
+    paddingVertical: 10,
     alignItems: "center",
   },
   countDownText: {
