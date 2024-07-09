@@ -1,9 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import UrgeWithPleasureComponent from "./Countdown";
-import QuestionCard from "./QuestionCard";
-import PlayerAvatars from "./PlayerAvatars";
-import ProgressBar from "./ProgressBar";
+import EndOfGame from "./EndOfGame";
 
 export default function NotificationsList() {
   return (
