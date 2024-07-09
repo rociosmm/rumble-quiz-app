@@ -8,6 +8,8 @@ export const getUserByUsername = (userLogged) => {
   console.log(userLogged, "<<<userLogged");
   return rumbleQuizApi.get(`/users/${userLogged}`).then(({ data }) => {
     return data;
+  }).catch((error) => {
+    console.log(error, "error");
   });
 };
 
@@ -16,7 +18,9 @@ export const patchUserByUsername = (userLogged, patchBody) => {
     .patch(`/users/${userLogged}`, patchBody)
     .then(({ data }) => {
       return data;
-    });
+    }).catch((error) => {
+        console.log(error, "error");
+      });
 };
 
 export const postUserLogin = (postBody) => {
@@ -45,6 +49,8 @@ export const getAvatar = (id) => {
   return rumbleQuizApi.get(`/avatars/${id}`).then(({ data }) => {
     console.log("data avatar :>> ", data);
     return data;
+  }).catch((error) => {
+    console.log(error, "error");
   });
 };
 
@@ -59,15 +65,29 @@ export const getUserStats = (userLogged) => {
     });
 };
 
+export const getUsersPoints = () => {
+    return rumbleQuizApi
+    .get("/logs")
+    .then(({data}) => {
+        return data
+    }).catch((error) => {
+        console.log(error, "error");
+      });
+}
+
 export const getFriends = (userLogged) => {
   return rumbleQuizApi.get(`/users/${userLogged}/friends`).then(({ data }) => {
     //console.log("data api :>> ", data.friends);
     return data.friends
+  }).catch((error) => {
+    console.log(error, "error");
   });
 };
 
 export const registerUser = (body) => {
   return rumbleQuizApi.post("/users", body).then((data) => {
     console.log('data api :>> ', data);
-  })
+  }).catch((error) => {
+    console.log(error, "error");
+  });
 }
