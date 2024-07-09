@@ -24,10 +24,10 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
 
   useEffect(() => {
     if (userLogged) {
-      console.log("userLogged useeff my leaderboard", userLogged);
+      // console.log("userLogged useeff my leaderboard", userLogged);
       getUsersPoints().then(({ leaderboard }) => {
         setUsersPoints(leaderboard);
-        console.log("userPoints", userPoints);
+        // console.log("userPoints", userPoints);
         setIsLoading(false);
       });
     }
@@ -37,11 +37,11 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
     return user.player_username === userLogged;
   });
 
-  console.log(currentPlayerScore, "<<<currentPlayerScore");
+  // console.log(currentPlayerScore, "<<<currentPlayerScore");
 
-if(isLoading){
-  return <LoadingSpinner/>
-}
+// if(isLoading){
+//   return <LoadingSpinner/>
+// }
 
   return (
     <View>

@@ -23,7 +23,7 @@ export default function LoginPage({ setIsLoggedIn }) {
   const navigation = useNavigation();
 
   const onLogInButtonPressed = async () => {
-    console.log(usernameInput, passwordInput);
+    // console.log(usernameInput, passwordInput);
     // validate user from backend
 
     const userData = {
@@ -32,7 +32,7 @@ export default function LoginPage({ setIsLoggedIn }) {
     };
 
     postUserLogin(userData).then(async (res) => {
-      console.log(Object.keys(res));
+      // console.log(Object.keys(res));
       if (res.status === 200) {
         try {
           await AsyncStorage.setItem("token", JSON.stringify(res.data));

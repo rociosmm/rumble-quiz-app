@@ -67,7 +67,7 @@ export default function App() {
     const user = await AsyncStorage.getItem("userLogged");
     const user_avatar = await AsyncStorage.getItem("avatar_url");
 
-    console.log("logged :>> ", logged);
+    // console.log("logged :>> ", logged);
     if (logged) {
       setIsLoggedIn(true);
       setUserLogged(user);

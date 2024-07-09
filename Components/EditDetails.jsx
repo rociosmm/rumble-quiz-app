@@ -12,7 +12,7 @@ export default function EditDetails({ setEditingMode, user }) {
   useEffect(() => {
     getAvatars().then(({ avatars }) => {
       setAvatars(avatars);
-      console.log(avatars);
+      // console.log(avatars);
     });
   }, []);
 
