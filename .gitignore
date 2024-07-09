@@ -35,3 +35,8 @@ yarn-error.*
 *.tsbuildinfo
 
 Components/endpoints.jsx
+
+Components/LoginPage copy.jsx
+Components/MyAccount copy.jsx
+App copy.js
+navigation/AppNavigation copy.jsx
