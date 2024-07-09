@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomStyles from "../Styles/CustomStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 export default function Friends() {
   const [userLogged, setUserLogged] = useState("");
   const [friends, setFriends] = useState([]);
