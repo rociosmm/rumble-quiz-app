@@ -4,9 +4,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 export default function QuestionCard({ onChoicePress }) {
   const question = "What is your favourite topic?";
   const answers = ["history", "science", "film", "art"];
-  // const Row = ({ children }) => {
-  //   <View>{children}</View>;
-  // };
+
   return (
     <View style={styles.questionCard}>
       <Text style={styles.questionText}>{question}</Text>
@@ -63,6 +61,7 @@ const styles = StyleSheet.create({
   },
   answerText: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "bold",
+    color: "white",
   },
 });
