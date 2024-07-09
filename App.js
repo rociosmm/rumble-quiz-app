@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { PaperProvider, useTheme, DefaultTheme } from "react-native-paper";
+import * as Device from "expo-device";
 
 // components
 import Header from "./Components/Header";
@@ -47,7 +48,12 @@ export default function App() {
       // console.log("colorScheme :>> ", colorScheme);
       setCurrentScheme(colorScheme);
     });
-
+    console.log(
+      "deviceId logged :>> ",
+      Device.manufacturer,
+      Device.brand,
+      Device.modelName
+    );
     return () => subscription.remove();
   }, []);
   console.log("currentScheme app :>> ", currentScheme);

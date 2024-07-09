@@ -8,6 +8,14 @@ export default CustomStyles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+
+
+  topBanner: {
+    width: "100%",
+    paddingVertical: 70,
+    backgroundColor: "#ccae2f"
+  },
+
   h1: {
     fontSize: 34,
     fontWeight: "bold",
@@ -15,5 +23,13 @@ export default CustomStyles = StyleSheet.create({
   h2: {
     fontSize: 30,
     fontWeight: "bold",
+
+    textAlign: "center",
+  },
+  h3: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+
   },
 });

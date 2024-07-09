@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
   },
   topicText: {
     fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
     marginHorizontal: 10,
     marginVertical: 25,
     alignSelf: "center",
