@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  StyleSheet,
-  Pressable,
-  Button,
-  FlatList,
-} from "react-native";
+import { ScrollView, SafeAreaView, StyleSheet, Pressable } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
@@ -61,15 +52,19 @@ export default function Topics({ userLogged, setUserLogged }) {
 
   if (selectedTopic === undefined) {
     return (
-      <ScrollView style={styles.scrollView}>
-        {topics.map((topic) => {
-          return (
-            <Pressable key={topic.id} onPress={() => handleSelection(topic.id)}>
-              <Topic topic={topic} />
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      <SafeAreaView style={styles.SafeAreaView}>
+        <ScrollView>
+          {topics.map((topic) => {
+            return (
+              <Pressable
+                key={topic.id}
+                onPress={() => handleSelection(topic.id)}>
+                <Topic topic={topic} />
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
     );
   } else {
     return <QuizPage topic_id={selectedTopic} />;
@@ -77,7 +72,7 @@ export default function Topics({ userLogged, setUserLogged }) {
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    //
+  SafeAreaView: {
+    marginBottom: 215,
   },
 });

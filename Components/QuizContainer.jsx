@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, SafeAreaView, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Button,
+  ImageBackground,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Topics from "./Topics";
 import MyAccount from "./MyAccount";
@@ -30,15 +37,16 @@ function QuizContainer({ theme }) {
       fontSize: 30,
       marginVertical: 20,
       color: colors.secondary,
-      fontWeight: "bold",
     },
   });
   return (
-    <SafeAreaView style={styles.container}>
+    <ImageBackground
+      source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
+      style={styles.container}>
       <View>
         <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 

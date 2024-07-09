@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { socket } from "../socket";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 export default function QuestionCard({ onChoicePress, remainingTime }) {
   const [questionTitle, setQuestionTitle] = useState(null);
   const [answers, setAnswers] = useState([]);
@@ -53,6 +54,7 @@ export default function QuestionCard({ onChoicePress, remainingTime }) {
       socket.off("question", handleQuestion);
     };
   }, []);
+
   return (
     <SafeAreaView>
       <View style={styles.questionCard}>
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
   },
   answerText: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "bold",
+    color: "white",
   },
 });
