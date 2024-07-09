@@ -16,7 +16,7 @@ import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
 
-function MyAccount({ theme, setIsLoggedIn }) {
+function MyAccount({ theme }) {
   const [colourTheme, setColourTheme] = useState(1);
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
@@ -69,7 +69,7 @@ function MyAccount({ theme, setIsLoggedIn }) {
     await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
     await AsyncStorage.setItem("token", "");
     await AsyncStorage.setItem("userLogged", "");
-    setIsLoggedIn(false)
+
     navigation.navigate("LogIn");
   };
 

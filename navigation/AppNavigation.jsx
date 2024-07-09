@@ -17,7 +17,7 @@ import LeaderBoard from "../Components/LeaderBoard";
 import MyAccount from "../Components/MyAccount";
 import { withTheme } from "react-native-paper";
 
-function AppNavigation({ theme, setIsLoggedIn }) {
+function AppNavigation({ theme }) {
   const navigation = useNavigation();
   const { colors } = theme;
   const _renderIcon = (routeName, selectedTab) => {
@@ -128,7 +128,7 @@ function AppNavigation({ theme, setIsLoggedIn }) {
       height={55}
       circleWidth={50}
       bgColor={colors.primary}
-      initialRouteName="MyAccount"
+      initialRouteName="Play"
       borderTopLeftRight
       renderCircle={({ selectedTab, navigate }) => (
         <Animated.View style={styles.btnCircleUp}>
@@ -155,7 +155,7 @@ function AppNavigation({ theme, setIsLoggedIn }) {
       <CurvedBottomBarExpo.Screen
         name="MyAccount"
         position="LEFT"
-        component={() => <MyAccount setIsLoggedIn={setIsLoggedIn} />}
+        component={() => <MyAccount />}
         options={{ headerShown: false }}
       />
       <CurvedBottomBarExpo.Screen

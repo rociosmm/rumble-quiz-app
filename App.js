@@ -77,9 +77,7 @@ export default function App() {
 
   const AfterLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
-      <Stack.Screen name="AppNavigation">
-        {(props) => <AppNavigation {...props} setIsLoggedIn={setIsLoggedIn} />}
-      </Stack.Screen>
+      <Stack.Screen name="AppNavigation" component={AppNavigation} />
       <Stack.Screen name="QuizPage" component={QuizPage} />
       <Stack.Screen name="MyAccount" component={MyAccount} />
       <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
@@ -99,9 +97,6 @@ export default function App() {
       </Stack.Screen>
       <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
       {/*  <Stack.Screen name="MyAccount" component={MyAccount} /> */}
-      <Stack.Screen name="AppNavigation">
-        {(props) => <AppNavigation {...props} setIsLoggedIn={setIsLoggedIn} />}
-      </Stack.Screen>
     </Stack.Navigator>
   );
 
