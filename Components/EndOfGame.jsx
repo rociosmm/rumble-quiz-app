@@ -14,7 +14,7 @@ export default function EndOfGame() {
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
           <Text style={styles.text}></Text>
-          {result === "win" ? "You Win!" : "You Lose!"}
+          {/* {result === "win" ? "You Win!" : "You Lose!"} */}
         </View>
       </SafeAreaView>
     </ImageBackground>
@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: "bold",
-    color: result === "win" ? "green" : "red",
+    // color: result === "win" ? "green" : "red",
   },
 });
