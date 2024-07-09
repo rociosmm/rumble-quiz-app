@@ -3,18 +3,33 @@ import React, { useState } from "react";
 import { socket } from "../socket";
 
 export default function PlayerAvatars() {
-  const [avatars_urls, setAvatars_urls] = useState([]);
+  const [initialavatars_urls, setInitialAvatars_urls] = useState([]);
 
   socket.on("avatars", (avatars) => {
     console.log("avatars  players avatars :>> ", avatars);
-    setAvatars_urls(Object.values(avatars));
+    setInitialAvatars_urls(Object.values(avatars));
     console.log("avatars_urls :>> ", avatars_urls);
   });
-  
+
+  const styles = StyleSheet.create({
+    avatars: {
+      backgroundColor: "#FFE4C6",
+      borderRadius: 50,
+      width: 50,
+      height: 50,
+      borderColor: "white",
+      borderWidth: 2,
+    },
+    avatars_container: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+  });
   return (
-    <View>
-      {avatars_urls.length > 0
-        ? avatars_urls.map((avatarUrl, index) => {
+    <View style={styles.avatars_container}>
+      {initialAvatars_urls.length > 0
+        ? initialAvatars_urls.map((avatarUrl, index) => {
             return (
               <Image
                 key={index}
@@ -27,11 +42,3 @@ export default function PlayerAvatars() {
     </View>
   );
 }
-const styles = StyleSheet.create({
-  avatars: {
-    backgroundColor: "red",
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-  },
-});

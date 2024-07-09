@@ -35,7 +35,6 @@ export default function QuizPage() {
       <PlayerAvatars />
       <UrgeWithPleasureComponent />
       <QuestionCard />
-      <ProgressBar />
     </ScrollView>
   );
 }
