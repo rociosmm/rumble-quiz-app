@@ -64,8 +64,8 @@ export default function Topics({ userLogged, setUserLogged }) {
       <ScrollView style={styles.scrollView}>
         {topics.map((topic) => {
           return (
-            <Pressable onPress={() => handleSelection(topic.id)}>
-              <Topic topic={topic} key={topic.id} />
+            <Pressable key={topic.id} onPress={() => handleSelection(topic.id)}>
+              <Topic topic={topic} />
             </Pressable>
           );
         })}

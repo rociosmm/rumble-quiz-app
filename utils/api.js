@@ -42,9 +42,9 @@ export const getAvatars = () => {
 };
 
 export const getAvatar = (id) => {
-  return rumbleQuizApi.get(`/avatars/${id}`).then(({data}) => {
+  return rumbleQuizApi.get(`/avatars/${id}`).then(({ data }) => {
     console.log("data avatar :>> ", data);
-    return data
+    return data;
   });
 };
 
@@ -58,3 +58,16 @@ export const getUserStats = (userLogged) => {
       console.log(error, "error");
     });
 };
+
+export const getFriends = (userLogged) => {
+  return rumbleQuizApi.get(`/users/${userLogged}/friends`).then(({ data }) => {
+    //console.log("data api :>> ", data.friends);
+    return data.friends
+  });
+};
+
+export const registerUser = (body) => {
+  return rumbleQuizApi.post("/users", body).then((data) => {
+    console.log('data api :>> ', data);
+  })
+}

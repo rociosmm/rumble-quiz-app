@@ -1,42 +1,42 @@
 import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    // useWindowDimensions,
-    // Image,
-  } from "react-native";
-  import React, { useState } from "react";
-  import CustomInput from "./CustomInput";
-  import CustomButton from "./CustomButton";
-  import CheckBox from "expo-checkbox";
-  
-  // import Logo from "../assets/Designer.jpeg";
-  import { useNavigation} from '@react-navigation/native'
-  
-  export default function CreateAccountPage() {
-    const [usernameInput, setUsernameInput] = useState("");
-    const [emailInput, setEmailInput] = useState("")
-    const [passwordInput, setPasswordInput] = useState("");
-    const [passwordRepeatInput, setPasswordRepeatInput] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
-    const [showRepeatPassword, setShowRepeatPassword] = useState(false)
-    const [selected, setSelected] = useState(false);
-  
-    // const { height } = useWindowDimensions();
-    const navigation = useNavigation()
-  
-    const onCreateAccountPressed = () => {
-      console.warn("Create Account");
-    };
-  
-    const onLogInPressed = () => {
-      console.warn("Log in")
-      navigation.navigate('LogIn')
-    }
-  
-    return (
-      <ScrollView style={styles.scroll}>
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  // useWindowDimensions,
+  // Image,
+} from "react-native";
+import React, { useState } from "react";
+import CustomInput from "./CustomInput";
+import CustomButton from "./CustomButton";
+import CheckBox from "expo-checkbox";
+
+// import Logo from "../assets/Designer.jpeg";
+import { useNavigation } from "@react-navigation/native";
+
+export default function CreateAccountPage() {
+  const [usernameInput, setUsernameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordRepeatInput, setPasswordRepeatInput] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  const [selected, setSelected] = useState(false);
+
+  // const { height } = useWindowDimensions();
+  const navigation = useNavigation();
+
+  const onCreateAccountPressed = () => {
+    console.warn("Create Account");
+  };
+
+  const onLogInPressed = () => {
+    console.warn("Log in");
+    navigation.navigate("LogIn");
+  };
+
+  return (
+    <ScrollView style={styles.scroll}>
       <View style={styles.root}>
         {/* <Image
           source={Logo}
@@ -49,7 +49,7 @@ import {
           value={usernameInput}
           setValue={setUsernameInput}
         />
-           <CustomInput
+        <CustomInput
           placeholder="Email"
           value={emailInput}
           setValue={setEmailInput}
@@ -63,7 +63,7 @@ import {
           setShowPassword={setShowPassword}
           type="Password"
         />
-           <CustomInput
+        <CustomInput
           placeholder="Repeat Password"
           value={passwordRepeatInput}
           setValue={setPasswordRepeatInput}
@@ -79,9 +79,7 @@ import {
             onValueChange={setSelected}
             style={styles.checkbox}
           />
-          <Text style={styles.checkboxText}>
-            Are you over 15?
-          </Text>
+          <Text style={styles.checkboxText}>Are you over 15?</Text>
         </View>
         <CustomButton text="Create Account" onPress={onCreateAccountPressed} />
         <CustomButton
@@ -90,38 +88,37 @@ import {
           type="TERTIARY"
         />
       </View>
-      </ScrollView>
-    );
-  }
-  
-  const styles = StyleSheet.create({
-    scroll: {
-      backgroundColor: 'white',
-    },
-    root: {
-      alignItems: "center",
-      padding: 20,
-    },
-    logo: {
-      width: "70%",
-      maxWidth: 300,
-      maxHeight: 300,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: "bold",
-      // width: "95%",
-      // textAlign: "left",
-      color: '#051C60',
-      margin: 10,
-    },
-    checkbox: { 
-      display: "inline-flex", 
-      flexDirection: "row",
-      margin: 10,
-    },
-    checkboxText: {
-      margin: 12,
-    }
-  });
-  
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  scroll: {
+    backgroundColor: "white",
+  },
+  root: {
+    alignItems: "center",
+    padding: 20,
+  },
+  logo: {
+    width: "70%",
+    maxWidth: 300,
+    maxHeight: 300,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    // width: "95%",
+    // textAlign: "left",
+    color: "#051C60",
+    margin: 10,
+  },
+  checkbox: {
+    display: "inline-flex",
+    flexDirection: "row",
+    margin: 10,
+  },
+  checkboxText: {
+    margin: 12,
+  },
+});

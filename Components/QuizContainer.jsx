@@ -4,9 +4,10 @@ import Topics from "./Topics";
 import MyAccount from "./MyAccount";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { withTheme } from "react-native-paper";
 
-
-export default function QuizContainer() {
+function QuizContainer({ theme }) {
+  const { colors } = theme;
   const [userLogged, setUserLogged] = useState("");
   const navigation = useNavigation();
   const getLogged = async () => {
@@ -18,29 +19,28 @@ export default function QuizContainer() {
     setUserLogged(getLogged());
   }, []);
 
-
-
+  // Styles are defined inside of the component to have access to the theme
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.surfaceVariant,
+    },
+    h2: {
+      textAlign: "center",
+      fontSize: 30,
+      marginVertical: 20,
+      color: colors.secondary,
+      fontWeight: "bold",
+    },
+  });
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text>QuizContainer - {userLogged}</Text>
-        <Button
-          title="Go to Account"
-          onPress={() => navigation.navigate("My Account")}
-        />
-        <Topics userLogged={userLogged} setUserLogged={setUserLogged}/>
+        <Text style={styles.h2}>Select a topic </Text>
+        <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
       </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  h2: {
-    textAlign: "center",
-    fontSize: 30,
-    marginVertical: 20,
-  },
-});
+export default withTheme(QuizContainer);

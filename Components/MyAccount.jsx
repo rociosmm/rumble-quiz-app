@@ -14,14 +14,15 @@ import { getAvatar, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { withTheme } from "react-native-paper";
 
-export default function MyAccount() {
+function MyAccount({ theme }) {
   const [colourTheme, setColourTheme] = useState(1);
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [userLogged, setUserLogged] = useState("");
   const [userLoggedAvatar, setUserLoggedAvatar] = useState({});
-
+  const { colors } = theme;
   const navigation = useNavigation();
 
   const getUserLogged = async () => {
@@ -39,8 +40,8 @@ export default function MyAccount() {
 
   useEffect(() => {
     if (userLogged) {
-      getUserByUsername(userLogged).then(({ user }) => {
-        setUserDetails(user);
+      getUserByUsername(userLogged).then(async ({ user }) => {
+        await setUserDetails(user);
       });
     }
   }, [userLogged]);
@@ -68,9 +69,49 @@ export default function MyAccount() {
     await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
     await AsyncStorage.setItem("token", "");
     await AsyncStorage.setItem("userLogged", "");
+
     navigation.navigate("LogIn");
   };
 
+  // Styles are defined inside of the component to have access to the theme
+  const styles = StyleSheet.create({
+    container: {
+      paddingTop: 50,
+    },
+    userCard: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-around",
+      alignItems: "center",
+      backgroundColor: colors.orange,
+      padding: 20,
+    },
+    userDetails: {
+      width: "60%",
+    },
+    avatar: {
+      width: 100,
+      height: 100,
+      borderRadius: 100,
+    },
+    h2: {
+      fontSize: 30,
+    },
+    input: {
+      border: "1px solid grey",
+      padding: "4px",
+    },
+    password: {},
+    checkbox: { display: "inline-flex", flexDirection: "row" },
+    dropdown: {
+      marginVertical: 20,
+      height: 50,
+      width: "100%",
+      backgroundColor: "#EEEEEE",
+      borderRadius: 22,
+      paddingHorizontal: 8,
+    },
+  });
   return (
     <>
       <CustomButton type="TERTIARY" text="Log Out" onPress={onLogOutPressed} />
@@ -99,7 +140,10 @@ export default function MyAccount() {
           <Button title="Edit details" onPress={displayForm} />
         </View>
         <View>
-          <Image source={{uri: userLoggedAvatar.avatar_url}} style={styles.avatar} />
+          <Image
+            source={{ uri: userLoggedAvatar.avatar_url }}
+            style={styles.avatar}
+          />
         </View>
       </View>
       <ScrollView>
@@ -116,40 +160,4 @@ export default function MyAccount() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
-  userCard: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    backgroundColor: "#CCAE2F",
-  },
-  userDetails: {
-    width: "60%",
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-  },
-  h2: {
-    fontSize: 30,
-  },
-  input: {
-    border: "1px solid grey",
-    padding: "4px",
-  },
-  password: {},
-  checkbox: { display: "inline-flex", flexDirection: "row" },
-  dropdown: {
-    marginVertical: 20,
-    height: 50,
-    width: "100%",
-    backgroundColor: "#EEEEEE",
-    borderRadius: 22,
-    paddingHorizontal: 8,
-  },
-});
+export default withTheme(MyAccount);
