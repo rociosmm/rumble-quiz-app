@@ -7,7 +7,7 @@ import {
   ImageBackground,
 } from "react-native";
 
-export default function EndOfGame({ result }) {
+export default function EndOfGame() {
   return (
     <ImageBackground
       source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}>
