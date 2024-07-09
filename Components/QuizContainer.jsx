@@ -36,7 +36,6 @@ function QuizContainer({ theme }) {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.h2}>Select a topic </Text>
         <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
       </View>
     </SafeAreaView>

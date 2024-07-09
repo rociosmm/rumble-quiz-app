@@ -6,21 +6,28 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomInput from "./CustomInput";
 import Logo from "../assets/Designer.jpeg";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { postUserLogin } from "../utils/api";
+import getUserLogged from "../utils/userLogged"
 
 export default function LoginPage({ setIsLoggedIn }) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [userLogged, setUserLogged] = useState("");
 
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getUserLogged(setUserLogged);
+    
+}, [])
 
   const onLogInButtonPressed = async () => {
     console.log(usernameInput, passwordInput);

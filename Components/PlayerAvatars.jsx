@@ -1,12 +1,29 @@
 import { View, Image, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { socket } from "../socket";
 
 export default function PlayerAvatars() {
-  const avatarUrl =
-    "https://github.com/nkytruong/rumble-quiz-app/blob/main/assets/avatars/icons8-bear-48.png?raw=true";
+  const [avatars_urls, setAvatars_urls] = useState([]);
+
+  socket.on("avatars", (avatars) => {
+    console.log("avatars  players avatars :>> ", avatars);
+    setAvatars_urls(Object.values(avatars));
+    console.log("avatars_urls :>> ", avatars_urls);
+  });
+  
   return (
     <View>
-      <Image source={{ uri: avatarUrl }} style={styles.avatars} />
+      {avatars_urls.length > 0
+        ? avatars_urls.map((avatarUrl, index) => {
+            return (
+              <Image
+                key={index}
+                source={{ uri: avatarUrl }}
+                style={styles.avatars}
+              />
+            );
+          })
+        : null}
     </View>
   );
 }

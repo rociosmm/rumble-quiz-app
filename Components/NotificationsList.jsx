@@ -26,10 +26,6 @@ export default function NotificationsList() {
   return (
     <View>
       <Text>NotificationsList</Text>
-      <PlayerAvatars />
-      <UrgeWithPleasureComponent />
-      <QuestionCard />
-      <ProgressBar />
     </View>
   );
 }
