@@ -26,7 +26,6 @@ export default function LoginPage({ setIsLoggedIn }) {
 
   useEffect(() => {
     getUserLogged(setUserLogged);
-    
 }, [])
 
   const onLogInButtonPressed = async () => {
