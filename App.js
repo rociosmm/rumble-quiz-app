@@ -12,7 +12,7 @@ import MyAccount from "./Components/MyAccount";
 import Friends from "./Components/Friends";
 import NotificationsList from "./Components/NotificationsList";
 import QuizContainer from "./Components/QuizContainer";
-import LeaderBoard from "./Components/LeaderBoard";
+import LeaderBoard from "./Components/LeaderBoardPage";
 import QuizPage from "./Components/QuizPage";
 
 // Navigation
@@ -40,6 +40,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const colorScheme = useColorScheme();
   const [currentScheme, setCurrentScheme] = useState(colorScheme);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
@@ -77,10 +78,26 @@ export default function App() {
 
   const AfterLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
-      <Stack.Screen name="AppNavigation" component={AppNavigation} />
+      <Stack.Screen name="AppNavigation">
+        {(props) => (
+          <AppNavigation
+            {...props}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="QuizPage" component={QuizPage} />
       <Stack.Screen name="MyAccount" component={MyAccount} />
-      <Stack.Screen name="LeaderBoard" component={LeaderBoard} />
+      <Stack.Screen name="LeaderBoard">
+        {(props) => (
+          <LeaderBoard
+            {...props}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="Notifications" component={NotificationsList} />
       <Stack.Screen name="Friends" component={Friends} />
       <Stack.Screen name="CreateAccount" component={CreateAccountPage} />

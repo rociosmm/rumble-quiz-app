@@ -1,7 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import LeaderBoard from "./LeaderBoard";
-
+import LeaderBoard from "./LeaderBoardPage";
 
 export default function Friends() {
   return (

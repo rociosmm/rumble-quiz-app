@@ -40,6 +40,7 @@ function MyAccount({ theme }) {
 
   useEffect(() => {
     if (userLogged) {
+      console.log('userLogged useeff my acc', userLogged)
       getUserByUsername(userLogged).then(async ({ user }) => {
         await setUserDetails(user);
       });
