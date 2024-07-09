@@ -1,8 +1,4 @@
 import { View, Text } from "react-native";
-
-import React from "react";
-import LeaderBoard from "./LeaderBoardPage";
-
 import React, { useState, useEffect } from "react";
 import { getFriends, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -59,7 +55,7 @@ export default function Friends() {
       </View>
       <View style={{ paddingVertical: 20 }}>
         {friendsDetails.map((friend) => {
-          console.log("friend indv :>> ", friend);
+          // console.log("friend indv :>> ", friend);
           return (
             <Text style={CustomStyles.h3} key={friend.username}>
               {friend.username}
