@@ -1,24 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { socket } from "../socket";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function QuestionCard({ onChoicePress }) {
-  const question = "What is your favourite topic?";
-  const answers = ["history", "science", "film", "art"];
+
+export default function QuestionCard({ onChoicePress, remainingTime }) {
+  const [questionTitle, setQuestionTitle] = useState(null);
+  const [answers, setAnswers] = useState([]);
+
+  /*   const question = "What is your favourite topic?";
+  const answers = ["history", "science", "film", "art"]; */
+  // const Row = ({ children }) => {
+  //   <View>{children}</View>;
+  // };
+
+  /* const answerSelected = (choice) => {};
+
+  socket.on("question", (question) => {
+    console.log("question :>> ", question);
+    questionTitle = question.question;
+    answers = question.incorrect_answers;
+
+    answers.splice(Math.floor(Math.random() * 4), 0, question.correct_answer);
+    console.log("answers :>> ", answers);
+    console.log("questionTitle :>> ", questionTitle);
+
+  }); */
+
+  useEffect(() => {
+    const handleQuestion = (question) => {
+      console.log("question :>> ", question);
+      const newQuestionTitle = question.question;
+      let newAnswers = question.incorrect_answers;
+
+      newAnswers.splice(
+        Math.floor(Math.random() * 4),
+        0,
+        question.correct_answer
+      );
+      console.log("answers :>> ", newAnswers);
+      console.log("questionTitle :>> ", newQuestionTitle);
+
+      setQuestionTitle(newQuestionTitle);
+      console.log("questionTitle :>> ", questionTitle);
+      setAnswers(newAnswers);
+      console.log("answers :>> ", answers);
+    };
+
+    socket.on("question", handleQuestion);
+
+    // Cleanup function to avoid multiple event listeners
+    return () => {
+      socket.off("question", handleQuestion);
+    };
+  }, []);
 
   return (
-    <View style={styles.questionCard}>
-      <Text style={styles.questionText}>{question}</Text>
-      <View>
-        {answers.map((choice, index) => (
-          <Pressable
-            key={index}
-            style={styles.answerButton}
-            onPress={() => onChoicePress(choice)}>
-            <Text style={styles.answerText}>{choice}</Text>
-          </Pressable>
-        ))}
+    <SafeAreaView>
+      <View style={styles.questionCard}>
+        <Text style={styles.questionText}>{questionTitle}</Text>
+        <View>
+          {answers
+            ? answers.map((choice, index) => (
+                <Pressable
+                  key={index}
+                  style={styles.answerButton}
+                  onPress={() => onChoicePress(choice)}
+                >
+                  <Text style={styles.answerText}>{choice}</Text>
+                </Pressable>
+              ))
+            : null}
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

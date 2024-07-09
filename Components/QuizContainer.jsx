@@ -44,7 +44,6 @@ function QuizContainer({ theme }) {
       source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
       style={styles.container}>
       <View>
-        <Text style={styles.h2}>Select a Topic!</Text>
         <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
       </View>
     </ImageBackground>
