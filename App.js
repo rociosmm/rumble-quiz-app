@@ -37,12 +37,12 @@ const Stack = createNativeStackNavigator();
 //console.log("themeDf.colors :>> ", Object.keys(themeLight.colors));
 
 export default function App() {
-  const [userLogged, setUserLogged] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userLogged, setUserLogged] = useState("");
   const colorScheme = useColorScheme();
   const [currentScheme, setCurrentScheme] = useState(colorScheme);
   const [isLoading, setIsLoading] = useState(false);
-
+  
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       // console.log("colorScheme :>> ", colorScheme);
@@ -58,21 +58,24 @@ export default function App() {
   }, []);
   console.log("currentScheme app :>> ", currentScheme);
   const paperTheme =
-    currentScheme === "dark"
-      ? { ...DefaultTheme, colors: colorsDark }
-      : { ...DefaultTheme, colors: colorsLight };
-
+  currentScheme === "dark"
+  ? { ...DefaultTheme, colors: colorsDark }
+  : { ...DefaultTheme, colors: colorsLight };
+  
   const getDataFromStorage = async () => {
     const logged = await AsyncStorage.getItem("isLoggedIn");
     const user = await AsyncStorage.getItem("userLogged");
     const user_avatar = await AsyncStorage.getItem("avatar_url");
-
+    
     // console.log("logged :>> ", logged);
-    if (logged) {
+    if (logged === 'true') {
       setIsLoggedIn(true);
       setUserLogged(user);
       // console.log("isLoggedIn if inside:>> ", isLoggedIn);
       // console.log("userLogged inside getDataFromStorage :>> ", user);
+    } else {
+      setIsLoggedIn(false)
+      setUserLogged('')
     }
   };
 
@@ -94,7 +97,15 @@ export default function App() {
         )}
       </Stack.Screen>
       <Stack.Screen name="QuizPage" component={QuizPage} />
-      <Stack.Screen name="MyAccount" component={MyAccount} />
+      <Stack.Screen name="MyAccount">
+        {(props) => (
+          <MyAccount
+            {...props}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+          />
+        )}
+        </Stack.Screen>
       <Stack.Screen name="LeaderBoard">
         {(props) => (
           <LeaderBoard

@@ -16,7 +16,7 @@ import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
 
-function MyAccount({ theme }) {
+function MyAccount({ theme, isLoggedIn, setIsLoggedIn }) {
   const [colourTheme, setColourTheme] = useState(1);
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
@@ -70,8 +70,9 @@ function MyAccount({ theme }) {
     await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
     await AsyncStorage.setItem("token", "");
     await AsyncStorage.setItem("userLogged", "");
-
     navigation.navigate("LogIn");
+    setIsLoggedIn(false)
+
   };
 
   // Styles are defined inside of the component to have access to the theme
