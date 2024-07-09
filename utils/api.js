@@ -5,7 +5,7 @@ const rumbleQuizApi = axios.create({
 });
 
 export const getUserByUsername = (userLogged) => {
-  console.log(userLogged, "<<<userLogged");
+  //console.log(userLogged, "<<<userLogged");
   return rumbleQuizApi.get(`/users/${userLogged}`).then(({ data }) => {
     return data;
   }).catch((error) => {

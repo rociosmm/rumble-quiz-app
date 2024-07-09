@@ -1,9 +1,14 @@
 import { View, Text } from "react-native";
+
+import React from "react";
+import LeaderBoard from "./LeaderBoardPage";
+
 import React, { useState, useEffect } from "react";
 import { getFriends, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomStyles from "../Styles/CustomStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 
 
 export default function Friends() {

@@ -13,11 +13,11 @@ import QuizContainer from "../Components/QuizContainer";
 import NotificationsList from "../Components/NotificationsList";
 import Friends from "../Components/Friends";
 import { useNavigation } from "@react-navigation/native";
-import LeaderBoard from "../Components/LeaderBoard";
+import LeaderBoard from "../Components/LeaderBoardPage";
 import MyAccount from "../Components/MyAccount";
 import { withTheme } from "react-native-paper";
 
-function AppNavigation({ theme }) {
+function AppNavigation({ theme, isLoading, setIsLoading }) {
   const navigation = useNavigation();
   const { colors } = theme;
   const _renderIcon = (routeName, selectedTab) => {
@@ -149,7 +149,9 @@ function AppNavigation({ theme }) {
       <CurvedBottomBarExpo.Screen
         name="Leaderboard"
         position="LEFT"
-        component={() => <LeaderBoard />}
+        component={() => (
+          <LeaderBoard isLoading={isLoading} setIsLoading={setIsLoading} />
+        )}
         options={{ headerShown: false }}
       />
       <CurvedBottomBarExpo.Screen
