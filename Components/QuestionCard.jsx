@@ -5,14 +5,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { withTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "./ProgressBar";
+import { useNavigation } from "@react-navigation/native";
 
 function QuestionCard({ theme, remainingTime }) {
   const { colors } = theme;
+  const navigation = useNavigation();
   const [questionTitle, setQuestionTitle] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [rightAnswer, setRightAnswer] = useState(null);
   const [userLogged, setUserLogged] = useState("");
   const [resultColor, setResultColor] = useState("");
+  const [answersFeedback, setAnswersFeedback] = useState({});
+  const [pointsAccumulated, setPointsAccumulated] = useState(0);
 
   const getUserLogged = async () => {
     try {
@@ -25,11 +29,11 @@ function QuestionCard({ theme, remainingTime }) {
 
   useEffect(() => {
     getUserLogged();
-    console.log("userLogged blablabla :>> ", userLogged);
-
     if (userLogged) {
       const handleQuestion = (question) => {
-        console.log("question :>> ", question);
+        // reset for a new question
+        setResultColor("");
+        setAnswersFeedback({});
         const newQuestionTitle = question.question;
         let newAnswers = question.incorrect_answers;
         setRightAnswer(question.correct_answer);
@@ -39,13 +43,14 @@ function QuestionCard({ theme, remainingTime }) {
           0,
           question.correct_answer
         );
-        console.log("answers :>> ", newAnswers);
-        console.log("questionTitle :>> ", newQuestionTitle);
-
         setQuestionTitle(newQuestionTitle);
-        console.log("questionTitle :>> ", questionTitle);
         setAnswers(newAnswers);
-        console.log("answers :>> ", answers);
+        setTimeout(() => {
+          socket.emit("answer", answersFeedback);
+          if (answersFeedback.eliminated) {
+            navigation.navigate("EndOfGame");
+          }
+        }, 10000);
       };
 
       socket.on("question", handleQuestion);
@@ -59,14 +64,13 @@ function QuestionCard({ theme, remainingTime }) {
 
   const onChoicePress = (choice) => {
     const eliminated = choice === rightAnswer ? false : true;
-    const answersFeedback = {
+    setAnswersFeedback({
       username: userLogged,
       eliminated,
       points: 3,
-    };
+    });
 
-    socket.emit("answer", answersFeedback);
-
+    setPointsAccumulated((current) => current + answersFeedback.points);
     console.log("answersFeedback :>> ", answersFeedback);
     let resultColor;
     if (choice === rightAnswer) {

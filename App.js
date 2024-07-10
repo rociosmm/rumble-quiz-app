@@ -28,6 +28,7 @@ import { UserContext } from "./context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colorsDark, colorsLight } from "./Styles/ThemeColors";
 import { useColorScheme, Appearance } from "react-native";
+import EndOfGame from "./Components/EndOfGame";
 
 const Stack = createNativeStackNavigator();
 
@@ -109,6 +110,7 @@ export default function App() {
         )}
       </Stack.Screen>
       <Stack.Screen name="QuizPage" component={QuizPage} />
+      <Stack.Screen name="EndOfGame" component={EndOfGame} />
       <Stack.Screen name="MyAccount">
         {(props) => (
           <MyAccount
