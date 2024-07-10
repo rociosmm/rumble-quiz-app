@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'; 
 import { DataTable } from 'react-native-paper'; 
 import { getUserStats } from '../utils/api';
+import CustomStyles from '../Styles/CustomStyles';
 
 export default function Stats({username, userLogged}) {
 /*   console.log(userLogged, "<<<USerLogged in Stats") */
@@ -22,9 +23,8 @@ export default function Stats({username, userLogged}) {
   }
 
   return (
-    <View>
-      <Text>Your Stats</Text>
-      <Text>Total Games Played: {userStats.games_played}</Text>
+    <View style={CustomStyles.container}>
+      <Text style={CustomStyles.h3}>Your Stats</Text>
     <DataTable style={styles.container}> 
       <DataTable.Row> 
         <DataTable.Cell style={styles.stat_title}>Total Points</DataTable.Cell> 
@@ -50,7 +50,7 @@ export default function Stats({username, userLogged}) {
 
 const styles = StyleSheet.create({ 
   container: { 
-    padding: 15, 
+    paddingTop: 15, 
   }, 
   stat_title: {
     backgroundColor: '#DCDCDC', 

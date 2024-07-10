@@ -16,7 +16,7 @@ import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
 
-function MyAccount({ theme, isLoggedIn, setIsLoggedIn }) {
+function MyAccount({ theme, setIsLoggedIn, avatars }) {
   const [colourTheme, setColourTheme] = useState(1);
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
@@ -24,6 +24,8 @@ function MyAccount({ theme, isLoggedIn, setIsLoggedIn }) {
   const [userLoggedAvatar, setUserLoggedAvatar] = useState({});
   const { colors } = theme;
   const navigation = useNavigation();
+
+  // console.log("avatars in myaccount>>>", avatars)
 
   const getUserLogged = async () => {
     try {
@@ -151,7 +153,7 @@ function MyAccount({ theme, isLoggedIn, setIsLoggedIn }) {
       <ScrollView>
         <View>
           {editingMode ? (
-            <EditDetails setEditingMode={setEditingMode} user={userDetails} />
+            <EditDetails setEditingMode={setEditingMode} user={userDetails} avatars={avatars}/>
           ) : null}
           {userLogged ? (
             <Stats username={userDetails.username} userLogged={userLogged} />

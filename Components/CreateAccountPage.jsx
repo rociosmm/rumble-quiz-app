@@ -3,18 +3,17 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  // useWindowDimensions,
-  // Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomInput from "./CustomInput";
 import CustomButton from "./CustomButton";
 import CheckBox from "expo-checkbox";
+import { SelectCountry } from "react-native-element-dropdown";
 
-// import Logo from "../assets/Designer.jpeg";
 import { useNavigation } from "@react-navigation/native";
+import { postNewUser } from "../utils/api";
 
-export default function CreateAccountPage() {
+export default function CreateAccountPage({ setIsLoggedIn, currentScheme, avatars }) {
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -22,27 +21,48 @@ export default function CreateAccountPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const [selected, setSelected] = useState(false);
+  const [currentSchemeNumber, setCurrentSchemeNumber] = useState(null);
+  const [avatar, setAvatar] = useState([])
 
-  // const { height } = useWindowDimensions();
+// console.log("Avatars in CreateAccount>>>", avatars)
+
   const navigation = useNavigation();
 
+  useEffect(() => {
+      if (currentScheme === "light") {
+        setCurrentSchemeNumber(1);
+      } else if (currentScheme === "dark") {
+        setCurrentSchemeNumber(2);
+      }
+  }, [currentScheme])
+
   const onCreateAccountPressed = () => {
-    console.warn("Create Account");
+    const postBody = {
+      username: usernameInput,
+      email: emailInput,
+      password: passwordInput,
+      avatar_id: 1,
+      is_child: "false",
+      colour_theme_id: currentSchemeNumber,
+      online: true,
+    };
+
+//     postNewUser(postBody).then((newUser) => {
+//         console.log(newUser)
+//         navigation.navigate("AppNavigation")
+//     }).catch((err) => {
+//         console.log("error posting new user:", err)
+//         // return error message
+//     })
   };
 
   const onLogInPressed = () => {
-    console.warn("Log in");
     navigation.navigate("LogIn");
   };
 
   return (
     <ScrollView style={styles.scroll}>
       <View style={styles.root}>
-        {/* <Image
-          source={Logo}
-          style={[styles.logo, { height: height * 0.3 }]}
-          resizeMode="contain"
-        /> */}
         <Text style={styles.title}>Create an Account</Text>
         <CustomInput
           placeholder="Username"
@@ -72,6 +92,25 @@ export default function CreateAccountPage() {
           setShowRepeatPassword={setShowRepeatPassword}
           type="RepeatPassword"
         />
+        <SelectCountry
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedTextStyle}
+        placeholderStyle={styles.placeholderStyle}
+        imageStyle={styles.imageStyle}
+        iconStyle={styles.iconStyle}
+        maxHeight={200}
+        // value={avatar}
+        data={avatars}
+        valueField="avatar_id"
+        labelField="avatar_name"
+        imageField={{uri: "avatar_url"}}
+        placeholder="Select Avatar"
+        onChange={(item) => {
+            const { _index, ...selectedAvatar } = item;
+            setAvatar(selectedAvatar);
+            console.log("Selected Avatar ID:", avatar);
+        }}
+      />
         <View style={styles.checkbox}>
           <CheckBox
             value={selected}
@@ -120,5 +159,29 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     margin: 12,
+  },
+  dropdown: {
+    marginVertical: 20,
+    height: 50,
+    width: "100%",
+    backgroundColor: "#EEEEEE",
+    borderRadius: 22,
+    paddingHorizontal: 8,
+  },
+  imageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 12,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
   },
 });

@@ -17,7 +17,7 @@ import LeaderBoard from "../Components/LeaderBoardPage";
 import MyAccount from "../Components/MyAccount";
 import { withTheme } from "react-native-paper";
 
-function AppNavigation({ theme, isLoading, setIsLoading }) {
+function AppNavigation({ theme, isLoading, setIsLoading, avatars }) {
   const navigation = useNavigation();
   const { colors } = theme;
   const _renderIcon = (routeName, selectedTab) => {
@@ -157,7 +157,7 @@ function AppNavigation({ theme, isLoading, setIsLoading }) {
       <CurvedBottomBarExpo.Screen
         name="MyAccount"
         position="LEFT"
-        component={() => <MyAccount />}
+        component={() => <MyAccount avatars={avatars}/>}
         options={{ headerShown: false }}
       />
       <CurvedBottomBarExpo.Screen

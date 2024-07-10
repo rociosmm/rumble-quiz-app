@@ -84,8 +84,8 @@ export const getFriends = (userLogged) => {
   });
 };
 
-export const registerUser = (body) => {
-  return rumbleQuizApi.post("/users", body).then((data) => {
+export const postNewUser = (postBody) => {
+  return rumbleQuizApi.post("/users", postBody).then((data) => {
     // console.log('data api :>> ', data);
   }).catch((error) => {
     console.log(error, "error");

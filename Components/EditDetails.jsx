@@ -1,20 +1,17 @@
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
-import { getAvatars } from "../utils/api";
+import CustomStyles from "../Styles/CustomStyles";
+import CustomInput from "./CustomInput";
 
-export default function EditDetails({ setEditingMode, user }) {
+export default function EditDetails({ setEditingMode, user, avatars}) {
   const [newUsername, setNewUsername] = useState(user.username);
   const [newEmail, setNewEmail] = useState(user.email);
-  const [avatars, setAvatars] = useState([]);
   const [avatar, setAvatar] = useState(user.avatar_id);
 
-  useEffect(() => {
-    getAvatars().then(({ avatars }) => {
-      setAvatars(avatars);
-      // console.log(avatars);
-    });
-  }, []);
+  if(!avatars){
+    avatars = []
+  }
 
   const saveUserDetails = () => {
     const newUserData = { ...user, newUsername, newEmail };
@@ -22,14 +19,14 @@ export default function EditDetails({ setEditingMode, user }) {
   };
 
   return (
-    <View>
-      <Text>Edit Details</Text>
-      <TextInput
+    <View style={CustomStyles.container}>
+      <Text style={CustomStyles.h3}>Edit Details</Text>
+      <CustomInput
         value={newUsername}
+        setValue={setNewUsername}
         placeholder="Enter Username"
-        onChangeText={setNewUsername}
       />
-      <TextInput
+      <CustomInput
         value={newEmail}
         placeholder="Enter Email"
         onChangeText={setNewEmail}
@@ -43,13 +40,14 @@ export default function EditDetails({ setEditingMode, user }) {
         maxHeight={200}
         value={avatar}
         data={avatars}
-        valueField="id"
+        valueField="avatar_id"
         labelField="avatar_name"
-        imageField="avatar_url"
+        imageField={{uri: "avatar_url"}}
         placeholder="Select avatar"
-        // searchPlaceholder="Search..."
+        searchPlaceholder="Search..."
         onChange={(e) => {
-          setAvatar(e.value);
+          setAvatar(e);
+          console.log("Selected Avatar ID:", e)
         }}
       />
       <Button title="Save Details" onPress={saveUserDetails} />
@@ -74,8 +72,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   imageStyle: {
-    width: 50,
-    height: 50,
+    width: 24,
+    height: 24,
     borderRadius: 12,
   },
   placeholderStyle: {
