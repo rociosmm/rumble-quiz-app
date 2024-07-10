@@ -26,22 +26,23 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
     if (userLogged) {
       // console.log("userLogged useeff my leaderboard", userLogged);
       getUsersPoints().then(({ leaderboard }) => {
-        setUsersPoints(leaderboard);
+        const currentPlayerScore = leaderboard.find(user => user.player_username === userLogged)
+        if(!currentPlayerScore){
+          leaderboard.push({
+            player_username: userLogged,
+            total_points: 0
+          })
+        }
+          setUsersPoints(leaderboard);
+          setIsLoading(false);
+        
         // console.log("userPoints", userPoints);
-        setIsLoading(false);
       });
     }
   }, [userLogged]);
 
-  const currentPlayerScore = usersPoints.find((user) => {
-    return user.player_username === userLogged;
-  });
-
-  // console.log(currentPlayerScore, "<<<currentPlayerScore");
-
-// if(isLoading){
-//   return <LoadingSpinner/>
-// }
+  const currentPlayerScore = usersPoints.find(user => user.player_username === userLogged);
+  const currentPlayerRank = usersPoints.findIndex(user => user.player_username === userLogged) + 1;
 
   return (
     <View>
@@ -55,23 +56,34 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
           )}
         </Text>
         <Text style={styles.pointsText}>Points</Text>
+        <Text style={styles.rank}>Rank: {currentPlayerRank}</Text>
       </View>
       <Leaderboard
         data={usersPoints}
         sortBy="total_points"
         labelBy="player_username"
+        style={styles.leaderboard}
       />
     </View>
   );
-}
+  }
+
+  // console.log(currentPlayerScore, "<<<currentPlayerScore");
+
+// if(isLoading){
+//   return <LoadingSpinner/>
+// }
+
 
 const styles = StyleSheet.create({
   h2: {
     fontSize: 30,
     textAlign: "center",
+    fontWeight: 'bold'
   },
   header: {
     backgroundColor: "#CCAE2F",
+    padding: 20
   },
   subtitle: {
     fontSize: 50,
@@ -81,4 +93,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: "center",
   },
+  rank: {
+    fontSize: 25,
+    textAlign: 'center'
+    },
+  leaderboard: {
+    // marginBottom: 500
+  }
 });
