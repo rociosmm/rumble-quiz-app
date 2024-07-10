@@ -5,7 +5,7 @@ const rumbleQuizApi = axios.create({
 });
 
 export const getUserByUsername = (userLogged) => {
-  console.log(userLogged, "<<<userLogged");
+  //console.log(userLogged, "<<<userLogged");
   return rumbleQuizApi.get(`/users/${userLogged}`).then(({ data }) => {
     return data;
   }).catch((error) => {
@@ -47,7 +47,7 @@ export const getAvatars = () => {
 
 export const getAvatar = (id) => {
   return rumbleQuizApi.get(`/avatars/${id}`).then(({ data }) => {
-    console.log("data avatar :>> ", data);
+    // console.log("data avatar :>> ", data);
     return data;
   }).catch((error) => {
     console.log(error, "error");
@@ -86,7 +86,7 @@ export const getFriends = (userLogged) => {
 
 export const registerUser = (body) => {
   return rumbleQuizApi.post("/users", body).then((data) => {
-    console.log('data api :>> ', data);
+    // console.log('data api :>> ', data);
   }).catch((error) => {
     console.log(error, "error");
   });

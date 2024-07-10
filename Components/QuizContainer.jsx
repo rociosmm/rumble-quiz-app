@@ -41,9 +41,9 @@ function QuizContainer({ theme }) {
       fontSize: 30,
       marginVertical: 20,
       color: colors.secondary,
-      fontWeight: "bold",
     },
   });
+
   if (currentScheme === "light") {
     return (
       <ImageBackground

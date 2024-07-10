@@ -40,6 +40,7 @@ function MyAccount({ theme }) {
 
   useEffect(() => {
     if (userLogged) {
+      // console.log('userLogged useeff my acc', userLogged)
       getUserByUsername(userLogged).then(async ({ user }) => {
         await setUserDetails(user);
       });
@@ -48,12 +49,12 @@ function MyAccount({ theme }) {
 
   useEffect(() => {
     getAvatar(userDetails.avatar_id).then(async (data) => {
-      console.log("data avatar acc :>> ", data.avatar);
+      // console.log("data avatar acc :>> ", data.avatar);
       await setUserLoggedAvatar(data.avatar);
       await AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
     });
   }, [userDetails]);
-  console.log("userLoggedAvatar :>> ", userLoggedAvatar);
+  // console.log("userLoggedAvatar :>> ", userLoggedAvatar);
 
   const colour_themes = [
     { colour_theme_id: 1, theme_name: "Light" },

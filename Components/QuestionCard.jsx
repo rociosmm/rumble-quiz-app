@@ -65,7 +65,7 @@ function QuestionCard({ theme, remainingTime }) {
       points: 3,
     };
 
-    socket.emit("answer", answersFeedback)
+    socket.emit("answer", answersFeedback);
 
     console.log("answersFeedback :>> ", answersFeedback);
     let resultColor;

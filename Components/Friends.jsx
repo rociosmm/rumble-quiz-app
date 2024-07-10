@@ -6,6 +6,7 @@ import CustomStyles from "../Styles/CustomStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
+
 export default function Friends() {
   const [userLogged, setUserLogged] = useState("");
   const [friends, setFriends] = useState([]);
@@ -54,7 +55,7 @@ export default function Friends() {
       </View>
       <View style={{ paddingVertical: 20 }}>
         {friendsDetails.map((friend) => {
-          console.log("friend indv :>> ", friend);
+          // console.log("friend indv :>> ", friend);
           return (
             <Text style={CustomStyles.h3} key={friend.username}>
               {friend.username}
