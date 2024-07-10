@@ -25,7 +25,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Context and storage
-import { UserContext } from "./context/UserContext";
+//import { UserContext } from "./context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colorsDark, colorsLight } from "./Styles/ThemeColors";
 import { useColorScheme, Appearance } from "react-native";

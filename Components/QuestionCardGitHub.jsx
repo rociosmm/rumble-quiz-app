@@ -14,7 +14,6 @@ function QuestionCard({ theme, remainingTime }) {
   const [userLogged, setUserLogged] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [roundCounter, setRoundCounter] = useState(0);
-  const [playersRemaining, setPlayersRemaining] = useState(3); // 3 is the number of the room.size
 
   useEffect(() => {
     const getUserLogged = async () => {
@@ -34,12 +33,6 @@ function QuestionCard({ theme, remainingTime }) {
   useEffect(() => {
     if (userLogged) {
       const handleQuestion = (question) => {
-        console.log(
-          "question sent from backend + avatars + players remaining :>> ",
-          question
-        );
-        setResultColor("");
-        setPlayersRemaining(question.remainingPlayers);
         const newQuestionTitle = question.question;
         const newAnswers = [...question.incorrect_answers];
         setRightAnswer(question.correct_answer);
@@ -73,7 +66,7 @@ function QuestionCard({ theme, remainingTime }) {
   }, []);
 
   const onChoicePress = (choice) => {
-    const eliminated = choice === rightAnswer ? false : true;
+    const eliminated = choice !== rightAnswer;
     const answersFeedback = {
       username: userLogged,
       eliminated,
@@ -82,14 +75,10 @@ function QuestionCard({ theme, remainingTime }) {
 
     socket.emit("answer", answersFeedback);
 
-    console.log("answersFeedback :>> ", answersFeedback);
-    let resultColor;
     if (choice === rightAnswer) {
       setResultColor("green");
-      console.log("WIN!!!");
     } else {
       setResultColor("red");
-      console.log("LOSE :(");
     }
   };
 
@@ -126,7 +115,6 @@ function QuestionCard({ theme, remainingTime }) {
     answerButton: {
       borderRadius: 8,
       elevation: 3,
-      //backgroundColor: "#ff8c00",
       shadowOffset: { width: 1, height: 1 },
       shadowColor: "#333",
       shadowOpacity: 0.3,
@@ -144,29 +132,28 @@ function QuestionCard({ theme, remainingTime }) {
       color: "white",
     },
   });
+
   return (
     <SafeAreaView>
       <View style={styles.questionCard}>
         <Text style={styles.questionText}>{questionTitle}</Text>
         <View style={styles.answerCards}>
-          {answers
-            ? answers.map((choice, index) => (
-                <Pressable
-                  key={index}
-                  disabled={resultColor === "" ? false : true}
-                  style={({ pressed }) => [
-                    { backgroundColor: pressed ? resultColor : "#ff8c00" },
-                    styles.answerButton,
-                  ]}
-                  onPress={() => onChoicePress(choice)}
-                >
-                  <Text style={styles.answerText}>{choice}</Text>
-                </Pressable>
-              ))
-            : null}
+          {answers.map((choice, index) => (
+            <Pressable
+              key={index}
+              disabled={resultColor !== ""}
+              style={({ pressed }) => [
+                { backgroundColor: pressed ? resultColor : "#ff8c00" },
+                styles.answerButton,
+              ]}
+              onPress={() => onChoicePress(choice)}
+            >
+              <Text style={styles.answerText}>{choice}</Text>
+            </Pressable>
+          ))}
         </View>
       </View>
-      <ProgressBar playersRemaining={playersRemaining} />
+      <ProgressBar />
     </SafeAreaView>
   );
 }

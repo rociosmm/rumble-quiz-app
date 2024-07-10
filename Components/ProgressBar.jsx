@@ -2,11 +2,12 @@ import * as Progress from "react-native-progress";
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-export default function ProgressBar() {
+export default function ProgressBar({ playersRemaining }) {
+  const progress = (1 / playersRemaining).toFixed(1);
   return (
     <View style={styles.progressBarContainer}>
       <Progress.Bar
-        progress={0.1}
+        progress={progress}
         width={300}
         height={20}
         borderRadius={10}

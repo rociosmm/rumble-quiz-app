@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,17 @@ import {
   ImageBackground,
 } from "react-native";
 
-export default function EndOfGame() {
+export default function EndOfGame({ answersFeedback }) {
+  useEffect(() => {
+    if (answersFeedback) {
+      console.log(`<<: END OF GAME COMPONENT ${answersFeedback.username}:>> `);
+    }
+  });
+
   return (
     <ImageBackground
-      source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}>
+      source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
+    >
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
           <Text style={styles.text}></Text>
