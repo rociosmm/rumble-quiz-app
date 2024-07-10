@@ -32,12 +32,12 @@ import { socket } from "../socket";
 // }
 export default function QuizPage({ topic_id, userLogged }) {
   useEffect(() => {
-    console.warn("<<: mount!! :>> ");
-    console.log("userLogged mounting :>> ", userLogged);
-    console.log("<<: topic_id!! :>> ", topic_id);
+    console.warn("<<: mount QuizPage!! :>> ");
+    console.log("userLogged mounting QuizPage:>> ", userLogged);
+    console.log("<<: topic_id!! QuizPage :>> ", topic_id);
     return () => {
-      console.warn("<<: leaving :>> ");
-      console.log("userLogged leaving :>> ", userLogged);
+      console.warn("<<: leaving QuizPage:>> ");
+      console.log("userLogged leaving QuizPage:>> ", userLogged);
       //socket.emit("leave-game", topic_id, userLogged); works but not in use now
     };
   }, []);
@@ -45,7 +45,7 @@ export default function QuizPage({ topic_id, userLogged }) {
     <ScrollView>
       <PlayerAvatars />
       <CountdownTimer />
-      <QuestionCard />
+      <QuestionCard userLogged={userLogged} />
     </ScrollView>
   );
 }
