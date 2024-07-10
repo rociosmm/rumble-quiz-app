@@ -7,6 +7,8 @@ import { SelectCountry } from "react-native-element-dropdown";
 
 import { useNavigation } from "@react-navigation/native";
 import { postNewUser } from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function CreateAccountPage({
   setIsLoggedIn,
@@ -38,24 +40,29 @@ export default function CreateAccountPage({
     }
   }, [currentScheme]);
 
-  const onCreateAccountPressed = () => {
+  const onCreateAccountPressed = async () => {
     const postBody = {
       username: usernameInput,
       email: emailInput,
       password: passwordInput,
-      avatar_id: 1,
-      is_child: "false",
+      avatar_id: avatar,
+      is_child: null,
       colour_theme_id: currentSchemeNumber,
       online: true,
     };
 
-    //     postNewUser(postBody).then((newUser) => {
-    //         console.log(newUser)
-    //         navigation.navigate("AppNavigation")
-    //     }).catch((err) => {
-    //         console.log("error posting new user:", err)
-    //         // return error message
-    //     })
+    try {
+        const newUser = await postNewUser(postBody);
+        console.log(newUser);
+        
+        // Store the username in AsyncStorage
+        await AsyncStorage.setItem('userLogged', usernameInput);
+  
+        navigation.navigate("AppNavigation");
+      } catch (err) {
+        console.log("error posting new user:", err);
+        // return error message
+      }
   };
 
   const onLogInPressed = () => {
@@ -101,15 +108,15 @@ export default function CreateAccountPage({
           imageStyle={styles.imageStyle}
           iconStyle={styles.iconStyle}
           maxHeight={200}
-          // value={avatar}
+          value={avatar}
           data={avatarsDrop}
           valueField="avatar_id"
           labelField="avatar_name"
           imageField="avatar_url"
           placeholder="Select Avatar"
-          onChange={(item) => {
-            const { _index, ...selectedAvatar } = item;
-            setAvatar(selectedAvatar);
+          onChange={(e) => {
+            const { _index, ...selectedAvatar } = e;
+            setAvatar(e.avatar_id);
             console.log("Selected Avatar ID:", avatar);
           }}
         />
