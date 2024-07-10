@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
+import getUserLogged from "../utils/userLogged"
 
 function MyAccount({ theme, setIsLoggedIn, avatars }) {
   const [colourTheme, setColourTheme] = useState(1);
@@ -38,7 +39,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
 
   useEffect(() => {
     getUserLogged();
-  }, []);
+  }, [userLogged]);
 
   useEffect(() => {
     if (userLogged) {
@@ -101,6 +102,10 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
     h2: {
       fontSize: 30,
     },
+    h2_bold: {
+      fontSize: 25,
+      fontWeight: 'bold'
+    },
     input: {
       border: "1px solid grey",
       padding: "4px",
@@ -121,6 +126,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
       <CustomButton type="TERTIARY" text="Log Out" onPress={onLogOutPressed} />
       <View style={styles.userCard}>
         <View style={styles.userDetails}>
+          <Text style={styles.h2_bold}>Welcome</Text>
           <Text style={styles.h2}>{userLogged}</Text>
           <Text>{userDetails.email}</Text>
           <SelectCountry
@@ -153,7 +159,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
       <ScrollView>
         <View>
           {editingMode ? (
-            <EditDetails setEditingMode={setEditingMode} user={userDetails} avatars={avatars}/>
+            <EditDetails setEditingMode={setEditingMode} userDetails={userDetails} avatars={avatars}/>
           ) : null}
           {userLogged ? (
             <Stats username={userDetails.username} userLogged={userLogged} />

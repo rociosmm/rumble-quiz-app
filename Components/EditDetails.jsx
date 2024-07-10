@@ -1,13 +1,17 @@
-import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
 import CustomStyles from "../Styles/CustomStyles";
 import CustomInput from "./CustomInput";
+import { patchUserByUsername } from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function EditDetails({ setEditingMode, user, avatars }) {
-  const [newUsername, setNewUsername] = useState(user.username);
-  const [newEmail, setNewEmail] = useState(user.email);
-  const [avatar, setAvatar] = useState(user.avatar_id);
+export default function EditDetails({ setEditingMode, userDetails, avatars }) {
+  const [newUsername, setNewUsername] = useState(userDetails.username);
+  const [newEmail, setNewEmail] = useState(userDetails.email);
+  const [selectedAvatarId, setSelectedAvatarId] = useState(userDetails.avatar_id);
+
+  console.log(userDetails, 'USER')
 
   if (!avatars) {
     avatars = [];
@@ -18,27 +22,51 @@ export default function EditDetails({ setEditingMode, user, avatars }) {
   });
 
 
+console.log(newUsername, newEmail, selectedAvatarId)
 
 
-
-  const saveUserDetails = () => {
-    const newUserData = { ...user, newUsername, newEmail };
-    setEditingMode(false);
+  const saveUserDetails = async() => {
+    // const newUserData = { ...user, newUsername, newEmail };
+    const patchBody = {
+      username: newUsername,
+      email: newEmail,
+      avatar_id: selectedAvatarId
+    }
+    try {
+      await patchUserByUsername(userDetails.username, patchBody)
+      console.log("Response", res)
+      await AsyncStorage.setItem("userLogged", newUsername);
+      const userLogged = await AsyncStorage.getItem("userLogged")
+      console.log("Updated userLogged, userLogged")
+      setEditingMode(false);
+    } catch(err) {
+      console.log("Error updating user details", err)
+      Alert.alert(
+        "Unable to process change",
+        "Please try again later",
+        [
+          {text: "OK"}
+        ]
+      )
+    }
   };
 
   return (
     <View style={CustomStyles.container}>
       <Text style={CustomStyles.h3}>Edit Details</Text>
+      <Text style={styles.input_titles}>Username</Text>
       <CustomInput
         value={newUsername}
         setValue={setNewUsername}
         placeholder="Enter Username"
       />
+      <Text style={styles.input_titles}>Email</Text>
       <CustomInput
         value={newEmail}
+        setValue={setNewEmail}
         placeholder="Enter Email"
-        onChangeText={setNewEmail}
       />
+      <Text style={styles.input_titles}>Avatar</Text>
       <SelectCountry
         style={styles.dropdown}
         selectedTextStyle={styles.selectedTextStyle}
@@ -46,7 +74,7 @@ export default function EditDetails({ setEditingMode, user, avatars }) {
         imageStyle={styles.imageStyle}
         iconStyle={styles.iconStyle}
         maxHeight={200}
-        value={avatar}
+        value={selectedAvatarId}
         data={avatarsDrop}
         valueField="avatar_id"
         labelField="avatar_name"
@@ -54,8 +82,8 @@ export default function EditDetails({ setEditingMode, user, avatars }) {
         placeholder="Select avatar"
         searchPlaceholder="Search..."
         onChange={(e) => {
-          setAvatar(e);
-          console.log("Selected Avatar ID:", e);
+          setSelectedAvatarId(e.avatar_id);
+          // console.log("Selected Avatar ID:", e);
         }}
       />
       <Button title="Save Details" onPress={saveUserDetails} />
@@ -72,7 +100,8 @@ const styles = StyleSheet.create({
   checkbox: { display: "inline-flex", flexDirection: "row" },
 
   dropdown: {
-    marginVertical: 20,
+    marginBottom: 20,
+    marginTop: 6,
     height: 50,
     width: "100%",
     backgroundColor: "#EEEEEE",
@@ -100,4 +129,10 @@ const styles = StyleSheet.create({
     top: 2,
     right: 2,
   },
+  input_titles:{
+    alignSelf: 'flex-start',
+    marginTop: 5,
+    fontSize: 16,
+    color: 'grey',
+  }
 });

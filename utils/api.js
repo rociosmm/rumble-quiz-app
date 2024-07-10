@@ -14,9 +14,11 @@ export const getUserByUsername = (userLogged) => {
 };
 
 export const patchUserByUsername = (userLogged, patchBody) => {
+    console.log(userLogged, patchBody, "<<<PATCH")
   return rumbleQuizApi
     .patch(`/users/${userLogged}`, patchBody)
     .then(({ data }) => {
+        console.log(data, 'Data')
       return data;
     }).catch((error) => {
         console.log(error, "error");
