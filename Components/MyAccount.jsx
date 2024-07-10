@@ -15,7 +15,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
-import getUserLogged from "../utils/userLogged"
 
 function MyAccount({ theme, setIsLoggedIn, avatars }) {
   const [colourTheme, setColourTheme] = useState(1);

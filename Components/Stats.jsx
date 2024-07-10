@@ -7,7 +7,13 @@ import CustomStyles from '../Styles/CustomStyles';
 
 export default function Stats({username, userLogged}) {
 /*   console.log(userLogged, "<<<USerLogged in Stats") */
-  const [userStats, setUserStats] = useState(null)
+  const [userStats, setUserStats] = useState(({
+    player_username: userLogged,
+    games_played: 0,
+    games_won: 0,
+    total_points: 0,
+    top_topic: 0
+  }))
 
   useEffect(() => {
     if(userLogged){

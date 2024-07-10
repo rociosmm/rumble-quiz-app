@@ -45,8 +45,8 @@ export default function LoginPage({ setIsLoggedIn }) {
           await AsyncStorage.setItem("token", JSON.stringify(res.data));
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
-          setIsLoggedIn(true);
           navigation.navigate("AppNavigation");
+          setIsLoggedIn(true);
       } else {
         Alert.alert("Login failed", "Please check your credentials and try again.");
         } 
@@ -100,11 +100,6 @@ export default function LoginPage({ setIsLoggedIn }) {
         />
         <CustomButton
           text="Continue as Guest"
-          onPress={onSignUpPressed}
-          type="TERTIARY"
-        />
-        <CustomButton
-          text="Continue as Kids Guest"
           onPress={onSignUpPressed}
           type="TERTIARY"
         />
