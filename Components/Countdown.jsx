@@ -2,10 +2,17 @@ import { Text, View, StyleSheet } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import QuestionCard from "./QuestionCard";
 import React, { useState } from "react";
+import { socket } from "../socket";
 
 export default function CountdownTimer() {
   const [isPlaying, setIsPlaying] = useState(true);
+  const [repeat, setRepeat] = useState(false);
   // const [key, setKey] = useState(0);
+
+  socket.on("question", () => {
+    setRepeat(true);
+  });
+
   return (
     <View style={styles.container}>
       <CountdownCircleTimer
@@ -15,7 +22,8 @@ export default function CountdownTimer() {
         size={80}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[7, 5, 2, 0]}
-        onComplete={() => ({ shouldRepeat: true, delay: 3 })}>
+        onComplete={() => ({ shouldRepeat: repeat, delay: 3 })}
+      >
         {({ remainingTime }) => (
           <Text style={styles.countDownText}>{remainingTime}</Text>
         )}

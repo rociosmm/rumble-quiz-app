@@ -14,6 +14,7 @@ function QuestionCard({ theme, remainingTime }) {
   const [userLogged, setUserLogged] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [roundCounter, setRoundCounter] = useState(0);
+  const [playersRemaining, setPlayersRemaining] = useState(3); // 3 is the number of the room.size
 
   useEffect(() => {
     const getUserLogged = async () => {
@@ -33,7 +34,12 @@ function QuestionCard({ theme, remainingTime }) {
   useEffect(() => {
     if (userLogged) {
       const handleQuestion = (question) => {
-        setResultColor("")
+        console.log(
+          "question sent from backend + avatars + players remaining :>> ",
+          question
+        );
+        setResultColor("");
+        setPlayersRemaining(question.remainingPlayers);
         const newQuestionTitle = question.question;
         const newAnswers = [...question.incorrect_answers];
         setRightAnswer(question.correct_answer);
@@ -160,7 +166,7 @@ function QuestionCard({ theme, remainingTime }) {
             : null}
         </View>
       </View>
-      <ProgressBar />
+      <ProgressBar playersRemaining={playersRemaining} />
     </SafeAreaView>
   );
 }
