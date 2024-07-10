@@ -73,8 +73,7 @@ export default function Topics({ userLogged, setUserLogged }) {
             return (
               <Pressable
                 key={topic.id}
-                onPress={() => handleSelection(topic.id, topic.name)}
-              >
+                onPress={() => handleSelection(topic.id, topic.name)}>
                 <Topic topic={topic} />
               </Pressable>
             );
@@ -96,6 +95,6 @@ const styles = StyleSheet.create({
     width: "70%",
     maxWidth: 200,
     maxHeight: 200,
-    borderRadius: "100%",
+    borderRadius: 100,
   },
 });
