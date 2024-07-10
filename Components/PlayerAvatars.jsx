@@ -6,9 +6,7 @@ export default function PlayerAvatars() {
   const [initialAvatars_urls, setInitialAvatars_urls] = useState([]);
 
   socket.on("avatars", (avatars) => {
-    console.log("avatars  players avatars :>> ", avatars);
     setInitialAvatars_urls(Object.values(avatars));
-    console.log("avatars_urls :>> ", avatars_urls);
   });
 
   const styles = StyleSheet.create({

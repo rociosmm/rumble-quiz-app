@@ -157,7 +157,7 @@ function AppNavigation({ theme, isLoading, setIsLoading, avatars }) {
       <CurvedBottomBarExpo.Screen
         name="MyAccount"
         position="LEFT"
-        component={() => <MyAccount avatars={avatars}/>}
+        component={() => <MyAccount avatars={avatars} />}
         options={{ headerShown: false }}
       />
       <CurvedBottomBarExpo.Screen

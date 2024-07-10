@@ -31,10 +31,10 @@ export default function Topics({ userLogged, setUserLogged }) {
     getUserLogged();
   }, []);
 
-  const handleSelection = async (id) => {
+  const handleSelection = async (id, name) => {
     console.log(id, "<< id");
+    console.log("topic name :>> ", name);
     await setSelectedTopic(id);
-    console.log(selectedTopic, "<<<<SELECTEDTOPIC");
     if (userLogged && avatar) {
       socket.emit(
         "topic-selected",
@@ -58,7 +58,8 @@ export default function Topics({ userLogged, setUserLogged }) {
             return (
               <Pressable
                 key={topic.id}
-                onPress={() => handleSelection(topic.id)}>
+                onPress={() => handleSelection(topic.id, topic.name)}
+              >
                 <Topic topic={topic} />
               </Pressable>
             );
@@ -67,7 +68,7 @@ export default function Topics({ userLogged, setUserLogged }) {
       </SafeAreaView>
     );
   } else {
-    return <QuizPage topic_id={selectedTopic} />;
+    return <QuizPage topic_id={selectedTopic} userLogged={userLogged} />;
   }
 }
 
