@@ -1,4 +1,12 @@
-import { ScrollView, SafeAreaView, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Image,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { getCategories } from "../utils/questionsApi";
@@ -11,6 +19,7 @@ export default function Topics({ userLogged, setUserLogged }) {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState();
   const [avatar, setAvatar] = useState();
+  const { height } = useWindowDimensions();
 
   const getUserLogged = async () => {
     try {
@@ -53,6 +62,12 @@ export default function Topics({ userLogged, setUserLogged }) {
   if (selectedTopic === undefined) {
     return (
       <SafeAreaView style={styles.SafeAreaView}>
+        <View>
+          <Image
+            source={require("../assets/Designer.jpeg")}
+            style={[styles.logo, { height: height * 0.3 }]}
+          />
+        </View>
         <ScrollView>
           {topics.map((topic) => {
             return (
@@ -75,5 +90,12 @@ export default function Topics({ userLogged, setUserLogged }) {
 const styles = StyleSheet.create({
   SafeAreaView: {
     marginBottom: 70,
+  },
+  logo: {
+    margin: "auto",
+    width: "70%",
+    maxWidth: 200,
+    maxHeight: 200,
+    borderRadius: "100%",
   },
 });
