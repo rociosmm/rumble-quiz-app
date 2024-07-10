@@ -4,14 +4,22 @@ import { SelectCountry } from "react-native-element-dropdown";
 import CustomStyles from "../Styles/CustomStyles";
 import CustomInput from "./CustomInput";
 
-export default function EditDetails({ setEditingMode, user, avatars}) {
+export default function EditDetails({ setEditingMode, user, avatars }) {
   const [newUsername, setNewUsername] = useState(user.username);
   const [newEmail, setNewEmail] = useState(user.email);
   const [avatar, setAvatar] = useState(user.avatar_id);
 
-  if(!avatars){
-    avatars = []
+  if (!avatars) {
+    avatars = [];
   }
+
+  const avatarsDrop = avatars.map((avatar) => {
+    return { ...avatar, avatar_url: { uri: avatar.avatar_url } };
+  });
+
+
+
+
 
   const saveUserDetails = () => {
     const newUserData = { ...user, newUsername, newEmail };
@@ -39,15 +47,15 @@ export default function EditDetails({ setEditingMode, user, avatars}) {
         iconStyle={styles.iconStyle}
         maxHeight={200}
         value={avatar}
-        data={avatars}
+        data={avatarsDrop}
         valueField="avatar_id"
         labelField="avatar_name"
-        imageField={{uri: "avatar_url"}}
+        imageField="avatar_url"
         placeholder="Select avatar"
         searchPlaceholder="Search..."
         onChange={(e) => {
           setAvatar(e);
-          console.log("Selected Avatar ID:", e)
+          console.log("Selected Avatar ID:", e);
         }}
       />
       <Button title="Save Details" onPress={saveUserDetails} />

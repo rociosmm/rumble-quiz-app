@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { socket } from "../socket";
 
 export default function PlayerAvatars() {
-  const [initialavatars_urls, setInitialAvatars_urls] = useState([]);
+  const [initialAvatars_urls, setInitialAvatars_urls] = useState([]);
 
   socket.on("avatars", (avatars) => {
     console.log("avatars  players avatars :>> ", avatars);
