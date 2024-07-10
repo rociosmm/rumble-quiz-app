@@ -12,11 +12,15 @@ import MyAccount from "./MyAccount";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { withTheme } from "react-native-paper";
+import { useColorScheme, Appearance } from "react-native";
 
 function QuizContainer({ theme }) {
   const { colors } = theme;
   const [userLogged, setUserLogged] = useState("");
   const navigation = useNavigation();
+  const colorScheme = useColorScheme();
+  const [currentScheme, setCurrentScheme] = useState(colorScheme);
+
   const getLogged = async () => {
     const user = await AsyncStorage.getItem("userLogged");
     return user;
@@ -39,15 +43,25 @@ function QuizContainer({ theme }) {
       color: colors.secondary,
     },
   });
-  return (
-    <ImageBackground
-      source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
-      style={styles.container}>
-      <View>
+
+  if (currentScheme === "light") {
+    return (
+      <ImageBackground
+        source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
+        style={styles.container}
+      >
+        <View>
+          <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
+        </View>
+      </ImageBackground>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
         <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
       </View>
-    </ImageBackground>
-  );
+    );
+  }
 }
 
 export default withTheme(QuizContainer);

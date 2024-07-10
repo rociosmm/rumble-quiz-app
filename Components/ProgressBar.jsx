@@ -6,7 +6,7 @@ export default function ProgressBar() {
   return (
     <View style={styles.progressBarContainer}>
       <Progress.Bar
-        progress={1}
+        progress={0.1}
         width={300}
         height={20}
         borderRadius={10}

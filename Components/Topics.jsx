@@ -38,7 +38,7 @@ export default function Topics({ userLogged, setUserLogged }) {
     if (userLogged && avatar) {
       socket.emit(
         "topic-selected",
-        id,
+        id.toString(),
         { username: userLogged, avatar_url: avatar },
         () => {
           console.log("Hellooo from the client");
