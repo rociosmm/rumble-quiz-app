@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { getQuestions } from "../utils/questionsApi";
 import React from "react";
-import UrgeWithPleasureComponent from "./Countdown";
+import CountdownTimer from "./Countdown";
 import QuestionCard from "./QuestionCard";
 import PlayerAvatars from "./PlayerAvatars";
 import ProgressBar from "./ProgressBar";
@@ -33,7 +33,7 @@ export default function QuizPage() {
   return (
     <ScrollView>
       <PlayerAvatars />
-      <UrgeWithPleasureComponent />
+      <CountdownTimer />
       <QuestionCard />
     </ScrollView>
   );

@@ -1,27 +1,23 @@
 import { Text, View, StyleSheet } from "react-native";
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer";
 import QuestionCard from "./QuestionCard";
+import React, { useState } from "react";
 
-export default function UrgeWithPleasureComponent() {
+export default function CountdownTimer() {
+  const [isPlaying, setIsPlaying] = useState(true);
+  // const [key, setKey] = useState(0);
   return (
     <View style={styles.container}>
       <CountdownCircleTimer
-        isPlaying={true}
+        // key={key}
+        isPlaying={isPlaying}
         duration={10}
         size={80}
         colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
         colorsTime={[7, 5, 2, 0]}
-      >
-        {/* onComplete=
-      {() => {
-        // do your stuff here
-        return { shouldRepeat: true, delay: 1.5 }; // repeat animation in 1.5 seconds
-      }} */}
-
+        onComplete={() => ({ shouldRepeat: true, delay: 3 })}>
         {({ remainingTime }) => (
-          <>
-            <Text style={styles.countDownText}>{remainingTime}</Text>
-          </>
+          <Text style={styles.countDownText}>{remainingTime}</Text>
         )}
       </CountdownCircleTimer>
     </View>
