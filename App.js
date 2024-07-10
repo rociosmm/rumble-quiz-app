@@ -17,6 +17,7 @@ import NotificationsList from "./Components/NotificationsList";
 import QuizContainer from "./Components/QuizContainer";
 import LeaderBoard from "./Components/LeaderBoardPage";
 import QuizPage from "./Components/QuizPage";
+import LoadingPage from "./Components/LoadingPage";
 
 // Navigation
 import AppNavigation from "./navigation/AppNavigation";
@@ -95,7 +96,7 @@ export default function App() {
     });
   }, []);
 
-  console.log("avatars app check :>> ", avatars);
+  // console.log("avatars app check :>> ", avatars);
 
   const AfterLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
@@ -150,7 +151,12 @@ export default function App() {
   //  console.log("avatars in app", avatars)
 
   const BeforeLogin = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
+    <Stack.Navigator initialRouteName="LoadingPage" screenOptions={{ headerShown: false, animation: "none" }}>
+      <Stack.Screen
+        name="LoadingPage"
+        component={LoadingPage}
+        // options={{ headerShown: false }}
+      />
       <Stack.Screen name="LogIn">
         {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>

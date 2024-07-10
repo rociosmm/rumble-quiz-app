@@ -25,11 +25,12 @@ export default function LoginPage({ setIsLoggedIn }) {
   const navigation = useNavigation();
 
   useEffect(() => {
-    getUserLogged(setUserLogged);
+    getUserLogged(setUserLogged).catch((err) => {
+      console.log(err)
+    })
 }, [])
 
   const onLogInButtonPressed = async () => {
-    // console.log(usernameInput, passwordInput);
     // validate user from backend
 
     const userData = {
@@ -37,21 +38,23 @@ export default function LoginPage({ setIsLoggedIn }) {
       password: passwordInput,
     };
 
-    postUserLogin(userData).then(async (res) => {
+    try {
+    const res = await postUserLogin(userData)
       // console.log(Object.keys(res));
       if (res.status === 200) {
-        try {
           await AsyncStorage.setItem("token", JSON.stringify(res.data));
           await AsyncStorage.setItem("userLogged", userData.username);
           await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
-          navigation.navigate("AppNavigation");
           setIsLoggedIn(true);
-        } catch (error) {
+          navigation.navigate("AppNavigation");
+      } else {
+        Alert.alert("Login failed", "Please check your credentials and try again.");
+        } 
+       } catch(error) {
           console.log("error in post request for login ", error);
-        }
+          Alert.alert("Login failed", "An error occurred. Please try again later.");
+       }
       }
-    });
-  };
 
   const onForgotPasswordPressed = () => {
     console.warn("Forgot Password");
