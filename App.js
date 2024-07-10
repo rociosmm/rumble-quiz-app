@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { PaperProvider, useTheme, DefaultTheme } from "react-native-paper";
 import * as Device from "expo-device";
 
+import { getAvatars } from "./utils/api";
+
 // components
 import Header from "./Components/Header";
 import LoginPage from "./Components/LoginPage";
@@ -42,6 +44,8 @@ export default function App() {
   const colorScheme = useColorScheme();
   const [currentScheme, setCurrentScheme] = useState(colorScheme);
   const [isLoading, setIsLoading] = useState(false);
+  const [avatars, setAvatars] = useState([]);
+  
   
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
@@ -68,31 +72,38 @@ export default function App() {
     const user_avatar = await AsyncStorage.getItem("avatar_url");
     
     // console.log("logged :>> ", logged);
-    if (logged === 'true') {
+    if (logged === "true") {
       setIsLoggedIn(true);
       setUserLogged(user);
       // console.log("isLoggedIn if inside:>> ", isLoggedIn);
       // console.log("userLogged inside getDataFromStorage :>> ", user);
     } else {
-      setIsLoggedIn(false)
-      setUserLogged('')
+      setIsLoggedIn(false);
+      setUserLogged("");
     }
   };
-
+  
   useEffect(() => {
     getDataFromStorage();
   }, []);
-
+  
   //console.log("isLoggedIn :>> ", isLoggedIn);
-
+  
+  useEffect(() => {
+    getAvatars().then(({ avatars }) => {
+      setAvatars(avatars);
+    });
+  }, []);
+  
   const AfterLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen name="AppNavigation">
         {(props) => (
           <AppNavigation
-            {...props}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
+          {...props}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          avatars={avatars}
           />
         )}
       </Stack.Screen>
@@ -100,37 +111,67 @@ export default function App() {
       <Stack.Screen name="MyAccount">
         {(props) => (
           <MyAccount
-            {...props}
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
+          {...props}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          avatars={avatars}
           />
         )}
-        </Stack.Screen>
+      </Stack.Screen>
       <Stack.Screen name="LeaderBoard">
         {(props) => (
           <LeaderBoard
-            {...props}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
+          {...props}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
           />
         )}
       </Stack.Screen>
       <Stack.Screen name="Notifications" component={NotificationsList} />
       <Stack.Screen name="Friends" component={Friends} />
-      <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
+      <Stack.Screen name="CreateAccount">
+        {(props) => (
+          <CreateAccountPage
+          {...props}
+          setIsLoggedIn={setIsLoggedIn}
+          currentScheme={currentScheme}
+          avatars={avatars}
+       
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="LogIn">
         {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
     </Stack.Navigator>
   );
-
+    //  console.log("avatars in app", avatars)
+  
   const BeforeLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen name="LogIn">
         {(props) => <LoginPage {...props} setIsLoggedIn={setIsLoggedIn} />}
       </Stack.Screen>
-      <Stack.Screen name="CreateAccount" component={CreateAccountPage} />
+      <Stack.Screen name="CreateAccount">
+        {(props) => (
+          <CreateAccountPage
+            {...props}
+            setIsLoggedIn={setIsLoggedIn}
+            currentScheme={currentScheme}
+            avatars={avatars}
+          />
+        )}
+      </Stack.Screen>
       {/*  <Stack.Screen name="MyAccount" component={MyAccount} /> */}
+      <Stack.Screen name="AppNavigation">
+        {(props) => (
+          <AppNavigation
+          {...props}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 
