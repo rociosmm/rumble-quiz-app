@@ -45,8 +45,7 @@ export default function App() {
   const [currentScheme, setCurrentScheme] = useState(colorScheme);
   const [isLoading, setIsLoading] = useState(false);
   const [avatars, setAvatars] = useState([]);
-  
-  
+
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       // console.log("colorScheme :>> ", colorScheme);
@@ -62,15 +61,15 @@ export default function App() {
   }, []);
   console.log("currentScheme app :>> ", currentScheme);
   const paperTheme =
-  currentScheme === "dark"
-  ? { ...DefaultTheme, colors: colorsDark }
-  : { ...DefaultTheme, colors: colorsLight };
-  
+    currentScheme === "dark"
+      ? { ...DefaultTheme, colors: colorsDark }
+      : { ...DefaultTheme, colors: colorsLight };
+
   const getDataFromStorage = async () => {
     const logged = await AsyncStorage.getItem("isLoggedIn");
     const user = await AsyncStorage.getItem("userLogged");
     const user_avatar = await AsyncStorage.getItem("avatar_url");
-    
+
     // console.log("logged :>> ", logged);
     if (logged === "true") {
       setIsLoggedIn(true);
@@ -82,28 +81,30 @@ export default function App() {
       setUserLogged("");
     }
   };
-  
+
   useEffect(() => {
     getDataFromStorage();
   }, []);
-  
+
   //console.log("isLoggedIn :>> ", isLoggedIn);
-  
+
   useEffect(() => {
     getAvatars().then(({ avatars }) => {
       setAvatars(avatars);
     });
   }, []);
-  
+
+  console.log("avatars app check :>> ", avatars);
+
   const AfterLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen name="AppNavigation">
         {(props) => (
           <AppNavigation
-          {...props}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-          avatars={avatars}
+            {...props}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            avatars={avatars}
           />
         )}
       </Stack.Screen>
@@ -111,19 +112,19 @@ export default function App() {
       <Stack.Screen name="MyAccount">
         {(props) => (
           <MyAccount
-          {...props}
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          avatars={avatars}
+            {...props}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            avatars={avatars}
           />
         )}
       </Stack.Screen>
       <Stack.Screen name="LeaderBoard">
         {(props) => (
           <LeaderBoard
-          {...props}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
+            {...props}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
       </Stack.Screen>
@@ -132,11 +133,10 @@ export default function App() {
       <Stack.Screen name="CreateAccount">
         {(props) => (
           <CreateAccountPage
-          {...props}
-          setIsLoggedIn={setIsLoggedIn}
-          currentScheme={currentScheme}
-          avatars={avatars}
-       
+            {...props}
+            setIsLoggedIn={setIsLoggedIn}
+            currentScheme={currentScheme}
+            avatars={avatars}
           />
         )}
       </Stack.Screen>
@@ -145,8 +145,8 @@ export default function App() {
       </Stack.Screen>
     </Stack.Navigator>
   );
-    //  console.log("avatars in app", avatars)
-  
+  //  console.log("avatars in app", avatars)
+
   const BeforeLogin = () => (
     <Stack.Navigator screenOptions={{ headerShown: false, animation: "none" }}>
       <Stack.Screen name="LogIn">
@@ -166,9 +166,9 @@ export default function App() {
       <Stack.Screen name="AppNavigation">
         {(props) => (
           <AppNavigation
-          {...props}
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
+            {...props}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
       </Stack.Screen>

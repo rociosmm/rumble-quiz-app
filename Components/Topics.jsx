@@ -73,6 +73,6 @@ export default function Topics({ userLogged, setUserLogged }) {
 
 const styles = StyleSheet.create({
   SafeAreaView: {
-    marginBottom: 215,
+    marginBottom: 70,
   },
 });
