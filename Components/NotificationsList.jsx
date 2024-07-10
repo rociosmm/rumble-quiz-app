@@ -18,8 +18,8 @@ const notifications = [
   },
   {
     id: 2,
-    title: "Friend Request",
-    description: "PirateQueen has sent you a friend request.",
+    title: "Friend Added",
+    description: "PirateQueen has accepted your friend request.",
     image: require("../assets/avatars/icons8-lion-48.png"),
     backgroundColor: "#90ee90",
   },
