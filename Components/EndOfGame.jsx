@@ -7,24 +7,19 @@ import {
   ImageBackground,
 } from "react-native";
 
-export default function EndOfGame({ answersFeedback }) {
-  useEffect(() => {
-    if (answersFeedback) {
-      console.log(`<<: END OF GAME COMPONENT ${answersFeedback.username}:>> `);
-    }
-  });
-
+export default function EndOfGame({ endOfGameResult }) {
   return (
-    <ImageBackground
-      source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
-    >
+    // <ImageBackground
+    //   source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
+    // >
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.text}></Text>
-          {/* {result === "win" ? "You Win!" : "You Lose!"} */}
+          <Text style={styles.text}>
+            {endOfGameResult === "win" ? "You Win!" : "You Lose!"}
+          </Text>
         </View>
       </SafeAreaView>
-    </ImageBackground>
+    // </ImageBackground>
   );
 }
 const styles = StyleSheet.create({

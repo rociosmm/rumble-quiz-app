@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { withTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "./ProgressBar";
+import EndOfGame from "./EndOfGame";
 
 function QuestionCard({ theme, remainingTime }) {
   const { colors } = theme;
@@ -15,6 +16,7 @@ function QuestionCard({ theme, remainingTime }) {
   const [resultColor, setResultColor] = useState("");
   const [roundCounter, setRoundCounter] = useState(0);
   const [playersRemaining, setPlayersRemaining] = useState(3); // 3 is the number of the room.size
+  const [endOfGame, setEndOfGame] = useState("");
 
   useEffect(() => {
     const getUserLogged = async () => {
@@ -40,10 +42,16 @@ function QuestionCard({ theme, remainingTime }) {
         );
         setResultColor("");
         setPlayersRemaining(question.remainingPlayers);
+
+        if (playersRemaining === 1) {
+          socket.emit("leave-game", userLogged);
+          setEndOfGame("win");
+          return;
+        }
+
         const newQuestionTitle = question.question;
         const newAnswers = [...question.incorrect_answers];
         setRightAnswer(question.correct_answer);
-
         newAnswers.splice(
           Math.floor(Math.random() * 4),
           0,
@@ -90,6 +98,8 @@ function QuestionCard({ theme, remainingTime }) {
     } else {
       setResultColor("red");
       console.log("LOSE :(");
+      socket.emit("leave-game", userLogged);
+      setEndOfGame("lose");
     }
   };
 
@@ -146,27 +156,33 @@ function QuestionCard({ theme, remainingTime }) {
   });
   return (
     <SafeAreaView>
-      <View style={styles.questionCard}>
-        <Text style={styles.questionText}>{questionTitle}</Text>
-        <View style={styles.answerCards}>
-          {answers
-            ? answers.map((choice, index) => (
-                <Pressable
-                  key={index}
-                  disabled={resultColor === "" ? false : true}
-                  style={({ pressed }) => [
-                    { backgroundColor: pressed ? resultColor : "#ff8c00" },
-                    styles.answerButton,
-                  ]}
-                  onPress={() => onChoicePress(choice)}
-                >
-                  <Text style={styles.answerText}>{choice}</Text>
-                </Pressable>
-              ))
-            : null}
+      {!endOfGame ? (
+        <View>
+          <View style={styles.questionCard}>
+            <Text style={styles.questionText}>{questionTitle}</Text>
+            <View style={styles.answerCards}>
+              {answers
+                ? answers.map((choice, index) => (
+                    <Pressable
+                      key={index}
+                      disabled={resultColor === "" ? false : true}
+                      style={({ pressed }) => [
+                        { backgroundColor: pressed ? resultColor : "#ff8c00" },
+                        styles.answerButton,
+                      ]}
+                      onPress={() => onChoicePress(choice)}
+                    >
+                      <Text style={styles.answerText}>{choice}</Text>
+                    </Pressable>
+                  ))
+                : null}
+            </View>
+          </View>
+          <ProgressBar playersRemaining={playersRemaining} />
         </View>
-      </View>
-      <ProgressBar playersRemaining={playersRemaining} />
+      ) : (
+        <EndOfGame endOfGameResult={endOfGame} />
+      )}
     </SafeAreaView>
   );
 }
