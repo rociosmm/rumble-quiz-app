@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { getFriends, getUserByUsername } from "../utils/api";
+import { View, Text, StyleSheet, Image } from "react-native";
+import { getAvatar, getFriends, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Avatar } from "react-native-paper";
 
 export default function Friends() {
   const [userLogged, setUserLogged] = useState("");
@@ -32,22 +33,45 @@ export default function Friends() {
     }
   }, [userLogged]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (friends.length > 0) {
       const fetchFriendsDetails = async () => {
         const details = await Promise.all(
           friends.map((friend) => getUserByUsername(friend))
         );
+        console.log("details :>> ", details);
         const users = details.map(({ user }) => user);
+        console.log("users :>> ", users);
         setFriendsDetails(users);
       };
       fetchFriendsDetails();
     }
+  }, [friends]); */
+  useEffect(() => {
+    if (friends.length > 0) {
+      friends.map((friend) => {
+        getUserByUsername(friend).then(({ user }) => {
+          getAvatar(user.avatar_id).then(({ avatar }) => {
+            /* console.log("user inside getUserByUsername Nested :>> ", user);
+            console.log("avatar nested :>> ", avatar); */
+            const fullFriendData = { ...user, avatar_url: avatar.avatar_url };
+            setFriendsDetails((currentData) => {
+              return [...currentData, fullFriendData];
+            });
+          });
+        });
+      });
+    }
   }, [friends]);
+
+  console.log("friendsDetails :>> ", friendsDetails);
 
   const renderFriendCard = (friend) => {
     return (
       <View style={styles.card}>
+        <View style={styles.avatar_image}>
+          <Avatar.Image source={{ uri: friend.avatar_url }} />
+        </View>
         <View style={styles.friendDetails}>
           <View style={styles.friendInfo}>
             <Text style={styles.friendUsername}>{friend.username}</Text>
@@ -98,8 +122,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-around",
     backgroundColor: "#f9f9f9",
     padding: 15,
     borderRadius: 10,
@@ -109,13 +135,18 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
+
+  avatar_image: {
+    width: "15%",
+  },
   profileImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
   },
   friendDetails: {
-    flex: 1,
+    //flex: 1,
+    width: "60%",
   },
   friendInfo: {
     flexDirection: "row",
