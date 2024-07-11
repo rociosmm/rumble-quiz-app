@@ -17,9 +17,11 @@ export default function Stats({username, userLogged}) {
 
   useEffect(() => {
     if(userLogged){
-      getUserStats(userLogged).then(({log}) => {
-        setUserStats(log)
-      })
+      getUserStats(userLogged)
+        .then(({ log }) => {
+          setUserStats(log);
+        })
+        .catch((err) => console.log("err :>> ", err));
     }
   }, [userLogged])
 /*   console.log(userStats, 'Userstats again') */

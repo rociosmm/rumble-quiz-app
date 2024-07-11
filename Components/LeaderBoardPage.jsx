@@ -25,19 +25,23 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
   useEffect(() => {
     if (userLogged) {
       // console.log("userLogged useeff my leaderboard", userLogged);
-      getUsersPoints().then(({ leaderboard }) => {
-        const currentPlayerScore = leaderboard.find(user => user.player_username === userLogged)
-        if(!currentPlayerScore){
-          leaderboard.push({
-            player_username: userLogged,
-            total_points: 0
-          })
-        }
+      getUsersPoints()
+        .then(({ leaderboard }) => {
+          const currentPlayerScore = leaderboard.find(
+            (user) => user.player_username === userLogged
+          );
+          if (!currentPlayerScore) {
+            leaderboard.push({
+              player_username: userLogged,
+              total_points: 0,
+            });
+          }
           setUsersPoints(leaderboard);
           setIsLoading(false);
-        
-        // console.log("userPoints", userPoints);
-      });
+
+          // console.log("userPoints", userPoints);
+        })
+        .catch((err) => console.log("err :>> ", err));;
     }
   }, [userLogged]);
 

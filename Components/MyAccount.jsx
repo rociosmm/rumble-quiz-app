@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
 
 function MyAccount({ theme, setIsLoggedIn, avatars }) {
-  const [colourTheme, setColourTheme] = useState(1);
+  const [colourTheme, setColourTheme] = useState();
   const [editingMode, setEditingMode] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [userLogged, setUserLogged] = useState("");
@@ -43,25 +43,28 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
   useEffect(() => {
     if (userLogged) {
       // console.log('userLogged useeff my acc', userLogged)
-      getUserByUsername(userLogged).then(async ({ user }) => {
-        await setUserDetails(user);
+      getUserByUsername(userLogged).then(({ user }) => {
+        setUserDetails(user);
+        setColourTheme(user.colour_theme_id);
       });
     }
   }, [userLogged]);
 
   useEffect(() => {
-    getAvatar(userDetails.avatar_id).then(async (data) => {
-      // console.log("data avatar acc :>> ", data.avatar);
-      await setUserLoggedAvatar(data.avatar);
-      await AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
-    });
+    getAvatar(userDetails.avatar_id)
+      .then((data) => {
+        // console.log("data avatar acc :>> ", data.avatar);
+        setUserLoggedAvatar(data.avatar);
+        AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
+      })
+      .catch((err) => console.log("err :>> ", err));
   }, [userDetails]);
   // console.log("userLoggedAvatar :>> ", userLoggedAvatar);
 
   const colour_themes = [
     { colour_theme_id: 1, theme_name: "Light" },
     { colour_theme_id: 2, theme_name: "Dark" },
-    { colour_theme_id: 3, theme_name: "Kids" },
+    //{ colour_theme_id: 3, theme_name: "Kids" },
   ];
 
   const displayForm = () => {
@@ -73,8 +76,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
     await AsyncStorage.setItem("token", "");
     await AsyncStorage.setItem("userLogged", "");
     navigation.navigate("LogIn");
-    setIsLoggedIn(false)
-
+    setIsLoggedIn(false);
   };
 
   // Styles are defined inside of the component to have access to the theme
@@ -86,24 +88,30 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-around",
-      alignItems: "center",
+      //alignItems: "center",
       backgroundColor: colors.orange,
       padding: 20,
     },
     userDetails: {
       width: "60%",
     },
-    avatar: {
+    avatarContainer: {
+      padding: 10,
+      borderRadius: 100,
+      backgroundColor: "#FFE4C6",
       width: 100,
       height: 100,
-      borderRadius: 100,
+    },
+    avatar: {
+      width: "100%",
+      height: "100%",
     },
     h2: {
       fontSize: 30,
     },
     h2_bold: {
       fontSize: 25,
-      fontWeight: 'bold'
+      fontWeight: "bold",
     },
     input: {
       border: "1px solid grey",
@@ -140,7 +148,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
             valueField="id"
             labelField="theme_name"
             imageField="avatar_url"
-            placeholder="Select Colour Theme"
+            placeholder="Colour Theme: Light"
             searchPlaceholder="Search..."
             onChange={(e) => {
               setColourTheme(e.value);
@@ -148,7 +156,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
           />
           <Button title="Edit details" onPress={displayForm} />
         </View>
-        <View>
+        <View style={styles.avatarContainer}>
           <Image
             source={{ uri: userLoggedAvatar.avatar_url }}
             style={styles.avatar}
@@ -158,7 +166,11 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
       <ScrollView>
         <View>
           {editingMode ? (
-            <EditDetails setEditingMode={setEditingMode} userDetails={userDetails} avatars={avatars}/>
+            <EditDetails
+              setEditingMode={setEditingMode}
+              userDetails={userDetails}
+              avatars={avatars}
+            />
           ) : null}
           {userLogged ? (
             <Stats username={userDetails.username} userLogged={userLogged} />

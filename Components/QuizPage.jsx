@@ -34,14 +34,14 @@ import WaitingRoom from "./WaitingRoom";
 export default function QuizPage({ topic_id, userLogged }) {
   const [avatarsReceived, setAvatarsReceived] = useState(false)
   useEffect(() => {
-    console.warn("<<: mount QuizPage!! :>> ");
+    console.log("<<: mount QuizPage!! :>> ");
     console.log("userLogged mounting QuizPage:>> ", userLogged);
     console.log("<<: topic_id!! QuizPage :>> ", topic_id);
     socket.on("avatars", () => {
       setAvatarsReceived(true)
     })
     return () => {
-      console.warn("<<: leaving QuizPage:>> ");
+      console.log("<<: leaving QuizPage:>> ");
       console.log("userLogged leaving QuizPage:>> ", userLogged);
       // socket.off("avatars", () => {
       //   setAvatarsReceived(false)
