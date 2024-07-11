@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { socket } from "../socket";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,19 +6,20 @@ import { withTheme } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "./ProgressBar";
 import EndOfGame from "./EndOfGame";
-
+import { UserContext } from "../context/UserContext";
 function QuestionCard({ theme, remainingTime }) {
   const { colors } = theme;
   const [questionTitle, setQuestionTitle] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [rightAnswer, setRightAnswer] = useState(null);
-  const [userLogged, setUserLogged] = useState("");
+  //const [userLogged, setUserLogged] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [roundCounter, setRoundCounter] = useState(0);
   const [playersRemaining, setPlayersRemaining] = useState(3); // 3 is the number of the room.size
   const [endOfGame, setEndOfGame] = useState("");
-
-  useEffect(() => {
+  const { userLogged, login } = useContext(UserContext);
+  
+  /* useEffect(() => {
     const getUserLogged = async () => {
       try {
         const user = await AsyncStorage.getItem("userLogged");
@@ -31,7 +32,7 @@ function QuestionCard({ theme, remainingTime }) {
     };
 
     getUserLogged();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (userLogged) {
@@ -69,7 +70,7 @@ function QuestionCard({ theme, remainingTime }) {
         socket.off("question", handleQuestion);
       };
     }
-  }, [userLogged, roundCounter]);
+  }, [roundCounter]);
 
   useEffect(() => {
     const handlePlayersReady = () => setRoundCounter((current) => current + 1);

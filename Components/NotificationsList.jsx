@@ -6,8 +6,9 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 
+import {UserContext} from "../context/UserContext";
 const notifications = [
   {
     id: 1,
@@ -33,6 +34,7 @@ const notifications = [
 ];
 
 export default function NotificationsList() {
+const {userLogged, login} = useContext(UserContext);
   const renderNotification = ({ item }) => (
     <View style={styles.notificationCard}>
       <View

@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
   ScrollView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CustomInput from "./CustomInput";
 import Logo from "../assets/Designer.jpeg";
 import CustomButton from "./CustomButton";
@@ -14,21 +14,22 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { postUserLogin } from "../utils/api";
 import getUserLogged from "../utils/userLogged";
+import { UserContext } from "../context/UserContext";
 
 export default function LoginPage({ setIsLoggedIn }) {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [userLogged, setUserLogged] = useState("");
-
+  //const [userLogged, setUserLogged] = useState("");
+  const { userLogged, login } = useContext(UserContext);
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
 
-  useEffect(() => {
+  /* useEffect(() => {
     getUserLogged(setUserLogged).catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, []); */
 
   const onLogInButtonPressed = async () => {
     // validate user from backend
@@ -38,25 +39,7 @@ export default function LoginPage({ setIsLoggedIn }) {
       password: passwordInput,
     };
 
-    try {
-      const res = await postUserLogin(userData);
-      // console.log(Object.keys(res));
-      if (res.status === 200) {
-        await AsyncStorage.setItem("token", JSON.stringify(res.data));
-        await AsyncStorage.setItem("userLogged", userData.username);
-        await AsyncStorage.setItem("isLoggedIn", JSON.stringify(true));
-        navigation.navigate("AppNavigation");
-        setIsLoggedIn(true);
-      } else {
-        Alert.alert(
-          "Login failed",
-          "Please check your credentials and try again."
-        );
-      }
-    } catch (error) {
-      console.log("error in post request for login ", error);
-      Alert.alert("Login failed", "An error occurred. Please try again later.");
-    }
+    login(userData, navigation);
   };
 
   const onForgotPasswordPressed = () => {

@@ -1,15 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Leaderboard from "react-native-leaderboard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUsersPoints } from "../utils/api";
 import LoadingSpinner from "./LoadingSpinner";
+import { UserContext } from "../context/UserContext";
 
 export default function LeaderBoardPage({ isLoading, setIsLoading }) {
-  const [userLogged, setUserLogged] = useState("");
+  //const [userLogged, setUserLogged] = useState("");
   const [usersPoints, setUsersPoints] = useState([]);
-
-  const getUserLogged = async () => {
+  const { userLogged, login } = useContext(UserContext);
+  
+  /* const getUserLogged = async () => {
     try {
       const user = await AsyncStorage.getItem("userLogged");
       setUserLogged(user);
@@ -20,7 +22,7 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
 
   useEffect(() => {
     getUserLogged();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (userLogged) {
@@ -43,7 +45,7 @@ export default function LeaderBoardPage({ isLoading, setIsLoading }) {
         })
         .catch((err) => console.log("err :>> ", err));;
     }
-  }, [userLogged]);
+  }, []);
 
   const currentPlayerScore = usersPoints.find(user => user.player_username === userLogged);
   const currentPlayerRank = usersPoints.findIndex(user => user.player_username === userLogged) + 1;

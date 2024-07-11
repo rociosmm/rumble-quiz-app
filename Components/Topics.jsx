@@ -8,20 +8,22 @@ import {
   useWindowDimensions,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getCategories } from "../utils/questionsApi";
 import Topic from "./Topic";
 import TopicFlipCard from "./TopicFlipCard";
 import QuizPage from "./QuizPage";
 import { socket } from "../socket";
+import { UserContext } from "../context/UserContext";
 
-export default function Topics({ userLogged, setUserLogged }) {
+export default function Topics() {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState();
   const [avatar, setAvatar] = useState();
   const { height } = useWindowDimensions();
+  const { userLogged, login } = useContext(UserContext);
 
-  const getUserLogged = async () => {
+  /* const getUserLogged = async () => {
     try {
       const user = await AsyncStorage.getItem("userLogged");
       const avatar = await AsyncStorage.getItem("avatar_url");
@@ -31,15 +33,15 @@ export default function Topics({ userLogged, setUserLogged }) {
     } catch (error) {
       console.error("Error retrieving user from AsyncStorage", error);
     }
-  };
+  }; */
   useEffect(() => {
     getCategories()
       .then((data) => {
         const { trivia_categories } = data;
         setTopics(trivia_categories);
       })
-      .catch((err) => console.log("err :>> ", err));;
-    getUserLogged();
+      .catch((err) => console.log("err :>> ", err));
+    /* getUserLogged(); */
   }, []);
 
   const handleSelection = async (id, name) => {
@@ -75,7 +77,8 @@ export default function Topics({ userLogged, setUserLogged }) {
             return (
               <Pressable
                 key={topic.id}
-                onPress={() => handleSelection(topic.id, topic.name)}>
+                onPress={() => handleSelection(topic.id, topic.name)}
+              >
                 <Topic topic={topic} />
               </Pressable>
             );

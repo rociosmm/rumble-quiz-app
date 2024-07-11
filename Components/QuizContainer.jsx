@@ -6,29 +6,31 @@ import {
   Button,
   ImageBackground,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Topics from "./Topics";
 import MyAccount from "./MyAccount";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { withTheme } from "react-native-paper";
 import { useColorScheme, Appearance } from "react-native";
+import { UserContext } from "../context/UserContext";
 
 function QuizContainer({ theme }) {
   const { colors } = theme;
-  const [userLogged, setUserLogged] = useState("");
+  //const [userLogged, setUserLogged] = useState("");
   const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const [currentScheme, setCurrentScheme] = useState(colorScheme);
-
-  const getLogged = async () => {
+  const { userLogged, login } = useContext(UserContext);
+  
+ /*  const getLogged = async () => {
     const user = await AsyncStorage.getItem("userLogged");
     return user;
   };
 
   useEffect(() => {
     setUserLogged(getLogged());
-  }, []);
+  }, []); */
 
   // Styles are defined inside of the component to have access to the theme
   const styles = StyleSheet.create({
@@ -51,7 +53,7 @@ function QuizContainer({ theme }) {
         style={styles.container}
       >
         <View>
-          <Topics userLogged={userLogged} setUserLogged={setUserLogged} />
+          <Topics/>
         </View>
       </ImageBackground>
     );

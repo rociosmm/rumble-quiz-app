@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { SelectCountry } from "react-native-element-dropdown";
 import EditDetails from "./EditDetails";
 import Stats from "./Stats";
@@ -15,19 +15,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "./CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { withTheme } from "react-native-paper";
+import { UserContext } from "../context/UserContext";
 
 function MyAccount({ theme, setIsLoggedIn, avatars }) {
   const [colourTheme, setColourTheme] = useState();
   const [editingMode, setEditingMode] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [userDetails, setUserDetails] = useState({});
-  const [userLogged, setUserLogged] = useState("");
   const [userLoggedAvatar, setUserLoggedAvatar] = useState({});
   const { colors } = theme;
   const navigation = useNavigation();
+  const { userLogged, logout } = useContext(UserContext);
 
   // console.log("avatars in myaccount>>>", avatars)
 
-  const getUserLogged = async () => {
+  /* const getUserLogged = async () => {
     try {
       const user = await AsyncStorage.getItem("userLogged");
       setUserLogged(user);
@@ -38,26 +40,31 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
 
   useEffect(() => {
     getUserLogged();
-  }, [userLogged]);
+  }, [userLogged]); */
 
   useEffect(() => {
+    console.log("userLogged :>> ", userLogged);
     if (userLogged) {
       // console.log('userLogged useeff my acc', userLogged)
       getUserByUsername(userLogged).then(({ user }) => {
+        console.log('user :>> ', user);
         setUserDetails(user);
         setColourTheme(user.colour_theme_id);
-      });
+      }).catch(err => console.log('err :>> ', err));
     }
-  }, [userLogged]);
+  }, [updated]);
+  console.log("userDetails :>> ", userDetails);
 
   useEffect(() => {
-    getAvatar(userDetails.avatar_id)
-      .then((data) => {
-        // console.log("data avatar acc :>> ", data.avatar);
-        setUserLoggedAvatar(data.avatar);
-        AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
-      })
-      .catch((err) => console.log("err :>> ", err));
+    if (Object.keys(userDetails).length > 0) {
+      getAvatar(userDetails.avatar_id)
+        .then((data) => {
+          // console.log("data avatar acc :>> ", data.avatar);
+          setUserLoggedAvatar(data.avatar);
+          AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
+        })
+        .catch((err) => console.log("err :>> ", err));
+    }
   }, [userDetails]);
   // console.log("userLoggedAvatar :>> ", userLoggedAvatar);
 
@@ -69,14 +76,11 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
 
   const displayForm = () => {
     setEditingMode(true);
+    setUpdated(false);
   };
 
   const onLogOutPressed = async () => {
-    await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
-    await AsyncStorage.setItem("token", "");
-    await AsyncStorage.setItem("userLogged", "");
-    navigation.navigate("LogIn");
-    setIsLoggedIn(false);
+    logout(navigation);
   };
 
   // Styles are defined inside of the component to have access to the theme
@@ -170,6 +174,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
               setEditingMode={setEditingMode}
               userDetails={userDetails}
               avatars={avatars}
+              setUpdated={setUpdated}
             />
           ) : null}
           {userLogged ? (
