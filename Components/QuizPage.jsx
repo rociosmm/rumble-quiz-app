@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getQuestions } from "../utils/questionsApi";
 import React from "react";
 import CountdownTimer from "./Countdown";
@@ -8,31 +8,11 @@ import PlayerAvatars from "./PlayerAvatars";
 import ProgressBar from "./ProgressBar";
 import { socket } from "../socket";
 import WaitingRoom from "./WaitingRoom";
+import {UserContext} from "../context/UserContext";
 
-// export default function QuizPage({ topic_id }) {
-//   const [questions, setQuestions] = useState([]);
-//   useEffect(() => {
-//     getQuestions(topic_id).then(({ data }) => {
-//       const { results } = data;
-//       console.log("data in quiz page:>> ", Object.keys(data));
-//       console.log("results :>> ", results);
-//       //const result
-//       setQuestions(results);
-//     });
-//   }, []);
-
-//   return (
-//     <View>
-//       <Text>{topic_id}</Text>
-
-//       {questions.map((result, index) => {
-//         return <Text key={index}>{JSON.stringify(result)}</Text>;
-//       })}
-//     </View>
-//   );
-// }
-export default function QuizPage({ topic_id, userLogged }) {
-  const [avatarsReceived, setAvatarsReceived] = useState(false)
+export default function QuizPage({ topic_id }) {
+  const [avatarsReceived, setAvatarsReceived] = useState(false);
+  const { userLogged, login } = useContext(UserContext);
   useEffect(() => {
     console.log("<<: mount QuizPage!! :>> ");
     console.log("userLogged mounting QuizPage:>> ", userLogged);
@@ -55,7 +35,7 @@ export default function QuizPage({ topic_id, userLogged }) {
       <ScrollView>
         <PlayerAvatars />
         <CountdownTimer />
-        <QuestionCard userLogged={userLogged} />
+        <QuestionCard />
       </ScrollView>
     );
   } else {

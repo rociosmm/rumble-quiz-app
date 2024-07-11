@@ -25,7 +25,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Context and storage
-//import { UserContext } from "./context/UserContext";
+import { UserProvider } from "./context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { colorsDark, colorsLight } from "./Styles/ThemeColors";
 import { useColorScheme, Appearance } from "react-native";
@@ -151,7 +151,10 @@ export default function App() {
   //  console.log("avatars in app", avatars)
 
   const BeforeLogin = () => (
-    <Stack.Navigator initialRouteName="LoadingPage" screenOptions={{ headerShown: false, animation: "none" }}>
+    <Stack.Navigator
+      initialRouteName="LoadingPage"
+      screenOptions={{ headerShown: false, animation: "none" }}
+    >
       <Stack.Screen
         name="LoadingPage"
         component={LoadingPage}
@@ -185,13 +188,15 @@ export default function App() {
 
   return (
     <>
-      <NavigationContainer>
-        <SafeAreaView style={styles.root}>
-          <PaperProvider theme={paperTheme}>
-            {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
-          </PaperProvider>
-        </SafeAreaView>
-      </NavigationContainer>
+      <UserProvider>
+        <NavigationContainer>
+          <SafeAreaView style={styles.root}>
+            <PaperProvider theme={paperTheme}>
+              {isLoggedIn ? <AfterLogin /> : <BeforeLogin />}
+            </PaperProvider>
+          </SafeAreaView>
+        </NavigationContainer>
+      </UserProvider>
     </>
   );
 }

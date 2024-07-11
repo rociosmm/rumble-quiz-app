@@ -9,9 +9,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function EditDetails({ setEditingMode, userDetails, avatars }) {
   const [newUsername, setNewUsername] = useState(userDetails.username);
   const [newEmail, setNewEmail] = useState(userDetails.email);
-  const [selectedAvatarId, setSelectedAvatarId] = useState(userDetails.avatar_id);
+  const [selectedAvatarId, setSelectedAvatarId] = useState(
+    userDetails.avatar_id
+  );
 
-  console.log(userDetails, 'USER')
+  console.log(userDetails, "USER");
 
   if (!avatars) {
     avatars = [];
@@ -21,33 +23,27 @@ export default function EditDetails({ setEditingMode, userDetails, avatars }) {
     return { ...avatar, avatar_url: { uri: avatar.avatar_url } };
   });
 
+  console.log(newUsername, newEmail, selectedAvatarId);
 
-console.log(newUsername, newEmail, selectedAvatarId)
-
-
-  const saveUserDetails = async() => {
+  const saveUserDetails = async () => {
     // const newUserData = { ...user, newUsername, newEmail };
     const patchBody = {
       username: newUsername,
       email: newEmail,
-      avatar_id: selectedAvatarId
-    }
+      avatar_id: selectedAvatarId,
+    };
     try {
-      await patchUserByUsername(userDetails.username, patchBody)
-      console.log("Response", res)
+      await patchUserByUsername(userDetails.username, patchBody);
+      console.log("Response", res);
       await AsyncStorage.setItem("userLogged", newUsername);
-      const userLogged = await AsyncStorage.getItem("userLogged")
-      console.log("Updated userLogged, userLogged")
+      const userLogged = await AsyncStorage.getItem("userLogged");
+      console.log("Updated userLogged, userLogged");
       setEditingMode(false);
-    } catch(err) {
-      console.log("Error updating user details", err)
-      Alert.alert(
-        "Unable to process change",
-        "Please try again later",
-        [
-          {text: "OK"}
-        ]
-      )
+    } catch (err) {
+      console.log("Error updating user details", err);
+      Alert.alert("Unable to process change", "Please try again later", [
+        { text: "OK" },
+      ]);
     }
   };
 
@@ -129,10 +125,10 @@ const styles = StyleSheet.create({
     top: 2,
     right: 2,
   },
-  input_titles:{
-    alignSelf: 'flex-start',
+  input_titles: {
+    alignSelf: "flex-start",
     marginTop: 5,
     fontSize: 16,
-    color: 'grey',
-  }
+    color: "grey",
+  },
 });

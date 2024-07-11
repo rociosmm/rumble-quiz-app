@@ -1,12 +1,17 @@
 import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState
+  , useContext
+ } from 'react'
 import { StyleSheet } from 'react-native'; 
 import { DataTable } from 'react-native-paper'; 
 import { getUserStats } from '../utils/api';
 import CustomStyles from '../Styles/CustomStyles';
 
-export default function Stats({username, userLogged}) {
+import { UserContext } from "../context/UserContext";
+
+export default function Stats({username}) {
 /*   console.log(userLogged, "<<<USerLogged in Stats") */
+const {userLogged, login} = useContext(UserContext);
   const [userStats, setUserStats] = useState(({
     player_username: userLogged,
     games_played: 0,
@@ -23,7 +28,7 @@ export default function Stats({username, userLogged}) {
         })
         .catch((err) => console.log("err :>> ", err));
     }
-  }, [userLogged])
+  }, [])
 /*   console.log(userStats, 'Userstats again') */
 
   if(!userStats) {

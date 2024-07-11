@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { getAvatar, getFriends, getUserByUsername } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-paper";
-
+import { UserContext } from "../context/UserContext";
 export default function Friends() {
-  const [userLogged, setUserLogged] = useState("");
+  //const [userLogged, setUserLogged] = useState("");
   const [friends, setFriends] = useState([]);
   const [friendsDetails, setFriendsDetails] = useState([]);
+  const { userLogged, login } = useContext(UserContext);
 
-  const getUserLogged = async () => {
+  /* const getUserLogged = async () => {
     try {
       const user = await AsyncStorage.getItem("userLogged");
       setUserLogged(user);
@@ -21,7 +22,7 @@ export default function Friends() {
 
   useEffect(() => {
     getUserLogged();
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (userLogged) {
@@ -31,24 +32,10 @@ export default function Friends() {
           const friends_usernames = data.map((fr) => fr.user2_username);
           setFriends(friends_usernames);
         })
-        .catch((err) => console.log("err :>> ", err));;
+        .catch((err) => console.log("err :>> ", err));
     }
-  }, [userLogged]);
+  }, []);
 
-  /* useEffect(() => {
-    if (friends.length > 0) {
-      const fetchFriendsDetails = async () => {
-        const details = await Promise.all(
-          friends.map((friend) => getUserByUsername(friend))
-        );
-        console.log("details :>> ", details);
-        const users = details.map(({ user }) => user);
-        console.log("users :>> ", users);
-        setFriendsDetails(users);
-      };
-      fetchFriendsDetails();
-    }
-  }, [friends]); */
   useEffect(() => {
     if (friends.length > 0) {
       friends.map((friend) => {
@@ -62,7 +49,7 @@ export default function Friends() {
                 return [...currentData, fullFriendData];
               });
             })
-            .catch((err) => console.log("err :>> ", err));;
+            .catch((err) => console.log("err :>> ", err));
         });
       });
     }
