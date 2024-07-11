@@ -20,8 +20,8 @@ import { UserContext } from "../context/UserContext";
 function MyAccount({ theme, setIsLoggedIn, avatars }) {
   const [colourTheme, setColourTheme] = useState();
   const [editingMode, setEditingMode] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [userDetails, setUserDetails] = useState({});
-  //const [userLogged, setUserLogged] = useState("");
   const [userLoggedAvatar, setUserLoggedAvatar] = useState({});
   const { colors } = theme;
   const navigation = useNavigation();
@@ -47,21 +47,24 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
     if (userLogged) {
       // console.log('userLogged useeff my acc', userLogged)
       getUserByUsername(userLogged).then(({ user }) => {
+        console.log('user :>> ', user);
         setUserDetails(user);
         setColourTheme(user.colour_theme_id);
-      });
+      }).catch(err => console.log('err :>> ', err));
     }
-  }, []);
-  console.log('userDetails :>> ', userDetails);
+  }, [updated]);
+  console.log("userDetails :>> ", userDetails);
 
   useEffect(() => {
-    getAvatar(userDetails.avatar_id)
-      .then((data) => {
-        // console.log("data avatar acc :>> ", data.avatar);
-        setUserLoggedAvatar(data.avatar);
-        AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
-      })
-      .catch((err) => console.log("err :>> ", err));
+    if (Object.keys(userDetails).length > 0) {
+      getAvatar(userDetails.avatar_id)
+        .then((data) => {
+          // console.log("data avatar acc :>> ", data.avatar);
+          setUserLoggedAvatar(data.avatar);
+          AsyncStorage.setItem("avatar_url", data.avatar.avatar_url);
+        })
+        .catch((err) => console.log("err :>> ", err));
+    }
   }, [userDetails]);
   // console.log("userLoggedAvatar :>> ", userLoggedAvatar);
 
@@ -73,6 +76,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
 
   const displayForm = () => {
     setEditingMode(true);
+    setUpdated(false);
   };
 
   const onLogOutPressed = async () => {
@@ -170,6 +174,7 @@ function MyAccount({ theme, setIsLoggedIn, avatars }) {
               setEditingMode={setEditingMode}
               userDetails={userDetails}
               avatars={avatars}
+              setUpdated={setUpdated}
             />
           ) : null}
           {userLogged ? (

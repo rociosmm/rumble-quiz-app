@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { postUserLogin } from "../utils/api";
+import { patchUserByUsername, postUserLogin } from "../utils/api";
 
 export const UserContext = createContext();
 
@@ -46,6 +46,19 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+const editUser = async (userToEdit, patchBody) => {
+  try {
+      const res = await patchUserByUsername(userLogged, patchBody);
+      if (res.status === 200) {
+        console.log('res :>> ', res);
+        //await AsyncStorage.setItem("userLogged", newUsername);
+        console.log("Updated userLogged, userLogged");
+      }
+    } catch (error) {
+      console.log("error in patch request for login ", error);
+    }
+  };
+
   const logout = async (navigation) => {
     try {
       await AsyncStorage.setItem("isLoggedIn", JSON.stringify(false));
@@ -59,19 +72,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const editUser = async (patchBody) => {
-    try {
-      const res = await patchUserByUsername(userLogged, patchBody);
-      if (res.status === 200) {
-        await AsyncStorage.setItem("userLogged", newUsername);
-        console.log("Updated userLogged, userLogged");
-      } else {
-        alert("Editing failed");
-      }
-    } catch (error) {
-      console.log("error in patch request for login ", error);
-    }
-  };
+  
 
   return (
     <UserContext.Provider
