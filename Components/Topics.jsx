@@ -33,10 +33,12 @@ export default function Topics({ userLogged, setUserLogged }) {
     }
   };
   useEffect(() => {
-    getCategories().then((data) => {
-      const { trivia_categories } = data;
-      setTopics(trivia_categories);
-    });
+    getCategories()
+      .then((data) => {
+        const { trivia_categories } = data;
+        setTopics(trivia_categories);
+      })
+      .catch((err) => console.log("err :>> ", err));;
     getUserLogged();
   }, []);
 

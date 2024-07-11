@@ -25,11 +25,13 @@ export default function Friends() {
 
   useEffect(() => {
     if (userLogged) {
-      getFriends(userLogged).then((data) => {
-        console.log("data friends endpoint :>> ", data);
-        const friends_usernames = data.map((fr) => fr.user2_username);
-        setFriends(friends_usernames);
-      });
+      getFriends(userLogged)
+        .then((data) => {
+          console.log("data friends endpoint :>> ", data);
+          const friends_usernames = data.map((fr) => fr.user2_username);
+          setFriends(friends_usernames);
+        })
+        .catch((err) => console.log("err :>> ", err));;
     }
   }, [userLogged]);
 
@@ -51,14 +53,16 @@ export default function Friends() {
     if (friends.length > 0) {
       friends.map((friend) => {
         getUserByUsername(friend).then(({ user }) => {
-          getAvatar(user.avatar_id).then(({ avatar }) => {
-            /* console.log("user inside getUserByUsername Nested :>> ", user);
+          getAvatar(user.avatar_id)
+            .then(({ avatar }) => {
+              /* console.log("user inside getUserByUsername Nested :>> ", user);
             console.log("avatar nested :>> ", avatar); */
-            const fullFriendData = { ...user, avatar_url: avatar.avatar_url };
-            setFriendsDetails((currentData) => {
-              return [...currentData, fullFriendData];
-            });
-          });
+              const fullFriendData = { ...user, avatar_url: avatar.avatar_url };
+              setFriendsDetails((currentData) => {
+                return [...currentData, fullFriendData];
+              });
+            })
+            .catch((err) => console.log("err :>> ", err));;
         });
       });
     }
