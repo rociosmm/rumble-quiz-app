@@ -120,3 +120,11 @@ export const getNotifications = (username) => {
       console.log("axios err", err);
     });
 };
+
+export const readingNotifications = (notification_id) => {
+  return rumbleQuizApi
+    .patch(`/notifications/${notification_id}`)
+    .then(({ data }) => {
+      return data.notifications;
+    })
+}

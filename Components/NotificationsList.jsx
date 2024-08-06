@@ -6,14 +6,17 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import { Avatar } from "react-native-paper";
 import React, { useContext, useEffect, useState } from "react";
 import ReactTimeAgo from "react-time-ago";
 
 import { UserContext } from "../context/UserContext";
-import { getNotifications, getUserByUsername } from "../utils/api";
+import {
+  getNotifications,
+  getUserByUsername,
+  readingNotifications,
+} from "../utils/api";
 
-function Time({children }) {
+function Time({ children }) {
   return <Text>{children}</Text>;
 }
 
@@ -68,11 +71,52 @@ export default function NotificationsList() {
           {item.notification_text}
         </Text>
         <Text>
-          <ReactTimeAgo date={item.time} component={Time} />
+          <ReactTimeAgo
+            date={
+              typeof item.time === "number"
+                ? item.time
+                : new Date(item.time).getTime()
+            }
+            component={Time}
+          />
         </Text>
       </View>
     </View>
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (fullNotifications.length > 0) {
+        fullNotifications.forEach((notif) => {
+          if (notif && notif.notification_id) {
+            if (!notif.seen) {
+              readingNotifications(notif.notification_id)
+                .then((notification) => {
+                  if (notification) {
+                    setFullNotifications((current) =>
+                      current.map((n) =>
+                        n.notification_id === notification.notification_id
+                          ? notification
+                          : n
+                      )
+                    );
+                  }
+                })
+                .catch((error) => {
+                  console.error(
+                    `Failed to mark notification as read: ${notif.notification_id}`,
+                    error
+                  );
+                });
+            }
+          } else {
+            console.error("Invalid notification", notif);
+          }
+        });
+      }
+    }, 5000);
+  }, [fullNotifications]);
+
 
   return (
     <View style={styles.container}>
@@ -91,12 +135,6 @@ export default function NotificationsList() {
     </View>
   );
 }
-
-/*   setTimeout(() => {
-    after a 20s patch the notifications to set them as seen
-  }) */
-
-/* change the time for time ago - more readable */
 
 const styles = StyleSheet.create({
   container: {
