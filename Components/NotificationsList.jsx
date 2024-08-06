@@ -6,10 +6,12 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import React, {useContext} from "react";
+import { Avatar } from "react-native-paper";
+import React, { useContext, useEffect, useState } from "react";
 
-import {UserContext} from "../context/UserContext";
-const notifications = [
+import { UserContext } from "../context/UserContext";
+import { getNotifications, getUserByUsername } from "../utils/api";
+/* const notifications = [
   {
     id: 1,
     title: "Friend Request",
@@ -31,22 +33,59 @@ const notifications = [
     image: require("../assets/avatars/icons8-tiger-48.png"),
     backgroundColor: "#daa520",
   },
-];
+]; */
 
 export default function NotificationsList() {
-const {userLogged, login} = useContext(UserContext);
+  const { userLogged, login } = useContext(UserContext);
+  const [notificationsList, setNotificationsList] = useState([]);
+  const [fullNotifications, setFullNotifications] = useState([]);
+
+  useEffect(() => {
+    getNotifications(userLogged).then((notifications) => {
+      setNotificationsList(notifications);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (notificationsList.length > 0) {
+      const fetchUsers = async () => {
+        const updatedNotifications = await Promise.all(
+          notificationsList.map(async (notif) => {
+            const { user } = await getUserByUsername(notif.sender_id);
+            return {
+              ...notif,
+              sender_name: user.username,
+              avatar_name: user.avatar_name,
+              avatar_url: user.avatar_url,
+            };
+          })
+        );
+        setFullNotifications(updatedNotifications);
+      };
+      fetchUsers();
+    }
+  }, [notificationsList]);
+
   const renderNotification = ({ item }) => (
-    <View style={styles.notificationCard}>
+    <View
+      style={[
+        styles.notificationCard,
+        { backgroundColor: item.seen ? "lightgrey" : "#85c3ff" },
+      ]}
+    >
       <View
         style={[
           styles.profileImageContainer,
           { backgroundColor: item.backgroundColor },
         ]}
       />
-      <Image source={item.image} style={styles.profileImage} />
+      <Image source={{ uri: item.avatar_url }} style={styles.profileImage} />
       <View style={styles.notificationText}>
-        <Text style={styles.notificationTitle}>{item.title}</Text>
-        <Text style={styles.notificationDescription}>{item.description}</Text>
+        <Text style={styles.notificationTitle}>{item.sender_name}</Text>
+        <Text style={styles.notificationDescription}>
+          {item.notification_text}
+        </Text>
+        <Text style={styles.notificationDescription}>{item.time}</Text>
       </View>
     </View>
   );
@@ -55,13 +94,14 @@ const {userLogged, login} = useContext(UserContext);
     <View style={styles.container}>
       <ImageBackground
         source={{ uri: "../assets/jigsaw_puzzle_frame_6_a_white.jpg" }}
-        style={styles.headerStrip}>
+        style={styles.headerStrip}
+      >
         <Text style={styles.headerText}>Notifications</Text>
       </ImageBackground>
       <FlatList
-        data={notifications}
+        data={fullNotifications}
         renderItem={renderNotification}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.notification_id}
         contentContainerStyle={styles.listContainer}
       />
     </View>
@@ -102,6 +142,9 @@ const styles = StyleSheet.create({
     elevation: 3,
     flexDirection: "row",
     alignItems: "center",
+  },
+  avatar_image: {
+    width: "15%",
   },
   profileImage: {
     width: 48,

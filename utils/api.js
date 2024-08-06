@@ -107,3 +107,16 @@ export const postNewUser = (postBody) => {
       console.log(error, "error");
     });
 };
+
+export const getNotifications = (username) => {
+  console.log("username :>> ", username);
+  return rumbleQuizApi
+    .get(`/notifications/${username}`)
+    .then(({ data }) => {
+      //console.log("data :>> ", data);
+      return data.notifications;
+    })
+    .catch((err) => {
+      console.log("axios err", err);
+    });
+};
