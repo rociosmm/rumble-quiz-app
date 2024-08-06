@@ -8,32 +8,14 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-paper";
 import React, { useContext, useEffect, useState } from "react";
+import ReactTimeAgo from "react-time-ago";
 
 import { UserContext } from "../context/UserContext";
 import { getNotifications, getUserByUsername } from "../utils/api";
-/* const notifications = [
-  {
-    id: 1,
-    title: "Friend Request",
-    description: "RobotOverlord has sent you a friend request.",
-    image: require("../assets/avatars/icons8-gorilla-48.png"),
-    backgroundColor: "#b22222",
-  },
-  {
-    id: 2,
-    title: "Friend Added",
-    description: "PirateQueen has accepted your friend request.",
-    image: require("../assets/avatars/icons8-lion-48.png"),
-    backgroundColor: "#90ee90",
-  },
-  {
-    id: 3,
-    title: "Friend Request",
-    description: "NinjaWarrior has sent you a friend request.",
-    image: require("../assets/avatars/icons8-tiger-48.png"),
-    backgroundColor: "#daa520",
-  },
-]; */
+
+function Time({children }) {
+  return <Text>{children}</Text>;
+}
 
 export default function NotificationsList() {
   const { userLogged, login } = useContext(UserContext);
@@ -85,7 +67,9 @@ export default function NotificationsList() {
         <Text style={styles.notificationDescription}>
           {item.notification_text}
         </Text>
-        <Text style={styles.notificationDescription}>{item.time}</Text>
+        <Text>
+          <ReactTimeAgo date={item.time} component={Time} />
+        </Text>
       </View>
     </View>
   );
@@ -107,6 +91,12 @@ export default function NotificationsList() {
     </View>
   );
 }
+
+/*   setTimeout(() => {
+    after a 20s patch the notifications to set them as seen
+  }) */
+
+/* change the time for time ago - more readable */
 
 const styles = StyleSheet.create({
   container: {
