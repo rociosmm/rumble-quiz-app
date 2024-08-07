@@ -33,7 +33,7 @@ export default function UserCard({ user, unknownUser, addNewFriend }) {
             <Button
               icon="account-plus"
               mode="contained"
-              onPress={() => addNewFriend(userLogged, user.username)}
+              onPress={() => addNewFriend(userLogged, user.user_id, user.username)}
             >
               Add
             </Button>

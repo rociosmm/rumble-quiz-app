@@ -142,12 +142,23 @@ export const getPeople = () => {
 
 export const addFriend = (userLogged, newFriend) => {
   return rumbleQuizApi
-    .post(`/users/${userLogged}/friends`, {newFriend})
-    .then(({data}) => {
-      console.log("data new friend :>> ", data);
+    .post(`/users/${userLogged}/friends`, { newFriend })
+    .then(({ data }) => {
       return data.friendship;
     })
     .catch((err) => {
       console.log("err :>> ", err);
+    });
+};
+
+export const sendNotification = (newNotification) => {
+  return rumbleQuizApi
+    .post("/notifications", newNotification)
+    .then(({ data }) => {
+      console.log("**** data sendNotif api :>> ", data);
+      return data.notification;
+    })
+    .catch((err) => {
+      console.log("err sendNotification :>> ", err);
     });
 };

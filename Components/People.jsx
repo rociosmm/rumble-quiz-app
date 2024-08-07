@@ -5,6 +5,7 @@ import {
   getFriends,
   getPeople,
   getUserByUsername,
+  sendNotification,
 } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,9 +17,10 @@ import { addFriend } from "../utils/api";
 
 export default function People({ route }) {
   const { friendsUsernamesAndSelf } = route.params;
-  const { userLogged } = useContext(UserContext);
+  const { userLogged, userLoggedID } = useContext(UserContext);
   const [people, setPeople] = useState([]);
   const [unknownUser, setUnknownUser] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     getPeople()
@@ -33,17 +35,26 @@ export default function People({ route }) {
       })
       .catch((err) => console.log("err :>> ", err));
   }, []);
-  console.log("people.length inir :>> ", people.length);
 
-  const addNewFriend = (userLogged, newFriend_username) => {
+  const addNewFriend = (userLogged, user_id, newFriend_username) => {
     addFriend(userLogged, newFriend_username).then((friendship) => {
-      console.log("friendship comp :>> ", friendship);
       const peopleAfterAddFriend = people.filter((user) => {
         return user.username !== friendship.user2_username;
       });
       setPeople(peopleAfterAddFriend);
     });
-    
+
+    const newFriendshipNotification = {
+      user_id: user_id,
+      sender_id: Number(userLoggedID),
+    };
+    sendNotification(newFriendshipNotification).then((notification) => {
+      setSuccessMessage("Friend added!");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    });
   };
 
   return (
@@ -52,6 +63,11 @@ export default function People({ route }) {
         <View style={styles.topBanner}>
           <Text style={styles.h2}>People</Text>
         </View>
+        {successMessage ? (
+          <View style={styles.successMessage}>
+            <Text style={styles.successMessageText}>{successMessage}</Text>
+          </View>
+        ) : null}
         <View style={styles.friendsList}>
           {people.map((person) => {
             return (
@@ -142,5 +158,17 @@ const styles = StyleSheet.create({
   onlineStatus: {
     fontSize: 16,
     color: "#555555",
+  },
+  successMessage: {
+    backgroundColor: "lightgreen",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    marginVertical: 30,
+    marginHorizontal: 30,
+    borderRadius: 20,
+  },
+  successMessageText: {
+    textAlign: "center",
+    fontSize: 22,
   },
 });
