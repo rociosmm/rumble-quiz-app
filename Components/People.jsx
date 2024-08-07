@@ -1,50 +1,39 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
-import { getAvatar, getFriends, getUserByUsername } from "../utils/api";
+import {
+  getAvatar,
+  getFriends,
+  getPeople,
+  getUserByUsername,
+} from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-paper";
 import { UserContext } from "../context/UserContext";
 import UserCard from "./designComponents/UserCard";
 import CustomButton from "./CustomButton";
-import { useNavigation } from "@react-navigation/native";
 
-export default function Friends() {
-  //const [userLogged, setUserLogged] = useState("");
-  const [friends, setFriends] = useState([]);
-  const [friendsDetails, setFriendsDetails] = useState([]);
-  const [friendsUsernamesAndSelf, setFriendsUsernamesAndSelf] = useState([]);
-  const { userLogged, login } = useContext(UserContext);
-  const navigation = useNavigation();
+export default function People({ route }) {
+  const { friendsUsernamesAndSelf } = route.params;
+  const { userLogged } = useContext(UserContext);
+  const [people, setPeople] = useState([]);
+  const [unknownUser, setUnknownUser] = useState(true)
 
   useEffect(() => {
-    if (userLogged) {
-      getFriends(userLogged)
-        .then((data) => {
-          //console.log("data friends endpoint :>> ", data);
-          const friends_usernames = data.map((fr) => fr.user2_username);
-          setFriends(friends_usernames);
-        })
-        .catch((err) => console.log("err :>> ", err));
-    }
+    getPeople()
+      .then((users) => {
+        const restOfPeople = users.filter((user) => {
+          return (
+            !friendsUsernamesAndSelf.includes(user.username) &&
+            user.username !== userLogged
+          );
+        });
+        setPeople(restOfPeople);
+      })
+      .catch((err) => console.log("err :>> ", err));
   }, []);
 
-  useEffect(() => {
-    if (friends.length > 0) {
-      friends.map((friend) => {
-        getUserByUsername(friend).then(({ user }) => {
-          setFriendsDetails((currentData) => {
-            return [...currentData, user];
-          });
-          setFriendsUsernamesAndSelf((currentData) => {
-            return [...currentData, user.username];
-          }).catch((err) => console.log("err :>> ", err));
-        });
-      });
-    }
-  }, [friends]);
-
-  const renderFriendCard = (friend) => {
+  /* const renderFriendCard = (friend) => {
     return (
       <View style={styles.card}>
         <View style={styles.avatar_image}>
@@ -67,30 +56,18 @@ export default function Friends() {
         </View>
       </View>
     );
-  };
+  }; */
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topBanner}>
-        <Text style={styles.h2}>Friends</Text>
-      </View>
       <ScrollView>
-        <View style={styles.friendsList}>
-          {friendsDetails.map((friend) => {
-            console.log("friend in map :>> ", friend);
-            return <UserCard key={friend.username} user={friend} />;
-          })}
+        <View style={styles.topBanner}>
+          <Text style={styles.h2}>People</Text>
         </View>
-
-        <View style={{ width: "90%", margin: "auto" }}>
-          <CustomButton
-            text="View all users"
-            onPress={() => {
-              navigation.navigate("People", {
-                friendsUsernamesAndSelf: friendsUsernamesAndSelf,
-              });
-            }}
-          />
+        <View style={styles.friendsList}>
+          {people.map((person) => {
+            return <UserCard key={person.username} user={person} unknownUser={unknownUser} />;
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>

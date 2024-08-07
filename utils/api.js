@@ -128,3 +128,11 @@ export const readingNotifications = (notification_id) => {
       return data.notifications;
     })
 }
+
+export const getPeople = () => {
+  return rumbleQuizApi.get("/users").then(({data}) => {
+    return data.users;
+  }).catch(err => {
+    console.log('err :>> ', err);
+  })
+}
