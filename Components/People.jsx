@@ -12,12 +12,13 @@ import { Avatar } from "react-native-paper";
 import { UserContext } from "../context/UserContext";
 import UserCard from "./designComponents/UserCard";
 import CustomButton from "./CustomButton";
+import { addFriend } from "../utils/api";
 
 export default function People({ route }) {
   const { friendsUsernamesAndSelf } = route.params;
   const { userLogged } = useContext(UserContext);
   const [people, setPeople] = useState([]);
-  const [unknownUser, setUnknownUser] = useState(true)
+  const [unknownUser, setUnknownUser] = useState(true);
 
   useEffect(() => {
     getPeople()
@@ -32,31 +33,18 @@ export default function People({ route }) {
       })
       .catch((err) => console.log("err :>> ", err));
   }, []);
+  console.log("people.length inir :>> ", people.length);
 
-  /* const renderFriendCard = (friend) => {
-    return (
-      <View style={styles.card}>
-        <View style={styles.avatar_image}>
-          <Avatar.Image source={{ uri: friend.avatar_url }} />
-        </View>
-        <View style={styles.friendDetails}>
-          <View style={styles.friendInfo}>
-            <Text style={styles.friendUsername}>{friend.username}</Text>
-            <View
-              style={
-                friend.online
-                  ? styles.onlineStatusIndicator
-                  : styles.offlineStatusIndicator
-              }
-            />
-          </View>
-          <Text style={styles.onlineStatus}>
-            {friend.online ? "Online" : "Offline"}
-          </Text>
-        </View>
-      </View>
-    );
-  }; */
+  const addNewFriend = (userLogged, newFriend_username) => {
+    addFriend(userLogged, newFriend_username).then((friendship) => {
+      console.log("friendship comp :>> ", friendship);
+      const peopleAfterAddFriend = people.filter((user) => {
+        return user.username !== friendship.user2_username;
+      });
+      setPeople(peopleAfterAddFriend);
+    });
+    
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,7 +54,14 @@ export default function People({ route }) {
         </View>
         <View style={styles.friendsList}>
           {people.map((person) => {
-            return <UserCard key={person.username} user={person} unknownUser={unknownUser} />;
+            return (
+              <UserCard
+                key={person.username}
+                user={person}
+                unknownUser={unknownUser}
+                addNewFriend={addNewFriend}
+              />
+            );
           })}
         </View>
       </ScrollView>

@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, Button } from "react-native-paper";
+import { UserContext } from "../../context/UserContext";
 
-export default function UserCard({ user, unknownUser }) {
 
-
+export default function UserCard({ user, unknownUser, addNewFriend }) {
+  const { userLogged } = useContext(UserContext);
 
   return (
     <View style={styles.cardContainer} key={user.username}>
@@ -32,7 +33,7 @@ export default function UserCard({ user, unknownUser }) {
             <Button
               icon="account-plus"
               mode="contained"
-              onPress={addFriend(user.user_id)}
+              onPress={() => addNewFriend(userLogged, user.username)}
             >
               Add
             </Button>

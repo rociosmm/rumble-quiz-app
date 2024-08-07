@@ -126,13 +126,28 @@ export const readingNotifications = (notification_id) => {
     .patch(`/notifications/${notification_id}`)
     .then(({ data }) => {
       return data.notifications;
-    })
-}
+    });
+};
 
 export const getPeople = () => {
-  return rumbleQuizApi.get("/users").then(({data}) => {
-    return data.users;
-  }).catch(err => {
-    console.log('err :>> ', err);
-  })
-}
+  return rumbleQuizApi
+    .get("/users")
+    .then(({ data }) => {
+      return data.users;
+    })
+    .catch((err) => {
+      console.log("err :>> ", err);
+    });
+};
+
+export const addFriend = (userLogged, newFriend) => {
+  return rumbleQuizApi
+    .post(`/users/${userLogged}/friends`, {newFriend})
+    .then(({data}) => {
+      console.log("data new friend :>> ", data);
+      return data.friendship;
+    })
+    .catch((err) => {
+      console.log("err :>> ", err);
+    });
+};
