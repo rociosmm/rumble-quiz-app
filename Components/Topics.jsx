@@ -47,6 +47,8 @@ export default function Topics() {
   const handleSelection = async (id, name) => {
     console.log(id, "<< id");
     console.log("topic name :>> ", name);
+    console.log("userLogged :>> ", userLogged);
+    console.log("avatar :>> ", avatar);
     await setSelectedTopic(id);
     if (userLogged && avatar) {
       socket.emit(
