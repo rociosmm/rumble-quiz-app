@@ -74,12 +74,12 @@ export default function People({
       >
         Go back to Friends
       </Button>
+      {successMessage ? (
+        <View style={styles.successMessage}>
+          <Text style={styles.successMessageText}>{successMessage}</Text>
+        </View>
+      ) : null}
       <ScrollView>
-        {successMessage ? (
-          <View style={styles.successMessage}>
-            <Text style={styles.successMessageText}>{successMessage}</Text>
-          </View>
-        ) : null}
         <View style={styles.friendsList}>
           {people.map((person) => {
             return (
@@ -175,10 +175,10 @@ const styles = StyleSheet.create({
   successMessage: {
     backgroundColor: "lightgreen",
     paddingHorizontal: 20,
-    paddingVertical: 20,
-    marginVertical: 30,
+    paddingVertical: 10,
+    marginVertical: 10,
     marginHorizontal: 30,
-    borderRadius: 20,
+    borderRadius: 10,
   },
   successMessageText: {
     textAlign: "center",
