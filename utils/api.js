@@ -155,7 +155,6 @@ export const sendNotification = (newNotification) => {
   return rumbleQuizApi
     .post("/notifications", newNotification)
     .then(({ data }) => {
-      console.log("**** data sendNotif api :>> ", data);
       return data.notification;
     })
     .catch((err) => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { Button } from "react-native-paper";
 import {
   getAvatar,
   getFriends,
@@ -15,11 +16,14 @@ import UserCard from "./designComponents/UserCard";
 import CustomButton from "./CustomButton";
 import { addFriend } from "../utils/api";
 
-export default function People({ route }) {
-  const { friendsUsernamesAndSelf } = route.params;
+export default function People({
+  friendsUsernamesAndSelf,
+  unknownUser,
+  setUnknownUser,
+}) {
+  //const { friendsUsernamesAndSelf } = route.params;
   const { userLogged, userLoggedID } = useContext(UserContext);
   const [people, setPeople] = useState([]);
-  const [unknownUser, setUnknownUser] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
@@ -59,10 +63,18 @@ export default function People({ route }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.topBanner}>
+        <Text style={styles.h2}>People</Text>
+      </View>
+      <Button
+        icon="arrow-left-bold"
+        mode="text"
+        style={{ width: "50%", fontSize: 24 }}
+        onPress={() => setUnknownUser(false)}
+      >
+        Go back to Friends
+      </Button>
       <ScrollView>
-        <View style={styles.topBanner}>
-          <Text style={styles.h2}>People</Text>
-        </View>
         {successMessage ? (
           <View style={styles.successMessage}>
             <Text style={styles.successMessageText}>{successMessage}</Text>
@@ -89,6 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
+    paddingBottom: 66,
   },
   topBanner: {
     backgroundColor: "rgb(30, 144, 255)",
