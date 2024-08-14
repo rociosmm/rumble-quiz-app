@@ -6,7 +6,7 @@ export default function ProgressBar({ playersRemaining }) {
   const progress = (1 / playersRemaining).toFixed(1);
   return (
     <View style={styles.progressBarContainer}>
-      <Progress.Bar
+     {/*  <Progress.Bar
         progress={progress}
         width={300}
         height={20}
@@ -14,7 +14,7 @@ export default function ProgressBar({ playersRemaining }) {
         color={"#1e90ff"}
         unfilledColor={"#d3d3d3"}
         borderWidth={0}
-      />
+      /> */}
     </View>
   );
 }
