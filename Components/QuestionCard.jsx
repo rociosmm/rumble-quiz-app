@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "./ProgressBar";
 import EndOfGame from "./EndOfGame";
 import { UserContext } from "../context/UserContext";
+import { useNavigation } from "@react-navigation/native";
 
 function QuestionCard({ theme, remainingTime }) {
   const { colors } = theme;
@@ -19,6 +20,7 @@ function QuestionCard({ theme, remainingTime }) {
   const [playersRemaining, setPlayersRemaining] = useState(); // 3 is the number of the room.size
   const [endOfGame, setEndOfGame] = useState("");
   const { userLogged, login } = useContext(UserContext);
+  const navigation = useNavigation();
 
   /* useEffect(() => {
     const getUserLogged = async () => {
@@ -111,6 +113,15 @@ function QuestionCard({ theme, remainingTime }) {
     }
   };
 
+  useEffect(() => {
+    if (endOfGame && gameId) {
+      navigation.navigate("EndOfGame", {
+        endOfGameResult: endOfGame,
+        gameId,
+      });
+    }
+  }, [gameId, endOfGame]);
+
   // Styles are defined inside of the component to have access to the theme
   const styles = StyleSheet.create({
     questionCard: {
@@ -163,7 +174,38 @@ function QuestionCard({ theme, remainingTime }) {
     },
   });
 
-  if (endOfGame === "" && !gameId) {
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <View>
+          <View style={styles.questionCard}>
+            <Text style={styles.questionText}>{questionTitle}</Text>
+            <View style={styles.answerCards}>
+              {answers
+                ? answers.map((choice, index) => (
+                    <Pressable
+                      key={index}
+                      disabled={resultColor === "" ? false : true}
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed ? resultColor : "#ff8c00",
+                        },
+                        styles.answerButton,
+                      ]}
+                      onPress={() => onChoicePress(choice)}
+                    >
+                      <Text style={styles.answerText}>{choice}</Text>
+                    </Pressable>
+                  ))
+                : null}
+            </View>
+          </View>
+          <ProgressBar playersRemaining={playersRemaining} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+  /* if (endOfGame === "" && !gameId) {
     return (
       <SafeAreaView>
         <ScrollView>
@@ -211,7 +253,7 @@ function QuestionCard({ theme, remainingTime }) {
         </ScrollView>
       </SafeAreaView>
     );
-  }
+  } */
 }
 
 export default withTheme(QuestionCard);

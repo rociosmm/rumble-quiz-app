@@ -8,11 +8,13 @@ import {
 } from "react-native";
 import { UserContext } from "../context/UserContext";
 import { getGameLogForUser } from "../utils/api";
-import { DataTable } from "react-native-paper";
+import { DataTable, Button } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
 export default function EndOfGame({ endOfGameResult, gameId }) {
   const { userLogged } = useContext(UserContext);
   const [userGameLog, setUserGameLog] = useState({});
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (gameId) {
@@ -62,6 +64,14 @@ export default function EndOfGame({ endOfGameResult, gameId }) {
           </DataTable.Row>
         </DataTable>
       ) : null}
+      <Button
+        icon="arrow-left-bold"
+        mode="contained"
+        style={{ width: "80%", fontSize: 24, marginHorizontal: "auto" }}
+        onPress={() => navigation.navigate("Play")}
+      >
+        Play again
+      </Button>
     </SafeAreaView>
     // </ImageBackground>
   );
