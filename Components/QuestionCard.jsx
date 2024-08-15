@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { socket } from "../socket";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { withTheme } from "react-native-paper";
@@ -7,18 +7,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "./ProgressBar";
 import EndOfGame from "./EndOfGame";
 import { UserContext } from "../context/UserContext";
+
 function QuestionCard({ theme, remainingTime }) {
   const { colors } = theme;
   const [questionTitle, setQuestionTitle] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [rightAnswer, setRightAnswer] = useState(null);
-  //const [userLogged, setUserLogged] = useState("");
   const [resultColor, setResultColor] = useState("");
   const [roundCounter, setRoundCounter] = useState(0);
-  const [playersRemaining, setPlayersRemaining] = useState(3); // 3 is the number of the room.size
+  const [gameId, setGameId] = useState("");
+  const [playersRemaining, setPlayersRemaining] = useState(); // 3 is the number of the room.size
   const [endOfGame, setEndOfGame] = useState("");
   const { userLogged, login } = useContext(UserContext);
-  
+
   /* useEffect(() => {
     const getUserLogged = async () => {
       try {
@@ -39,7 +40,8 @@ function QuestionCard({ theme, remainingTime }) {
       const handleQuestion = (question) => {
         console.log(
           "question sent from backend + avatars + players remaining :>> ",
-          question
+          question,
+          question.remainingPlayers
         );
         setResultColor("");
         setPlayersRemaining(question.remainingPlayers);
@@ -90,6 +92,11 @@ function QuestionCard({ theme, remainingTime }) {
     };
 
     socket.emit("answer", answersFeedback);
+
+    socket.on("game_id_info", (game_id) => {
+      console.log("=============> game_id :>> ", game_id);
+      setGameId(game_id.game_id);
+    });
 
     console.log("answersFeedback :>> ", answersFeedback);
     let resultColor;
@@ -155,37 +162,56 @@ function QuestionCard({ theme, remainingTime }) {
       color: "white",
     },
   });
-  return (
-    <SafeAreaView>
-      {!endOfGame ? (
-        <View>
-          <View style={styles.questionCard}>
-            <Text style={styles.questionText}>{questionTitle}</Text>
-            <View style={styles.answerCards}>
-              {answers
-                ? answers.map((choice, index) => (
-                    <Pressable
-                      key={index}
-                      disabled={resultColor === "" ? false : true}
-                      style={({ pressed }) => [
-                        { backgroundColor: pressed ? resultColor : "#ff8c00" },
-                        styles.answerButton,
-                      ]}
-                      onPress={() => onChoicePress(choice)}
-                    >
-                      <Text style={styles.answerText}>{choice}</Text>
-                    </Pressable>
-                  ))
-                : null}
+
+  if (endOfGame === "" && !gameId) {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <View>
+            <View style={styles.questionCard}>
+              <Text style={styles.questionText}>{questionTitle}</Text>
+              <View style={styles.answerCards}>
+                {answers
+                  ? answers.map((choice, index) => (
+                      <Pressable
+                        key={index}
+                        disabled={resultColor === "" ? false : true}
+                        style={({ pressed }) => [
+                          {
+                            backgroundColor: pressed ? resultColor : "#ff8c00",
+                          },
+                          styles.answerButton,
+                        ]}
+                        onPress={() => onChoicePress(choice)}
+                      >
+                        <Text style={styles.answerText}>{choice}</Text>
+                      </Pressable>
+                    ))
+                  : null}
+              </View>
             </View>
+            <ProgressBar playersRemaining={playersRemaining} />
           </View>
-          <ProgressBar playersRemaining={playersRemaining} />
-        </View>
-      ) : (
-        <EndOfGame endOfGameResult={endOfGame} />
-      )}
-    </SafeAreaView>
-  );
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else if (endOfGame && !gameId) {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <EndOfGame endOfGameResult={endOfGame} />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <EndOfGame endOfGameResult={endOfGame} gameId={gameId} />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 }
 
 export default withTheme(QuestionCard);

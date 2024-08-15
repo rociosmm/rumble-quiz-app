@@ -15,7 +15,7 @@ export default function Friends() {
   const [friends, setFriends] = useState([]);
   const [friendsDetails, setFriendsDetails] = useState([]);
   const [friendsUsernamesAndSelf, setFriendsUsernamesAndSelf] = useState([]);
-  const { userLogged, login } = useContext(UserContext);
+  const { userLogged } = useContext(UserContext);
   const navigation = useNavigation();
   const [unknownUser, setUnknownUser] = useState(false);
 

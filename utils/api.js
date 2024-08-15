@@ -161,3 +161,15 @@ export const sendNotification = (newNotification) => {
       console.log("err sendNotification :>> ", err);
     });
 };
+
+export const getGameLogForUser = (game_id, player_username) => {
+  return rumbleQuizApi
+    .get(`/logs/${game_id}?player_username=${player_username}`)
+    .then(({ data }) => {
+      console.log("data :>> ", data);
+      return data.logs[0];
+    })
+    .catch((err) => {
+      console.log("err sendNotification :>> ", err);
+    });
+};
