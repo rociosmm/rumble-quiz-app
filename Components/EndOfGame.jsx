@@ -9,22 +9,30 @@ import {
 import { UserContext } from "../context/UserContext";
 import { getGameLogForUser } from "../utils/api";
 import { DataTable, Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function EndOfGame({ endOfGameResult, gameId }) {
+export default function EndOfGame() {
   const { userLogged } = useContext(UserContext);
   const [userGameLog, setUserGameLog] = useState({});
   const navigation = useNavigation();
+    const route = useRoute();
+
+    const { endOfGameResult, gameId } = route.params;
+
+  console.log('endOfGameResult :>> ', endOfGameResult);
+  console.log('gameID in endOfGame Comp :>> ', gameId);
 
   useEffect(() => {
     if (gameId) {
       console.log("gameId inside if :>> ", gameId);
       getGameLogForUser(gameId, userLogged).then((log) => {
+        console.log('log userGameData :>> ', log);
         setUserGameLog(log);
       });
     }
   }, [gameId]);
 
+  console.log("userGameLog :>> ", userGameLog);
   return (
     // <ImageBackground
     //   source={require("../assets/jigsaw_puzzle_frame_6_a_white.jpg")}
@@ -67,7 +75,7 @@ export default function EndOfGame({ endOfGameResult, gameId }) {
       <Button
         icon="arrow-left-bold"
         mode="contained"
-        style={{ width: "80%", fontSize: 24, marginHorizontal: "auto" }}
+        style={{ width: "80%", fontSize: 24, marginHorizontal: "auto", marginTop: "5%" }}
         onPress={() => navigation.navigate("Play")}
       >
         Play again

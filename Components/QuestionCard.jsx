@@ -108,13 +108,15 @@ function QuestionCard({ theme, remainingTime }) {
     } else {
       setResultColor("red");
       console.log("LOSE :(");
+      setPlayersRemaining((current) => current--);
       socket.emit("leave-game", userLogged);
       setEndOfGame("lose");
     }
   };
 
   useEffect(() => {
-    if (endOfGame && gameId) {
+    if (endOfGame && gameId !== "") {
+      console.log("gameId if !== vacio :>> ", gameId);
       navigation.navigate("EndOfGame", {
         endOfGameResult: endOfGame,
         gameId,
